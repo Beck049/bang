@@ -4,7 +4,7 @@ CFLAGS=-Wall -Wextra -std=gnu11
 LIB = -L curl-7.68.0/lib/.libs/
 
 TARGETS=main
-main_OBJ=basic.o main.o
+main_OBJ=basic.o cJSON.o main.o
 
 
 .PHONY: all
