@@ -13,8 +13,8 @@ typedef struct _sCard {
     suits suit;
     int  num;
 
-    char *name;//[16];
-    char *description;//[128];
+    char name[16];
+    char description[128];
 }sCard;
 
 int card_num;
@@ -41,8 +41,8 @@ void read_card( sCard *card, cJSON *obj ) {
     card->type = type->valueint;
     card->suit = suit->valueint;
     card->num  = num ->valueint;
-    card->name = name->valuestring;
-    card->description = description->valuestring;
+    strcpy(card->name, name->valuestring);
+    strcpy(card->description, description->valuestring);
 
     return;
 }
