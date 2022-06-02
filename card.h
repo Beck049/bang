@@ -29,12 +29,12 @@ void read_card( sCard *card, cJSON *obj ) {
 	cJSON *name  = cJSON_GetObjectItemCaseSensitive(obj, "name");
 	cJSON *description  = cJSON_GetObjectItemCaseSensitive(obj, "description");
 
-	printf("%d\t", id->valueint);
-	printf("%d\t", type->valueint);
-	printf("%d\t", suit->valueint);
-	printf("%d\t", num->valueint);
-	printf("%s\t", name->valuestring);
-	printf("%s\n", description->valuestring);
+	// printf("%d\t", id->valueint);
+	// printf("%d\t", type->valueint);
+	// printf("%d\t", suit->valueint);
+	// printf("%d\t", num->valueint);
+	// printf("%s\t", name->valuestring);
+	// printf("%s\n", description->valuestring);
 
 	card->id   = id  ->valueint;
 	card->type = type->valueint;
@@ -67,5 +67,6 @@ void init_cards() {
 		read_card( &cards[i], elem );
 	}
 	
+    fclose(pFile);
 	return;
 }
