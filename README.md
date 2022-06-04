@@ -16,15 +16,15 @@
 
 ## player
 
-- [ ] player struct
-    - [ ] initialize
+- [x] player struct
+    - [x] initialize
 
 ## game
 
 - [ ] initialize game
     - [ ] pick role
     - [ ] pick character
-    - [ ] shuffle
+    - [x] shuffle
 - [ ] draw
 - [ ] turn_phase
     - [ ] prep_phase
