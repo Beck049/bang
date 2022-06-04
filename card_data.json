@@ -1,5 +1,5 @@
 [
     {"id":3, "type":1, "suit": 2, "num":7, "name": "bang1", "description": "bang1"},
-    {"id":2, "type":1, "suit": 2, "num":7, "name": "bang2", "description": "bang2"},
-    {"id":1, "type":1, "suit": 2, "num":7, "name": "bang3", "description": "bang3"}
+    {"id":1523213, "type":5762, "suit": 2, "num":7, "name": "bang2", "description": "bang2"},
+    {"id":1, "type":1, "suit": 2, "num":7123, "name": "bang3", "description": "bang3"}
 ]
