@@ -1,7 +1,9 @@
 #pragma once
 #include "basic.h"
 
-#define LIST_FOR_EACH(_cur, _pList) for(sListNode *_cur = pList->end->next; _cur != pList->end; cur = _cur->next)
+#define LIST_BEGIN(_pList) (_pList->end->next)
+#define LIST_END(_pList) (_pList->end)
+#define LIST_FOR_EACH(_pNode, _pList) for(sListNode *_pNode = LIST_BEGIN(_pList); _pNode != LIST_END(_pList); _pNode = _pNode->next)
 
 typedef struct _sListNode {
 	void *data;
@@ -32,28 +34,29 @@ sList *new_list() {
 	return pList;
 }
 
-void list_insert(sListNode *pPos, sListNode *pNode) {
+void list_insert(sList *pList, sListNode *pPos, sListNode *pNode) {
+	++pList->size;
 	pNode->prev = pPos->prev;
 	pNode->prev->next = pNode;
 	pNode->next = pPos;
 	pNode->next->prev = pNode;
 }
 
-void list_erase(sListNode *pPos) {
+void list_erase(sList *pList, sListNode *pPos) {
+	--pList->size;
 	pPos->prev->next = pPos->next;
 	pPos->next->prev = pPos->prev;
 	free_node(pPos);
 }
 
 void list_push_back(sList *pList, sListNode *pNode) {
-	list_insert(pList->end, pNode);
+	list_insert(pList, LIST_END(pList), pNode);
 }
 
 void free_list(sList *pList) {
-	sListNode **cur = &pList->end->prev;
-	while(*cur != pList->end) {
-		list_erase(*cur);
+	while(pList->size != 0) {
+		list_erase(pList, LIST_BEGIN(pList));
 	}
-	free_node(*cur);
+	free_node(LIST_END(pList));
 	free(pList);
 }
