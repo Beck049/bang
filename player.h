@@ -16,6 +16,8 @@ typedef struct _sPlayer {
 
 sPlayer *new_player() {
 	sPlayer *pPlayer = calloc(1, sizeof(sPlayer));
+	pPlayer->cards = new_list();
+	pPlayer->desk = new_list();
 	return pPlayer;
 }
 
