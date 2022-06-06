@@ -2,12 +2,12 @@
 
 #include "basic.h"
 
-enum eRole {
+typedef enum _eRole {
     Sheriff = 0,
     Renegade,
     Outlaws,
     Deputy,
-};
+} eRole;
 
 
 // usage: ROLE_DIVIDED[players][role]

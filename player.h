@@ -9,7 +9,7 @@ typedef struct _sPlayer {
 	int attack_range;
 	int hp;
 	int character;
-	enum eRole role;
+	eRole role;
 	sList *cards;
 	sList *desk;
 } sPlayer;
