@@ -2,13 +2,14 @@
 
 #include "basic.h"
 #include "list.h"
+#include "role.h"
 
 typedef struct _sPlayer {
 	int id;
 	int attack_range;
 	int hp;
 	int character;
-	int role;
+	enum eRole role;
 	sList *cards;
 	sList *desk;
 } sPlayer;
