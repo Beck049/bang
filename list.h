@@ -45,6 +45,10 @@ void list_insert(sList *pList, sListNode *pPos, sListNode *pNode) {
 }
 
 void list_erase(sList *pList, sListNode *pPos) {
+	if(pPos == LIST_END(pList)) {
+		fprintf(stderr, "error: erase end node in list: abort\n");
+		abort();
+	}
 	--pList->size;
 	pPos->prev->next = pPos->next;
 	pPos->next->prev = pPos->prev;
