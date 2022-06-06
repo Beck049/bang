@@ -2,6 +2,10 @@
 
 #include "basic.h"
 
+#define ROLE_SIZ 4
+#define MIN_PLAYERS 4
+#define MAX_PLAYERS 7
+
 typedef enum _eRole {
     Sheriff = 0,
     Renegade,
@@ -11,7 +15,7 @@ typedef enum _eRole {
 
 
 // usage: ROLE_DIVIDED[players][role]
-static const i32 ROLE_DIVIDED[8][4] = {
+static const i32 ROLE_DIVIDED[MAX_PLAYERS][ROLE_SIZ] = {
     {0, 0, 0, 0},  // 0
     {0, 0, 0, 0},  // 1
     {0, 0, 0, 0},  // 2
