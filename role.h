@@ -15,7 +15,7 @@ typedef enum _eRole {
 
 
 // usage: ROLE_DIVIDED[players][role]
-static const i32 ROLE_DIVIDED[MAX_PLAYERS][ROLE_SIZ] = {
+static const i32 ROLE_DIVIDED[MAX_PLAYERS+1][ROLE_SIZ] = {
     {0, 0, 0, 0},  // 0
     {0, 0, 0, 0},  // 1
     {0, 0, 0, 0},  // 2
