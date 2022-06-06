@@ -71,10 +71,14 @@ void list_pop_back(sList *pList) {
 	list_erase(pList, LIST_END(pList)->prev);
 }
 
-void free_list(sList *pList) {
-	while(pList->size != 0) {
+void list_clear(sList *pList) {
+	while(pList->size > 0) {
 		list_erase(pList, LIST_BEGIN(pList));
 	}
+}
+
+void free_list(sList *pList) {
+	list_clear(pList);
 	free_node(LIST_END(pList));
 	free(pList);
 }
