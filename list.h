@@ -3,6 +3,8 @@
 
 #define LIST_BEGIN(_pList) (_pList->end->next)
 #define LIST_END(_pList) (_pList->end)
+#define LIST_FRONT(_pList) (LIST_BEGIN(_pList)->data)
+#define LIST_BACK(_pList) (LIST_END(_pList)->prev->data)
 #define LIST_FOR_EACH(_pNode, _pList) for(sListNode *_pNode = LIST_BEGIN(_pList); _pNode != LIST_END(_pList); _pNode = _pNode->next)
 
 typedef struct _sListNode {
@@ -49,8 +51,20 @@ void list_erase(sList *pList, sListNode *pPos) {
 	free_node(pPos);
 }
 
+void list_push_front(sList *pList, sListNode *pNode) {
+	list_insert(pList, LIST_BEGIN(pList), pNode);
+}
+
 void list_push_back(sList *pList, sListNode *pNode) {
 	list_insert(pList, LIST_END(pList), pNode);
+}
+
+void list_pop_front(sList *pList) {
+	list_erase(pList, LIST_BEGIN(pList));
+}
+
+void list_pop_back(sList *pList) {
+	list_erase(pList, LIST_END(pList)->prev);
 }
 
 void free_list(sList *pList) {
