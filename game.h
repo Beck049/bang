@@ -4,7 +4,7 @@
 #include "player.h"
 #include "init_card.h"
 #include "init_game.h"
-#include "character.h"
+#include "init_character.h"
 #include "shuffle.h"
 #include "draw.h"
 
@@ -23,8 +23,34 @@ void players_setup(sGame *pGame) {
 	}
 }
 
-void prep_phase(sGame *pGame);  // determine bomb jail
-// [name=Beck]
+//須拿到花色才能接著做
+void prep_phase(sGame *pGame){ 
+	// 卡牌存： pGame->players[*(i32 *)pGame->cur_player->data ]->desk ;
+	// Determine bomb(79) ,and then determine jail(74.75.76).
+	i32 flag_bomb=0;
+	i32 flag_prison=0;
+	LIST_FOR_EACH(pNode,pGame->players[*(i32 *)pGame->cur_player->data ]->desk){
+		if(pNode->data==79){
+			flag_bomb=1;
+			break;
+		}else if(pNode->data>=74 && pNode->data<=76){
+			flag_prison=1;
+			break;
+		}
+	}
+
+	if( flag_bomb ){
+		i32 fortune=(i32)draw(pGame->draw_pile);
+
+		//fortune若為黑桃的2~9，炸開且扣3點生命；否則傳給下一個人。
+		//...
+	}
+	if( flag_prison ){
+		i32 fortune=(i32)draw(pGame->draw_pile);
+
+		//fortune若為紅心則逃獄成功
+	}
+}
 
 void draw_phase(sGame *pGame);  // draw two cards
 
