@@ -76,6 +76,7 @@ void players_setup(sGame *pGame) {
 	}
 }
 
+// init game
 void game_init(sGame *pGame, i32 num_players) {
 	pGame->total_players = num_players;
 	draw_pile_init(pGame);
@@ -83,6 +84,7 @@ void game_init(sGame *pGame, i32 num_players) {
 	character_pile_init(pGame);
 	live_players_init(pGame);
 	players_setup(pGame);
+	pGame->cur_player = LIST_BEGIN(pGame->live_players);
 }
 
 void prep_phase(sGame *pGame);  // determine bomb jail
