@@ -1,6 +1,7 @@
-#include "card.h"
-#include "character.h"
-#include "list.h"
+// #include "card.h"
+// #include "character.h"
+// #include "game.h"
+#include "game.h"
 
 int main() {
 	// init_cards();
@@ -22,21 +23,12 @@ int main() {
 	// 	printf("%s\n", character->name );
 	// 	printf("%s\n\n", character->description);
 	// }
-	
-	char buf[32];
 
-	sList *pList = new_list();
+	// sPlayer *sPlayer = new_player();
+	// sPlayer->role = 0;
+	// free_player(sPlayer);
 
-	for(i32 i = 0; i < 100; ++i) {
-		sprintf(buf, "%d", i*2-3);
-		sListNode *pNode = new_node(strdup(buf));
-		list_push_back(pList, pNode);
-	}
 
-	LIST_FOR_EACH(cur, pList) {
-		printf("%s\n", (char*)cur->data);
-	}
-
-	free_list(pList);
+	play_game(4);
 	return 0;
 }
