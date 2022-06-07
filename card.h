@@ -8,7 +8,7 @@ typedef enum e_suits suits;
 
 typedef struct _sCard {
 	int  id ; // specific card id
-	int type; // card type id
+	int  type; // card type id
 
 	suits suit;
     int  num;
