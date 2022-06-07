@@ -30,13 +30,13 @@ i32 draw_card(sGame *pGame, i32 player_id, size_t cnt) {
 	return 0;
 }
 
-// set up draw pile and shuffle
+// init draw pile and shuffle
 void draw_pile_init(sGame *pGame) {
 	list_init(pGame->draw_pile, card_num);
 	shuffle(pGame->draw_pile);
 }
 
-// set up role pile and shuffle
+// init role pile and shuffle
 void role_pile_init(sGame *pGame) {
 	for(i32 i = 0; i < ROLE_SIZ; ++i) {  // loop role
 		// push role into list
@@ -49,18 +49,20 @@ void role_pile_init(sGame *pGame) {
 	shuffle(pGame->role_pile);
 }
 
+// init character pile and shuffle
 void character_pile_init(sGame *pGame) {
 	list_init(pGame->character_pile, character_num);
 	shuffle(pGame->character_pile);
 }
 
-void players_setup(sGame *pGame) {
+// init live players
+void live_players_init(sGame *pGame) {
 	list_init(pGame->live_players, pGame->total_players);
 	shuffle(pGame->live_players);
+}
 
-	role_pile_init(pGame);
-	character_pile_init(pGame);
-
+// set up player info
+void players_setup(sGame *pGame) {
 	for(i32 i = 0; i < pGame->total_players; ++i) {
 		pGame->players[i].id = i;
 		pGame->players[i].attack_range = 1;
@@ -77,6 +79,9 @@ void players_setup(sGame *pGame) {
 void game_init(sGame *pGame, i32 num_players) {
 	pGame->total_players = num_players;
 	draw_pile_init(pGame);
+	role_pile_init(pGame);
+	character_pile_init(pGame);
+	live_players_init(pGame);
 	players_setup(pGame);
 }
 
