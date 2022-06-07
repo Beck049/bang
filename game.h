@@ -29,7 +29,7 @@ void prep_phase(sGame *pGame){
 	// Determine bomb(79) ,and then determine jail(74.75.76).
 	i32 flag_bomb=0;
 	i32 flag_prison=0;
-	LIST_FOR_EACH(pNode,pGame->players[*(i32 *)pGame->cur_player->data ]->desk){
+	LIST_FOR_EACH(pNode,pGame->players[*(i32 *)pGame->cur_player->data ].desk){
 		if(pNode->data==79){
 			flag_bomb=1;
 			break;
@@ -52,11 +52,20 @@ void prep_phase(sGame *pGame){
 	}
 }
 
-void draw_phase(sGame *pGame);  // draw two cards
+void draw_phase(sGame *pGame){  
+	// draw two cards
+	// put in "draw.h"
+	draw_card( pGame, pGame->players[*(i32 *)pGame->cur_player->data ].id , 2 );
+}
 
-void play_phase(sGame *pGame);  // play any number of cards
+void play_phase(sGame *pGame){  // play any number of cards
 
-void discard_phase(sGame *pGame);  // discard excess cards
+}
+
+void discard_phase(sGame *pGame){  
+	// discard excess cards
+	// put in "discard.h"
+}
 
 void turn_phase(sGame *pGame) {
 	// print_game(pGame);
