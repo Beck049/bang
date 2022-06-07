@@ -9,9 +9,8 @@ typedef struct _sCharacters {
     char description[128];
 }sCharacter;
 
-int character_num = 16;
+int character_num;
 sCharacter characters[16];
-
 cJSON *json_characters;
 
 void read_character( sCharacter *character, cJSON *obj ) {
@@ -45,6 +44,7 @@ void init_characters() {
 	}
 
     json_characters = (cJSON*)cJSON_Parse(buf);
+	character_num=cJSON_GetArraySize(json_characters);
 
 	for( int i = 0; i < character_num; ++i ) {
 		cJSON *elem = cJSON_GetArrayItem(json_characters, i);
