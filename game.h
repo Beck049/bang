@@ -1,31 +1,39 @@
 #pragma once
 
 #include "basic.h"
+#include "list.h"
 #include "player.h"
-#include "init_card.h"
-#include "init_game.h"
-#include "init_character.h"
 #include "shuffle.h"
-#include "draw.h"
+#include "init_card.h"
+#include "init_character.h"
 
-void players_setup(sGame *pGame);
+typedef struct _sGame {
+	bool is_end;
+	sList *draw_pile;
+	sList *discard_pile;
+	sList *role_pile;
+	sList *character_pile;
+	sList *live_players;
+	sListNode *cur_player;
+	sPlayer players[MAX_PLAYERS];
+	i32 total_players;
+} sGame;
 
-void prep_phase(sGame *pGame);
+sGame *new_game() {
+	sGame *pGame = calloc(1, sizeof(sGame));
+	pGame->draw_pile = new_list();
+	pGame->discard_pile = new_list();
+	pGame->role_pile = new_list();
+	pGame->character_pile = new_list();
+	pGame->live_players = new_list();
+	return pGame;
+}
 
-void draw_phase(sGame *pGame);
-
-void play_phase(sGame *pGame);
-
-void discard_phase(sGame *pGame);
-
-void turn_phase(sGame *pGame);
-
-void game_end(sGame *pGame);
-
-void game_cleanup(sGame *pGame);
-
-sGame *new_game();
-
-void free_game(sGame *pGame);
-
-void play_game(i32 num_players);
+void free_game(sGame *pGame) {
+	free_list(pGame->draw_pile);
+	free_list(pGame->discard_pile);
+	free_list(pGame->role_pile);
+	free_list(pGame->character_pile);
+	free_list(pGame->live_players);
+	free(pGame);
+}
