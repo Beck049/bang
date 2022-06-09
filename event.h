@@ -61,5 +61,7 @@ sDodgeEvent dodge_event(i32 target_id);
 
 sBangEvent bang_event(i32 target_id);
 
+sDeathEvent death_event(i32 dead_id, i32 killer_id);
+
 // player can select wether heal him self or not
 sLethalEvent lethal_event(i32 target_id);
