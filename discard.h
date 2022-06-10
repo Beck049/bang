@@ -20,6 +20,8 @@ void discard( sGame *pGame ){
         printf(" - %d : %s\n",i, cards[table[i].data].name );
         printt(" -      %s\n",cards[table[i].data].discription);
     }
+
+    // 用 list_push_front 放進 discard_pile 拜託
 }
 
 void inquire( sListNode *table ){
