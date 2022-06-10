@@ -77,22 +77,30 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				char player_opt[live_num][32];
 				for(int i = 0; i < live_num; ++i ) {
 
-					player_opt[i][0] = '\0';
-					strcat(player_opt[i], "pick a card from player ");
-					player_opt[i][24] = i+48;
-					player_opt[i][25] = '\0';
+					sprintf(player_opt[i], "pick a card from player %d", i);
 				}
 				sSelectEvent player_event = select_event_with_arr(pGame, e->target_id, 1, 1, player_opt, live_num, 32);
-				i32 player_id = *(i32*)LIST_FRONT(event.select_res);
+				i32 player_id = 0;// 
+				i32 distance = *(i32*)LIST_FRONT(event.select_res);
+				sListNode *target = LIST_BEGIN(pGame->live_players);
+				for(i32 i = 0; i < distance; ) {
+					player_id = *(i32*)target->data;
+					if(player_id != e->target_id)
+					{
+						++i;
+					}
+					target = target->next;
+				}
 
-				i32 hand_card_num = *(i32*)pGame->players[player_id].cards->size;
-				i32 card_num = *(i32*)pGame->players[player_id].cards->size + *(i32*)pGame->players[player_id].desk->size;
-				char cards_opt[card_num][8];
-				for(int i = 0; i < card_num; ++i ) {
+				i32 hand_card_num  = pGame->players[player_id].cards->size;
+				i32 desk_card_num  = pGame->players[player_id].desk->size;
+				i32 total_card_num = hand_card_num + desk_card_num;
+				char cards_opt[total_card_num][8];
+				for(int i = 0; i < total_card_num; ++i ) {
 
 					sprintf(cards_opt[i], "(%2d)", i);
 				}
-				sSelectEvent card_select_event = select_event_with_arr(pGame, e->target_id, 1, 1, cards_opt, card_num, 8);
+				sSelectEvent card_select_event = select_event_with_arr(pGame, e->target_id, 1, 1, cards_opt, total_card_num, 8);
 				i32 take_id = *(i32*)LIST_FRONT(event.select_res);
 				if(take_id < hand_card_num)
 				{
@@ -103,7 +111,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 					card_id = take_card(pGame, pGame->players[player_id].desk, take_id - hand_card_num);
 				}
 				
-				if(card_id == -1) {
+				if(card_id != -1) {
 					give_card(pGame, pGame->players[e->target_id].cards, card_id, true);
 				}
 				
