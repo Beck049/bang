@@ -64,34 +64,58 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 		if( i == 0 ) {
 			// select draw first card from draw_pile or player
 			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, "1) draw from deck pile", "2) draw from player");
-			if( *(i32*)LIST_FRONT(event.select_res) == 1 )
-			{
+			if( *(i32*)LIST_FRONT(event.select_res) == 1 ) {
+
 				card_id = take_card(pGame, pGame->draw_pile, 0);
 				if(card_id != -1) {
 					give_card(pGame, pGame->players[e->target_id].cards, card_id, true);
 				}
 			}
-			else
-			{
+			else {
+
 				int live_num = pGame->live_players->size-1;
 				char player_opt[live_num][32];
-				for(int i = 0; i < live_num; ++i )
-				{
+				for(int i = 0; i < live_num; ++i ) {
+
 					player_opt[i][0] = '\0';
 					strcat(player_opt[i], "pick a card from player ");
 					player_opt[i][24] = i+48;
 					player_opt[i][25] = '\0';
 				}
-				// sSelectEvent player_event = select_event(pGame, e->target_id, 1, 1, );
-					// sSelectEvent choose card from player
-				// card_id = take_card(pGame, //sList *src// , 0);
-				// if(card_id == -1) {
-				// 	give_card(pGame, pGame->players[e->target_id].cards, card_id, true);
-				// }
+				sSelectEvent player_event = select_event_with_arr(pGame, e->target_id, 1, 1, player_opt, live_num, 32);
+				i32 player_id = *(i32*)LIST_FRONT(event.select_res);
+
+				i32 hand_card_num = *(i32*)pGame->players[player_id].cards->size;
+				i32 card_num = *(i32*)pGame->players[player_id].cards->size + *(i32*)pGame->players[player_id].desk->size;
+				char cards_opt[card_num][8];
+				for(int i = 0; i < card_num; ++i ) {
+
+					sprintf(cards_opt[i], "(%2d)", i);
+				}
+				sSelectEvent card_select_event = select_event_with_arr(pGame, e->target_id, 1, 1, cards_opt, card_num, 8);
+				i32 take_id = *(i32*)LIST_FRONT(event.select_res);
+				if(take_id < hand_card_num)
+				{
+					card_id = take_card(pGame, pGame->players[player_id].cards, take_id);
+				}
+				else
+				{
+					card_id = take_card(pGame, pGame->players[player_id].desk, take_id - hand_card_num);
+				}
+				
+				if(card_id == -1) {
+					give_card(pGame, pGame->players[e->target_id].cards, card_id, true);
+				}
+				
+				free_list(card_select_event.selections);
+				free_list(card_select_event.select_res);
+
+				free_list(player_event.selections);
+				free_list(player_event.select_res);
 			}
 			// free
-			free(event.selections);
-			free(event.select_res);
+			free_list(event.selections);
+			free_list(event.select_res);
 		}
 		else {
 			// draw 1 card from draw_pile
