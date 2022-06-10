@@ -15,7 +15,7 @@ sDamageEvent draw_phase_event(sGame *pGame, i32 target_id) {
 		.target_id = target_id,
 		.draw_phase_res = new_list(),
 	};
-	LIST_FOR_EACH(pNode, draw_event_funcs[target_id]) {
+	LIST_FOR_EACH(pNode, draw_phase_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &drw_ph_e);
 	}
 }

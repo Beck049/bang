@@ -4,7 +4,7 @@
 
 #define MAX_ID 32
 #define GAME_ID (MAX_ID-1)
-#define EVENT_APPLY_FUNC(_pGame, _pToFunc, _pEvent) ((*(void (*)(typeof(_pGame), typeof(_pEvent)))_pToFunc)(_pGame, _pEvent))
+#define EVENT_APPLY_FUNC(_pGame, _pToFunc, _pEvent) ((*((void (**)(typeof(_pGame), typeof(_pEvent)))(_pToFunc)))(_pGame, _pEvent))
 
 typedef struct _sDrawPhaseEvent {
 	i32 target_id;
