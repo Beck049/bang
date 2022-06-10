@@ -70,5 +70,7 @@ sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id);
 
 sSelectEvent select_event(sGame *pGame, i32 target_id, i32 min_cnt, i32 max_cnt, ...);
 
+sSelectEvent select_event_with_arr(sGame *pGame, i32 target_id, i32 min_cnt, i32 max_cnt, void *options, i32 optcnt, i32 optlen);
+
 // player can select wether heal him self or not
 sLethalEvent lethal_event(sGame *pGame, i32 target_id);
