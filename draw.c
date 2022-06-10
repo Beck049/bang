@@ -48,12 +48,13 @@ void draw_phase_event_black_jack(sGame *pGame, sDrawPhaseEvent *e) {
 			// TODO: show second card to everyone
 			if(cards[card_id].suit == HEART || cards[card_id].suit == DIAMOND) {
 				i32 extra_card_id = take_card(pGame, pGame->draw_pile, 0);
-				give_card(pGame, pGame->players[e->target_id].cards, extra_card_id, true);
+				if(extra_card_id != -1) {
+					give_card(pGame, pGame->players[e->target_id].cards, extra_card_id, true);
+				}
 			}
 		}
 	}
-	
-}	
+}
 	
 void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 	
