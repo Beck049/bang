@@ -58,9 +58,28 @@ void draw_phase_event_black_jack(sGame *pGame, sDrawPhaseEvent *e) {
 	
 void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 	
-	
-	// select draw first card from draw_pile or player
-	// draw 1 card from draw_pile
+	for(int i = 0; i < 2; ++i) {
+		// draw 1 card from draw_pile
+		i32 card_id = take_card(pGame, pGame->draw_pile, 0);
+		if(card_id == -1) break;
+		give_card(pGame, pGame->players[e->target_id].cards, card_id, true);
+		if( i == 1 ) {
+			// select draw first card from draw_pile or player
+			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, "1) draw from deck pile", "2) draw from discard pile");
+			if( *(i32*)LIST_FRONT(event.select_res) == 1 )
+			{
+				card_id = take_card(pGame, pGame->draw_pile, 0);
+				if(card_id == -1) break;
+				give_card(pGame, pGame->players[e->target_id].cards, card_id, true);
+			}
+			else
+			{
+				card_id = take_card(pGame, pGame->discard_pile, 0);
+				if(card_id == -1) break;
+				give_card(pGame, pGame->players[e->target_id].cards, card_id, true);
+			}
+		}
+	}
 }
 	
 void draw_phase_event_kit_carlson(sDrawPhaseEvent *e) {
