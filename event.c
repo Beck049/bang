@@ -1,28 +1,13 @@
 #include "event.h"
 
-sTakeEvent take_card_event(sGame *pGame, sList *src, i32 src_id, bool order) {
-	sTakeEvent tk_e = {
-		.src_id = src_id,
-		.src = src,
-		.order = order,
-		.take_res = -1,
+sDamageEvent draw_phase_event(sGame *pGame, i32 target_id) {
+	sDrawPhaseEvent drw_ph_e = {
+		.target_id = target_id,
+		.draw_phase_res = new_list(),
 	};
-	LIST_FOR_EACH(pNode, take_event_funcs[src_id]) {
-		EVENT_APPLY_FUNC(pGame, pNode->data, tk_e);
+	LIST_FOR_EACH(pNode, draw_event_funcs[target_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &drw_ph_e);
 	}
-	return tk_e;
-}
-
-void give_card_event(sGame *pGame, sList *dst, i32 dst_id, sList *src) {
-
-}
-
-sDrawEvent draw_event(sGame *pGame, sList *dst, i32 dst_id, sList *src, i32 src_id, i32 cnt, i32 order) {
-
-}
-
-void draw_phase_event(sGame *pGame, i32 target_id) {
-
 }
 
 sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damage) {
@@ -39,6 +24,26 @@ sBangEvent bang_event(sGame *pGame, i32 target_id) {
 
 sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id) {
 
+}
+
+sSelectEvent select_event(sGame *pGame, i32 target_id, i32 min_cnt, i32 max_cnt, ...) {
+	const char *str;
+	sSelectEvent sl_e = {
+		.min_cnt = min_cnt,
+		.max_cnt = max_cnt,
+		.selections = new_list(),  // list of string to select
+		.select_res = new_list(),  // list of index selected
+	};
+	va_list ap;
+	va_start(ap, max_cnt);
+	while(str = va_arg(ap, char*)) {
+		list_push_back(sl_e.selections, new_node(strdup(str)));
+	}
+	va_end(ap);
+	LIST_FOR_EACH(pNode, select_event_funcs[target_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &sl_e);
+	}
+	return sl_e;
 }
 
 sLethalEvent lethal_event(sGame *pGame, i32 target_id) {
