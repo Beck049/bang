@@ -1,5 +1,15 @@
 #include "event.h"
 
+sList *take_event_funcs[MAX_ID];
+sList *draw_event_funcs[MAX_ID];
+sList *draw_phase_event_funcs[MAX_ID];
+sList *damage_event_funcs[MAX_ID];
+sList *dodge_event_funcs[MAX_ID];
+sList *bang_event_funcs[MAX_ID];
+sList *death_event_funcs[MAX_ID];
+sList *select_event_funcs[MAX_ID];
+sList *lethal_event_funcs[MAX_ID];
+
 sDamageEvent draw_phase_event(sGame *pGame, i32 target_id) {
 	sDrawPhaseEvent drw_ph_e = {
 		.target_id = target_id,
