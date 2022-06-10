@@ -1,10 +1,10 @@
 CC=gcc
 OBJDIR:=$(shell [ -d obj ] || mkdir obj && echo "obj")
 CFLAGS=-Wall -Wextra -std=gnu11
-LIB = -L curl-7.68.0/lib/.libs/
 
 TARGETS=main
-main_OBJ=basic.o cJSON.o main.o
+main_OBJ=basic.o list.o cJSON.o init_card.o init_character.o main.o
+# main_OBJ=basic.o list.o main.o
 
 
 .PHONY: all
