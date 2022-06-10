@@ -3,7 +3,7 @@ OBJDIR:=$(shell [ -d obj ] || mkdir obj && echo "obj")
 CFLAGS=-Wall -Wextra -std=gnu11
 
 TARGETS=main
-main_OBJ=basic.o cJSON.o list.o shuffle.o player.o init_card.o init_character.o event.o draw.o select.o main.o
+main_OBJ=basic.o cJSON.o list.o shuffle.o player.o init_card.o init_character.o event.o draw.o select.o discard.o main.o
 # main_OBJ=basic.o list.o main.o
 
 
