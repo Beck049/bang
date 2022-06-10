@@ -14,8 +14,8 @@ void discard( sGame *pGame ){
     }
 
     for( i32 i=0 ; i<size ; ++i){
-        printf(" - %d : %s\n",i, cards[(int)table[i]->data].name );
-        printt(" -      %s\n",cards[(int)table[i]->data].description);
+        printf(" - %d : %s\n",i, cards[*(int*)table[i]->data].name );
+        printf(" -      %s\n",cards[*(int*)table[i]->data].description);
     }
 
     // 用 list_push_front 放進 discard_pile 拜託
