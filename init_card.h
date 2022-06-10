@@ -70,9 +70,3 @@ void init_cards() {
     fclose(pFile);
 	return;
 }
-
-// init draw pile and shuffle
-void draw_pile_init(sGame *pGame) {
-	list_init(pGame->draw_pile, card_num);
-	shuffle(pGame->draw_pile);
-}
