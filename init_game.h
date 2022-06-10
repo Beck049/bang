@@ -8,6 +8,7 @@ void draw_pile_init(sGame *pGame);
 
 // init role pile and shuffle
 void role_pile_init(sGame *pGame);
+
 // init character pile and shuffle
 void character_pile_init(sGame *pGame);
 
