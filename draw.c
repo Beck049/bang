@@ -39,7 +39,7 @@ i32 take_card_by_id(sGame *pGame, sList *src, i32 card_id) {
 	return res;
 }
 
-void give_card(sGame *pGame, sList *dst, i32 card_id, bool tail_insert) {
+void give_card(__attribute__((unused)) sGame *pGame, sList *dst, i32 card_id, bool tail_insert) {
 	i32 *data = malloc(sizeof(i32));
 	*data = card_id;
 	if(tail_insert) list_push_back(dst, new_node(data));
