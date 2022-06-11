@@ -28,13 +28,13 @@ void prep_phase(sGame *pGame) {
 	}
 
 	if( flag_bomb ){
-		i32 fortune=(i32)draw(pGame->draw_pile);
+		// i32 fortune=(i32)draw(pGame->draw_pile);
 
 		//fortune若為黑桃的2~9，炸開且扣3點生命；否則傳給下一個人。
 		//...
 	}
 	if( flag_prison ){
-		i32 fortune=(i32)draw(pGame->draw_pile);
+		// i32 fortune=(i32)draw(pGame->draw_pile);
 
 		//fortune若為紅心則逃獄成功
 	}
