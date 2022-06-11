@@ -22,6 +22,7 @@ typedef struct _sDetermineEvent {
 } sDetermineEvent;
 
 typedef struct _sDodgeEvent {
+	i32 target_id;
 	bool dodge_res;
 } sDodgeEvent;
 
