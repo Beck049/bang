@@ -10,6 +10,8 @@
 
 sListNode *get_player_node(sGame *pGame, i32 id);
 
+sList *card_filter(sList *cards, bool (*filter)(i32 card_id));
+
 void prep_phase(sGame *pGame);
 
 void draw_phase(sGame *pGame);

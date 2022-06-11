@@ -11,6 +11,18 @@ sListNode *get_player_node(sGame *pGame, i32 id) {
 	return res;
 }
 
+sList *card_filter(sList *cards, bool (*filter)(i32 card_id)) {
+	sList *res = new_list();
+	LIST_FOR_EACH(pNode, cards) {
+		i32 card_id = *(i32*)pNode->data;
+		if(filter(card_id) == false) continue;
+		i32 *data = malloc(sizeof(i32));
+		*data = card_id;
+		list_push_back(res, new_node(data));
+	}
+	return res;
+}
+
 //須拿到花色才能接著做
 void prep_phase(sGame *pGame) { 
 	// 卡牌存： pGame->players[*(i32 *)pGame->cur_player->data ]->desk ;
