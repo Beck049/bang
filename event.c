@@ -1,7 +1,5 @@
 #include "event.h"
 
-sList *take_event_funcs[MAX_ID];
-sList *draw_event_funcs[MAX_ID];
 sList *draw_phase_event_funcs[MAX_ID];
 sList *damage_event_funcs[MAX_ID];
 sList *dodge_event_funcs[MAX_ID];

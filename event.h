@@ -49,8 +49,6 @@ typedef struct _sLthalEvent {
 	i32 lethal;
 } sLethalEvent;
 
-extern sList *take_event_funcs[MAX_ID];
-extern sList *draw_event_funcs[MAX_ID];
 extern sList *draw_phase_event_funcs[MAX_ID];
 extern sList *damage_event_funcs[MAX_ID];
 extern sList *dodge_event_funcs[MAX_ID];
