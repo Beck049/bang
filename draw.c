@@ -104,7 +104,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				{
 					++distance;
 				}
-				cur_player = node_advance( pGame->live_players, cur_player, distance );
+				cur_player = node_advance( cur_player, distance );
 				i32 player_id = *(i32*)cur_player->data;
 				
 				i32 hand_card_num  = pGame->players[player_id].cards->size;

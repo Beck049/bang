@@ -36,9 +36,9 @@ void list_pop_front(sList *pList);
 
 void list_pop_back(sList *pList);
 
-i32 node_distance(sList *pList, sListNode *pNodeA, sListNode *pNodeB);
+size_t node_distance(sList *pList, sListNode *pNodeA, sListNode *pNodeB);
 
-sListNode *node_advance(sList *pList, sListNode *pNode, i32 size);
+sListNode *node_advance(sListNode *pNode, size_t size);
 
 void list_clear(sList *pList);
 

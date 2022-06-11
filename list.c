@@ -54,9 +54,9 @@ void list_pop_back(sList *pList) {
 	list_erase(pList, LIST_END(pList)->prev);
 }
 
-i32 node_distance(sList *pList, sListNode *pNodeA, sListNode *pNodeB) {
+size_t node_distance(sList *pList, sListNode *pNodeA, sListNode *pNodeB) {
 	if(pNodeA == LIST_END(pList) || pNodeB == LIST_END(pList)) return -1;
-	i32 res = 0;
+	size_t res = 0;
 	bool pass_end = false;
 	while(pNodeA != pNodeB) {
 		pNodeA = pNodeA->next;
@@ -67,7 +67,7 @@ i32 node_distance(sList *pList, sListNode *pNodeA, sListNode *pNodeB) {
 }
 
 
-sListNode *node_advance(sList *pList, sListNode *pNode, i32 size) {
+sListNode *node_advance(sListNode *pNode, size_t  size) {
 	while(size--) {
 		pNode = pNode->next;
 	}
