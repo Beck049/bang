@@ -22,6 +22,23 @@ i32 take_card(sGame *pGame, sList *src, i32 pos) {
 	return *(i32*)target->data;
 }
 
+i32 take_card_by_id(sGame *pGame, sList *src, i32 card_id) {
+	i32 res = -1;
+	LIST_FOR_EACH(pNode, src) {
+		if(*(i32*)pNode->data == card_id) {
+			res = card_id;
+			list_erase(src, pNode);
+			break;
+		}
+	}
+	// src is draw pile and it is empty
+	if(src == pGame->draw_pile && src->size == 0) {
+		swap_pile(pGame->draw_pile, pGame->discard_pile);
+		shuffle(pGame->draw_pile);
+	}
+	return res;
+}
+
 void give_card(sGame *pGame, sList *dst, i32 card_id, bool tail_insert) {
 	i32 *data = malloc(sizeof(i32));
 	*data = card_id;
