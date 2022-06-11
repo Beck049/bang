@@ -8,6 +8,8 @@
 #include "shuffle.h"
 // #include "draw.h"
 
+sListNode *get_player_node(sGame *pGame, i32 id);
+
 void prep_phase(sGame *pGame);
 
 void draw_phase(sGame *pGame);
