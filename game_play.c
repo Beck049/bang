@@ -1,5 +1,15 @@
 #include "game_play.h"
 
+sListNode *get_player_node(sGame *pGame, i32 id) {
+	sListNode *res = NULL;
+	LIST_FOR_EACH(pNode, pGame->live_players) {
+		if(*(i32*)pNode->data == id) {
+			res = pNode;
+			break;
+		}
+	}
+	return res;
+}
 
 //須拿到花色才能接著做
 void prep_phase(sGame *pGame) { 
