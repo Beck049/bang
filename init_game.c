@@ -44,7 +44,8 @@ void players_setup(sGame *pGame) {
 		// TODO setup hp
 		// pGame->players[i].hp = characters[pGame->players[i].character].hp;
 		
-		draw_event(pGame, pGame->players[i].cards, pGame->players[i].id, pGame->draw_pile, GAME_ID, pGame->players[i].hp, 1);
+		i32 card_id = take_card(pGame, pGame->draw_pile, 0);
+		give_card(pGame, pGame->players[i].cards, card_id, true);
 	}
 }
 

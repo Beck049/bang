@@ -2,6 +2,7 @@
 
 #include "game.h"
 #include "event.h"
+#include "draw.h"
 
 // init draw pile and shuffle
 void draw_pile_init(sGame *pGame);
