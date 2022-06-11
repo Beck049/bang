@@ -8,7 +8,7 @@ sList *death_event_funcs[MAX_ID];
 sList *select_event_funcs[MAX_ID];
 sList *lethal_event_funcs[MAX_ID];
 
-sDamageEvent draw_phase_event(sGame *pGame, i32 target_id) {
+sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id) {
 	sDrawPhaseEvent drw_ph_e = {
 		.target_id = target_id,
 		.draw_phase_res = new_list(),
@@ -16,26 +16,69 @@ sDamageEvent draw_phase_event(sGame *pGame, i32 target_id) {
 	LIST_FOR_EACH(pNode, draw_phase_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &drw_ph_e);
 	}
+	return drw_ph_e;
 }
 
 sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damage) {
-
+	sDamageEvent dmg_e = {
+		.victim_id = victim_id,
+		.damager_id = damager_id,
+		.damage = damage,
+	};
+	LIST_FOR_EACH(pNode, damage_event_funcs[victim_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &dmg_e);
+	}
+	return dmg_e;
 }
 
 sDetermineEvent determine_event(sGame *pGame, i32 target_id) {
-	
+	sDetermineEvent dtm_e = {
+		.target_id = target_id,
+		.determine_res = -1,
+	};
+	LIST_FOR_EACH(pNode, dodge_event_funcs[target_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &dtm_e);
+		if(dtm_e.determine_res != -1) break;
+	}
+	return dtm_e;
 }
 
 sDodgeEvent dodge_event(sGame *pGame, i32 target_id) {
-
+	sDodgeEvent dg_e = {
+		.target_id = target_id,
+		.dodge_res = false,
+	};
+	LIST_FOR_EACH(pNode, dodge_event_funcs[target_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &dg_e);
+		if(dg_e.dodge_res == true) break;
+	}
+	return dg_e;
 }
 
-sBangEvent bang_event(sGame *pGame, i32 target_id) {
-
+sBangEvent bang_event(sGame *pGame, i32 trigger_id, i32 target_id) {
+	sBangEvent bng_e = {
+		.trigger_id = trigger_id,
+		.target_id = target_id,
+		.bang_res = false,
+	};
+	LIST_FOR_EACH(pNode, bang_event_funcs[target_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &bng_e);
+		if(bng_e.bang_res == true) break;
+	}
+	return bng_e;
 }
 
 sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id) {
-
+	sDeathEvent dth_e = {
+		.dead_id = dead_id,
+		.killer_id = killer_id,
+		.death_res = false,
+	};
+	LIST_FOR_EACH(pNode, death_event_funcs[dead_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &dth_e);
+		if(dth_e.death_res == true) break;
+	}
+	return dth_e;
 }
 
 sSelectEvent select_event(sGame *pGame, i32 target_id, i32 min_cnt, i32 max_cnt, ...) {
@@ -48,7 +91,7 @@ sSelectEvent select_event(sGame *pGame, i32 target_id, i32 min_cnt, i32 max_cnt,
 	};
 	va_list ap;
 	va_start(ap, max_cnt);
-	while(str = va_arg(ap, char*)) {
+	while((str = va_arg(ap, char*)) != NULL) {
 		list_push_back(sl_e.selections, new_node(strdup(str)));
 	}
 	va_end(ap);
@@ -59,7 +102,6 @@ sSelectEvent select_event(sGame *pGame, i32 target_id, i32 min_cnt, i32 max_cnt,
 }
 
 sSelectEvent select_event_with_arr(sGame *pGame, i32 target_id, i32 min_cnt, i32 max_cnt, void *options, i32 optcnt, i32 optlen) {
-	const char *str;
 	sSelectEvent sl_e = {
 		.min_cnt = min_cnt,
 		.max_cnt = max_cnt,
@@ -76,5 +118,13 @@ sSelectEvent select_event_with_arr(sGame *pGame, i32 target_id, i32 min_cnt, i32
 }
 
 sLethalEvent lethal_event(sGame *pGame, i32 target_id) {
-
+	sLethalEvent lth_e = {
+		.target_id = target_id,
+		.lethal_res = true,
+	};
+	LIST_FOR_EACH(pNode, lethal_event_funcs[target_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &lth_e);
+		if(lth_e.lethal_res == false) break;
+	}
+	return lth_e;
 }

@@ -12,9 +12,9 @@ typedef struct _sDrawPhaseEvent {
 } sDrawPhaseEvent;
 
 typedef struct _sDamageEvent {
+	i32 damager_id;
+	i32 victim_id;
 	i32 damage;
-	i32 damager;
-	i32 victim;
 } sDamageEvent;
 
 typedef struct _sDetermineEvent {
@@ -28,14 +28,15 @@ typedef struct _sDodgeEvent {
 } sDodgeEvent;
 
 typedef struct _sBangEvent {
-	bool bang_res;
 	i32 trigger_id;
 	i32 target_id;
+	bool bang_res;
 } sBangEvent;
 
 typedef struct _sDeathEvent {
 	i32 dead_id;
 	i32 killer_id;
+	bool death_res;
 	// type (optional)
 } sDeathEvent;
 
@@ -47,7 +48,8 @@ typedef struct _sSelectEvent {
 } sSelectEvent;
 
 typedef struct _sLthalEvent {
-	i32 lethal;
+	i32 target_id;
+	i32 lethal_res;
 } sLethalEvent;
 
 extern sList *draw_phase_event_funcs[MAX_ID];
@@ -58,7 +60,7 @@ extern sList *death_event_funcs[MAX_ID];
 extern sList *select_event_funcs[MAX_ID];
 extern sList *lethal_event_funcs[MAX_ID];
 
-sDamageEvent draw_phase_event(sGame *pGame, i32 target_id);
+sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id);
 
 sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damage);
 
@@ -66,7 +68,7 @@ sDetermineEvent determine_event(sGame *pGame, i32 target_id);
 
 sDodgeEvent dodge_event(sGame *pGame, i32 target_id);
 
-sBangEvent bang_event(sGame *pGame, i32 target_id);
+sBangEvent bang_event(sGame *pGame, i32 trigger_id, i32 target_id);
 
 sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id);
 
