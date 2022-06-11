@@ -1,6 +1,7 @@
 #pragma once
 
 #include "event.h"
+#include "game_play.h"
 
 void swap_pile(sList *pListA, sList *pListB);
 

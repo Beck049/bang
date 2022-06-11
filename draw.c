@@ -80,18 +80,16 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 					sprintf(player_opt[i], "pick a card from player %d", i);
 				}
 				sSelectEvent player_event = select_event_with_arr(pGame, e->target_id, 1, 1, player_opt, live_num, 32);
-				i32 player_id = 0;// 
 				i32 distance = *(i32*)LIST_FRONT(event.select_res);
-				sListNode *target = LIST_BEGIN(pGame->live_players);
-				for(i32 i = 0; i < distance; ) {
-					player_id = *(i32*)target->data;
-					if(player_id != e->target_id)
-					{
-						++i;
-					}
-					target = target->next;
+				sListNode *cur_player = get_player_node(pGame, e->target_id);
+				i32 pos = node_distance( pGame->live_players, LIST_BEGIN(pGame->live_players), cur_player );
+				if( pos + distance > (i32)pGame->live_players->size )
+				{
+					++distance;
 				}
-
+				cur_player = node_advance( pGame->live_players, cur_player, distance );
+				i32 player_id = *(i32*)cur_player->data;
+				
 				i32 hand_card_num  = pGame->players[player_id].cards->size;
 				i32 desk_card_num  = pGame->players[player_id].desk->size;
 				i32 total_card_num = hand_card_num + desk_card_num;
