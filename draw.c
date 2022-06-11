@@ -80,7 +80,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 		i32 card_id;
 		if( i == 0 ) {
 			// select draw first card from draw_pile or player
-			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, "1) draw from deck pile", "2) draw from player");
+			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, "1) draw from deck pile", "2) draw from player", NULL);
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 ) {
 
 				card_id = take_card(pGame, pGame->draw_pile, 0);
@@ -100,7 +100,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				i32 distance = *(i32*)LIST_FRONT(event.select_res);
 				sListNode *cur_player = get_player_node(pGame, e->target_id);
 				i32 pos = node_distance( pGame->live_players, LIST_BEGIN(pGame->live_players), cur_player );
-				if( pos + distance > (i32)pGame->live_players->size )
+				if( pos + distance >= (i32)pGame->live_players->size )
 				{
 					++distance;
 				}
