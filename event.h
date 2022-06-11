@@ -18,7 +18,8 @@ typedef struct _sDamageEvent {
 } sDamageEvent;
 
 typedef struct _sDetermineEvent {
-	i32 dtm_res;
+	i32 target_id;
+	i32 determine_res;
 } sDetermineEvent;
 
 typedef struct _sDodgeEvent {
@@ -60,6 +61,8 @@ extern sList *lethal_event_funcs[MAX_ID];
 sDamageEvent draw_phase_event(sGame *pGame, i32 target_id);
 
 sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damage);
+
+sDetermineEvent determine_event(sGame *pGame, i32 target_id);
 
 sDodgeEvent dodge_event(sGame *pGame, i32 target_id);
 

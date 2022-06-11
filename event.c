@@ -22,6 +22,10 @@ sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damag
 
 }
 
+sDetermineEvent determine_event(sGame *pGame, i32 target_id) {
+	
+}
+
 sDodgeEvent dodge_event(sGame *pGame, i32 target_id) {
 
 }
