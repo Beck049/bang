@@ -6,13 +6,14 @@
 #include "init_game.h"
 #include "init_character.h"
 #include "shuffle.h"
+#include "discard.h"
 // #include "draw.h"
 
 sListNode *get_player_node(sGame *pGame, i32 id);
 
 sList *card_filter(sList *cards, bool (*filter)(i32 card_id));
 
-void prep_phase(sGame *pGame);
+i32 prep_phase(sGame *pGame);
 
 void draw_phase(sGame *pGame);
 

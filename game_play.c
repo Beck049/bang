@@ -24,32 +24,53 @@ sList *card_filter(sList *cards, bool (*filter)(i32 card_id)) {
 }
 
 //須拿到花色才能接著做
-void prep_phase(sGame *pGame) { 
+i32 prep_phase(sGame *pGame) { 
 	// 卡牌存： pGame->players[*(i32 *)pGame->cur_player->data ]->desk ;
 	// Determine bomb(79) ,and then determine jail(74.75.76).
-	i32 flag_bomb=0;
-	i32 flag_prison=0;
+	bool flag_bomb=false;
+	bool flag_prison=false;
+	sListNode* pNode;
+	sDetermineEvent result;
+	i32 take_bumb=0;
+	sListNode* next_player;
+	if( pGame->cur_player->next == pGame->live_players->end){
+		next_player=LIST_BEGIN(pGame->live_players);
+	}else next_player=pGame->cur_player->next;
+
 	LIST_FOR_EACH(pNode,pGame->players[*(i32 *)pGame->cur_player->data ].desk){
-		if(pNode->data==79){
-			flag_bomb=1;
+		if(*(i32*)(pNode->data)==79){
+			take_bumb=take_card_by_id( pGame,pGame->players[ *(i32*)pGame->cur_player->data ].desk,79 );
+			flag_bomb=true;
 			break;
-		}else if(pNode->data>=74 && pNode->data<=76){
-			flag_prison=1;
+		}else if(*(i32*)(pNode->data)>=74 && *(i32*)(pNode->data)<=76){
+			flag_prison=true;
 			break;
 		}
 	}
 
 	if( flag_bomb ){
-		// i32 fortune=(i32)draw(pGame->draw_pile);
-
-		//fortune若為黑桃的2~9，炸開且扣3點生命；否則傳給下一個人。
-		//...
+		result=determine_event( pGame,*(i32 *)pGame->cur_player->data );
+		if( cards[result.determine_res].suit==SPADE && ( cards[ result.determine_res].num>=2 || cards[ result.determine_res].num<=9 ) ){
+			//若為黑桃的2~9，炸開且扣3點生命。
+			damage_event( pGame, *(i32*)pGame->cur_player->data,-1, 3 );
+			give_card(pGame,pGame->discard_pile,take_bumb,false);
+		}else{
+			//傳給下一個人。
+			give_card(pGame,pGame->players[ *(i32*)(next_player->data) ].desk,take_bumb,false);
+		}
 	}
 	if( flag_prison ){
-		// i32 fortune=(i32)draw(pGame->draw_pile);
+		//如果逃獄成功，回傳0，失敗則-1。
+		result=determine_event( pGame,*(i32 *)pGame->cur_player->data );
+		if( cards[result.determine_res].suit==HEART ){
+			//為紅心則逃獄成功
+		}else return -1;
 
-		//fortune若為紅心則逃獄成功
 	}
+	
+	free(pNode);
+	free(next_player);
+	return 0;
 }
 
 void draw_phase(sGame *pGame) {  
@@ -66,6 +87,7 @@ void play_phase(sGame *pGame) {  // play any number of cards
 void discard_phase(sGame *pGame) {  
 	// discard excess cards
 	// put in "discard.h"
+	discard( pGame );
 }
 
 void turn_phase(sGame *pGame) {
