@@ -6,4 +6,4 @@
 #include "event.h"
 #include "draw.h"
 
-void discard_phase(sGame *pGame );
+void discard( sGame *pGame );

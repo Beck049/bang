@@ -1,6 +1,6 @@
 #include "discard.h"
 
-void discard_phase(sGame *pGame ){
+void discard(sGame *pGame ){
     for(i32 i=0 ; i< (pGame->total_players) ; ++i){
         i32 size=(i32)(pGame->players[i].cards->size);
         i32 cur_hp=(int)(pGame->players[i].hp);
