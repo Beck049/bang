@@ -47,49 +47,59 @@ sList *card_filter(sList *cards, bool (*filter)(i32 card_id)) {
 i32 prep_phase(sGame *pGame) { 
 	// 卡牌存： pGame->players[*(i32 *)pGame->cur_player->data ]->desk ;
 	// Determine bomb(79) ,and then determine jail(74.75.76).
-	bool flag_bomb=false;
-	bool flag_prison=false;
-	sListNode* pNode;
-	sDetermineEvent result;
-	i32 take_bumb=0;
-	sListNode* next_player;
-	if( pGame->cur_player->next == pGame->live_players->end){
-		next_player=LIST_BEGIN(pGame->live_players);
-	}else next_player=pGame->cur_player->next;
+	i32 bomb_id = -1, jail_id = -1;
 
-	LIST_FOR_EACH(pNode,pGame->players[*(i32 *)pGame->cur_player->data ].desk){
-		if(*(i32*)(pNode->data)==79){
-			take_bumb=take_card_by_id( pGame,pGame->players[ *(i32*)pGame->cur_player->data ].desk,79 );
-			flag_bomb=true;
-			break;
-		}else if(*(i32*)(pNode->data)>=74 && *(i32*)(pNode->data)<=76){
-			flag_prison=true;
-			break;
+	i32 cur_player_id = *(i32*)pGame->cur_player->data;
+	i32 next_player_id = *(i32*)get_next_player(pGame, pGame->cur_player);
+	sPlayer *cur_player = &pGame->players[cur_player_id];
+	sPlayer *next_player = &pGame->players[next_player_id];
+	LIST_FOR_EACH(pNode, cur_player->desk){
+		i32 card_id = *(i32*)(pNode->data);
+		if(is_bomb(card_id)){
+			bomb_id = card_id;
+			continue;
+		}
+		if(is_jail(card_id)) {
+			jail_id = card_id;
+			continue;
 		}
 	}
 
-	if( flag_bomb ){
-		result=determine_event( pGame,*(i32 *)pGame->cur_player->data );
-		if( cards[result.determine_res].suit==SPADE && ( cards[ result.determine_res].num>=2 || cards[ result.determine_res].num<=9 ) ){
+	if(bomb_id != -1) {
+		sDetermineEvent dtm_e = determine_event(pGame, cur_player_id);
+		i32 dtm_res = dtm_e.determine_res;
+		i32 num = cards[dtm_res].num;
+		eSuit suit = cards[dtm_res].suit;
+		if(suit == SPADE && (num >=2 || num <= 9)) {
 			//若為黑桃的2~9，炸開且扣3點生命。
-			damage_event( pGame, *(i32*)pGame->cur_player->data,-1, 3 );
-			give_card(pGame,pGame->discard_pile,take_bumb,false);
-		}else{
+			damage_event(pGame, cur_player_id, -1, 3);
+			take_card_by_id(pGame, cur_player->desk, bomb_id);
+			give_card(pGame,pGame->discard_pile, bomb_id, false);
+			if(cur_player->hp <= 0) {
+				sLethalEvent lth_e = lethal_event(pGame, cur_player_id);
+				if(lth_e.lethal_res == true) {
+					sDeathEvent dth_e = death_event(pGame, cur_player, -1);
+					// cur_player died
+					if(dth_e.death_res == true) return -1;
+				}
+			}
+		}
+		else {
 			//傳給下一個人。
-			give_card(pGame,pGame->players[ *(i32*)(next_player->data) ].desk,take_bumb,false);
+			give_card(pGame, next_player->desk, bomb_id, false);
 		}
 	}
-	if( flag_prison ){
+	if(jail_id != -1){
 		//如果逃獄成功，回傳0，失敗則-1。
-		result=determine_event( pGame,*(i32 *)pGame->cur_player->data );
-		if( cards[result.determine_res].suit==HEART ){
-			//為紅心則逃獄成功
-		}else return -1;
-
+		sDetermineEvent dtm_e = determine_event(pGame, cur_player_id);
+		i32 dtm_res = dtm_e.determine_res;
+		eSuit suit = cards[dtm_res].suit;
+		if(suit != HEART){
+			// 非紅心，逃獄失敗
+			return -1;
+		}
 	}
 	
-	free(pNode);
-	free(next_player);
 	return 0;
 }
 
