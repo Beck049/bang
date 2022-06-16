@@ -1,7 +1,11 @@
 #include "display.h"
 
-void display_pile(sList *pList) {
+void print_card(char *dst, i32 card_id) {
 	static const char SUIT[] = "SHDC";
+	sCard *card = cards+card_id;
+	sprintf(dst, "%c%-2d %s: %s", SUIT[card->suit], card->num, card->name, card->description);
+}
+
 	i32 row = 1;
 	LIST_FOR_EACH(pNode, pList) {
 		i32 card_id = *(i32*)pNode->data;
@@ -59,3 +63,4 @@ void display_damage(sGame *pGame, i32 target_id, sDamageEvent e) {
 	if(e.damager_id != -1) printf("%s take %d damages by %s!\n", victim_appellation, e.damage, damager_appellation);
 	else printf("%s take %d damages!\n", victim_appellation, e.damage);
 }
+

@@ -3,6 +3,8 @@
 #include "init_card.h"
 #include "game_play.h"
 
+void print_card(char *dst, i32 card_id);
+
 void display_pile(sList *pList);
 
 void display_game(sGame *pGame, i32 target_id);
