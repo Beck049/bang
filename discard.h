@@ -6,4 +6,4 @@
 #include "event.h"
 #include "draw.h"
 
-void discard( sGame *pGame );
+void discard(sGame *pGame, i32 player_id);
