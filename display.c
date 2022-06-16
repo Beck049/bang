@@ -6,11 +6,13 @@ void print_card(char *dst, i32 card_id) {
 	sprintf(dst, "%c%-2d %s: %s", SUIT[card->suit], card->num, card->name, card->description);
 }
 
+void display_pile(sList *pList) {
+	char buf[BUFSIZ];
 	i32 row = 1;
 	LIST_FOR_EACH(pNode, pList) {
 		i32 card_id = *(i32*)pNode->data;
-		sCard *card = cards+card_id;
-		printf("%2d) %c%-2d %s: %s\n", row, SUIT[card->suit], card->num, card->name, card->description);
+		print_card(buf, card_id);
+		printf("%2d) %s\n", row, buf);
 		++row;
 	}
 }
