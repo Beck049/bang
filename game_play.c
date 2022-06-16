@@ -78,7 +78,7 @@ i32 prep_phase(sGame *pGame) {
 			if(cur_player->hp <= 0) {
 				sLethalEvent lth_e = lethal_event(pGame, cur_player_id);
 				if(lth_e.lethal_res == true) {
-					sDeathEvent dth_e = death_event(pGame, cur_player, -1);
+					sDeathEvent dth_e = death_event(pGame, cur_player_id, -1);
 					// cur_player died
 					if(dth_e.death_res == true) return -1;
 				}
