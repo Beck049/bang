@@ -107,7 +107,7 @@ void draw_phase(sGame *pGame) {
 	// draw two cards
 	// put in "draw.h"
 	i32 player_id = *(i32 *)pGame->cur_player->data;
-	draw_phase_event(pGame, *(i32 *)pGame->cur_player->data);
+	draw_phase_event(pGame, player_id);
 }
 
 void play_phase(sGame *pGame) {  // play any number of cards
