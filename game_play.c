@@ -11,6 +11,12 @@ sListNode *get_player(sGame *pGame, i32 id) {
 	return res;
 }
 
+sListNode *get_next_player(sGame *pGame, sListNode *pPlayerNode) {
+	sListNode *next_player = pPlayerNode->next;
+	return (next_player != LIST_END(pGame->live_players)) ?
+				next_player : next_player->next;
+}
+
 sList *card_filter(sList *cards, bool (*filter)(i32 card_id)) {
 	sList *res = new_list();
 	LIST_FOR_EACH(pNode, cards) {
