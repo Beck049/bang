@@ -22,6 +22,19 @@ void init_event_funcs() {
 	}
 }
 
+void free_event_funcs() {
+	for(i32 i = 0; i < MAX_ID; ++i) {
+		free_list(draw_phase_event_funcs[i]);
+		free_list(play_phase_event_funcs[i]);
+		free_list(damage_event_funcs[i]);
+		free_list(dodge_event_funcs[i]);
+		free_list(bang_event_funcs[i]);
+		free_list(death_event_funcs[i]);
+		free_list(select_event_funcs[i]);
+		free_list(lethal_event_funcs[i]);
+	}
+}
+
 sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id) {
 	sDrawPhaseEvent drw_ph_e = {
 		.target_id = target_id,
