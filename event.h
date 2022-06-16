@@ -8,7 +8,7 @@
 
 typedef struct _sDrawPhaseEvent {
 	i32 target_id;
-    sList *draw_phase_res;
+	sList *draw_phase_res;
 } sDrawPhaseEvent;
 
 typedef struct _sDamageEvent {
