@@ -49,7 +49,7 @@ typedef struct _sSelectEvent {
 
 typedef struct _sLthalEvent {
 	i32 target_id;
-	i32 lethal_res;
+	bool lethal_res;
 } sLethalEvent;
 
 extern sList *draw_phase_event_funcs[MAX_ID];
