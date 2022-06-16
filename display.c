@@ -55,7 +55,6 @@ void display_damage(sGame *pGame, i32 target_id, sDamageEvent e) {
 	else {
 		sprintf(victim_appellation, "Player%d", e.victim_id);
 	}
-
 	if(e.damager_id == target_id) {
 		sprintf(damager_appellation, "you");
 	}
@@ -66,3 +65,11 @@ void display_damage(sGame *pGame, i32 target_id, sDamageEvent e) {
 	else printf("%s take %d damages!\n", victim_appellation, e.damage);
 }
 
+void display_has_bomb(sGame *pGame, i32 target_id, i32 bomb_owner_id) {
+	if(bomb_owner_id == target_id) {
+		printf("You have bomb!\n");
+	}
+	else {
+		printf("Player%d has bomb!\n", bomb_owner_id);
+	}
+}
