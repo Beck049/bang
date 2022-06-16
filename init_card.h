@@ -13,7 +13,7 @@ typedef struct _sCard {
 	eSuit suit;
     int  num;
 	char name[16];
-	char description[128];
+	char description[512];
 }sCard;
 
 extern int card_num;
