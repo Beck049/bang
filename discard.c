@@ -2,9 +2,8 @@
 
 void discard(sGame *pGame, i32 player_id){
 	sPlayer *player = &pGame->players[player_id];
-	sList *player_cards = player->cards;
-	i32 size = player_cards->size;
-	i32 hp = pGame->players[player_id].hp;
+	i32 size = player->cards->size;
+	i32 hp = player->hp;
 
 	// no need to discard
 	if(size <= hp) return;
@@ -13,7 +12,7 @@ void discard(sGame *pGame, i32 player_id){
 	char selections[size][16];
 
 	i32 cnt = 0;
-	LIST_FOR_EACH(pNode, player_cards) {
+	LIST_FOR_EACH(pNode, player->cards) {
 		//所有手牌都可選擇要不要棄，所以把所有的牌都寫進table裡面。
 		i32 card_id = *(i32*)pNode->data;
 		cards_id[cnt] = card_id;
