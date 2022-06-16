@@ -11,6 +11,12 @@ sListNode *get_player(sGame *pGame, i32 id) {
 	return res;
 }
 
+sListNode *get_prev_player(sGame *pGame, sListNode *pPlayerNode) {
+	sListNode *prev_player = pPlayerNode->prev;
+	return (prev_player != LIST_END(pGame->live_players)) ?
+				prev_player : prev_player->prev;
+}
+
 sListNode *get_next_player(sGame *pGame, sListNode *pPlayerNode) {
 	sListNode *next_player = pPlayerNode->next;
 	return (next_player != LIST_END(pGame->live_players)) ?

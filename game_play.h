@@ -11,6 +11,8 @@
 
 sListNode *get_player(sGame *pGame, i32 id);
 
+sListNode *get_prev_player(sGame *pGame, sListNode *pPlayerNode);
+
 sListNode *get_next_player(sGame *pGame, sListNode *pPlayerNode);
 
 sList *card_filter(sList *cards, bool (*filter)(i32 card_id));
