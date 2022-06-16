@@ -118,7 +118,8 @@ void play_phase(sGame *pGame) {  // play any number of cards
 void discard_phase(sGame *pGame) {  
 	// discard excess cards
 	// put in "discard.h"
-	discard( pGame );
+	i32 cur_player_id = *(i32*)pGame->cur_player->data;
+	discard(pGame, cur_player_id);
 }
 
 void turn_phase(sGame *pGame) {
