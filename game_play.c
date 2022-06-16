@@ -111,7 +111,8 @@ void draw_phase(sGame *pGame) {
 }
 
 void play_phase(sGame *pGame) {  // play any number of cards
-
+	i32 cur_player_id = *(i32*)pGame->cur_player->data;
+	play_phase_event(pGame, cur_player_id);
 }
 
 void discard_phase(sGame *pGame) {  
