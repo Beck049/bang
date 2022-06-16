@@ -40,3 +40,22 @@ void display_game(sGame *pGame, i32 target_id) {
 		display_pile(player_desk);
 	}
 }
+
+void display_damage(sGame *pGame, i32 target_id, sDamageEvent e) {
+	char victim_appellation[16], damager_appellation[16];
+	if(e.victim_id == target_id) {
+		sprintf(victim_appellation, "You");
+	}
+	else {
+		sprintf(victim_appellation, "Player%d", e.victim_id);
+	}
+
+	if(e.damager_id == target_id) {
+		sprintf(damager_appellation, "you");
+	}
+	else {
+		sprintf(damager_appellation, "player%d", e.damager_id);
+	}
+	if(e.damager_id != -1) printf("%s take %d damages by %s!\n", victim_appellation, e.damage, damager_appellation);
+	else printf("%s take %d damages!\n", victim_appellation, e.damage);
+}
