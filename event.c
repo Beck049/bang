@@ -1,6 +1,7 @@
 #include "event.h"
 
 sList *draw_phase_event_funcs[MAX_ID];
+sList *play_phase_event_funcs[MAX_ID];
 sList *damage_event_funcs[MAX_ID];
 sList *dodge_event_funcs[MAX_ID];
 sList *bang_event_funcs[MAX_ID];
@@ -17,6 +18,16 @@ sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &drw_ph_e);
 	}
 	return drw_ph_e;
+}
+
+sPlayPhaseEvent play_phase_event(sGame *pGame, i32 target_id) {
+	sPlayPhaseEvent play_ph_e = {
+		.target_id = target_id,
+	};
+	LIST_FOR_EACH(pNode, play_phase_event_funcs[target_id]) {
+		EVENT_APPLY_FUNC(pGame, pNode->data, &play_ph_e);
+	}
+	return play_ph_e;
 }
 
 sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damage) {

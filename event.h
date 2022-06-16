@@ -11,6 +11,10 @@ typedef struct _sDrawPhaseEvent {
 	sList *draw_phase_res;
 } sDrawPhaseEvent;
 
+typedef struct _PlayPhaseEvent {
+	i32 target_id;
+} sPlayPhaseEvent;
+
 typedef struct _sDamageEvent {
 	i32 damager_id;
 	i32 victim_id;
@@ -53,6 +57,7 @@ typedef struct _sLthalEvent {
 } sLethalEvent;
 
 extern sList *draw_phase_event_funcs[MAX_ID];
+extern sList *play_phase_event_funcs[MAX_ID];
 extern sList *damage_event_funcs[MAX_ID];
 extern sList *dodge_event_funcs[MAX_ID];
 extern sList *bang_event_funcs[MAX_ID];
@@ -61,6 +66,8 @@ extern sList *select_event_funcs[MAX_ID];
 extern sList *lethal_event_funcs[MAX_ID];
 
 sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id);
+
+sDrawPhaseEvent play_phase_event(sGame *pGame, i32 target_id);
 
 sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damage);
 
