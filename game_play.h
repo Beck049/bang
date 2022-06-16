@@ -9,7 +9,7 @@
 #include "discard.h"
 // #include "draw.h"
 
-sListNode *get_player_node(sGame *pGame, i32 id);
+sListNode *get_player(sGame *pGame, i32 id);
 
 sList *card_filter(sList *cards, bool (*filter)(i32 card_id));
 

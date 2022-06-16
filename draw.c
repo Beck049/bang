@@ -98,7 +98,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				}
 				sSelectEvent player_event = select_event_with_arr(pGame, e->target_id, 1, 1, player_opt, live_num, 32);
 				i32 distance = *(i32*)LIST_FRONT(event.select_res);
-				sListNode *cur_player = get_player_node(pGame, e->target_id);
+				sListNode *cur_player = get_player(pGame, e->target_id);
 				i32 pos = node_distance( pGame->live_players, LIST_BEGIN(pGame->live_players), cur_player );
 				if( pos + distance >= (i32)pGame->live_players->size )
 				{

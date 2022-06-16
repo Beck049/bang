@@ -1,6 +1,6 @@
 #include "game_play.h"
 
-sListNode *get_player_node(sGame *pGame, i32 id) {
+sListNode *get_player(sGame *pGame, i32 id) {
 	sListNode *res = NULL;
 	LIST_FOR_EACH(pNode, pGame->live_players) {
 		if(*(i32*)pNode->data == id) {
