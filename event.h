@@ -67,7 +67,7 @@ extern sList *lethal_event_funcs[MAX_ID];
 
 sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id);
 
-sDrawPhaseEvent play_phase_event(sGame *pGame, i32 target_id);
+sPlayPhaseEvent play_phase_event(sGame *pGame, i32 target_id);
 
 sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damage);
 
