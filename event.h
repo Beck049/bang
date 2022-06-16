@@ -65,6 +65,8 @@ extern sList *death_event_funcs[MAX_ID];
 extern sList *select_event_funcs[MAX_ID];
 extern sList *lethal_event_funcs[MAX_ID];
 
+void init_event_funcs();
+
 sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id);
 
 sPlayPhaseEvent play_phase_event(sGame *pGame, i32 target_id);

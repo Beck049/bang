@@ -9,6 +9,19 @@ sList *death_event_funcs[MAX_ID];
 sList *select_event_funcs[MAX_ID];
 sList *lethal_event_funcs[MAX_ID];
 
+void init_event_funcs() {
+	for(i32 i = 0; i < MAX_ID; ++i) {
+		draw_phase_event_funcs[i] = new_list();
+		play_phase_event_funcs[i] = new_list();
+		damage_event_funcs[i] = new_list();
+		dodge_event_funcs[i] = new_list();
+		bang_event_funcs[i] = new_list();
+		death_event_funcs[i] = new_list();
+		select_event_funcs[i] = new_list();
+		lethal_event_funcs[i] = new_list();
+	}
+}
+
 sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id) {
 	sDrawPhaseEvent drw_ph_e = {
 		.target_id = target_id,
