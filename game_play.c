@@ -1,7 +1,7 @@
 #include "game_play.h"
 
 bool is_bomb(i32 card_id) {
-	return card_id == 79
+	return card_id == 79;
 }
 
 bool is_jail(i32 card_id) {
