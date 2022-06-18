@@ -135,7 +135,7 @@ void turn_phase(sGame *pGame) {
 }
 
 void game_end(sGame *pGame) {
-
+	display_end(pGame, get_winner(pGame));
 }
 
 

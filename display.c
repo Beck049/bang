@@ -117,3 +117,12 @@ void display_selected(sGame *pGame, i32 viewer_id, bool *selected, i32 size) {
 	}
 	printf("]\n");
 }
+
+void display_end(sGame *pGame, int role) {
+	char msg[3][64];
+	fscanf("Sheriff IS THE WINNER", msg[0]);
+	fscanf("Outlaws IS THE WINNER", msg[1]);
+	fscanf("Renegade IS THE WINNER", msg[2]);
+
+	printf("%s", msg[role]);
+}
