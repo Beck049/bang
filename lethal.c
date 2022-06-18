@@ -16,7 +16,6 @@ void lethal_event_default(sGame *pGame, sLethalEvent *e) {
     recover += 1;
 
     if(beers->size < recover) {
-        list_erase( pGame->live_players, cur_p );
 		free_list(beers);
 		return;
 	}
