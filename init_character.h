@@ -6,7 +6,7 @@
 typedef struct _sCharacters {
     int id;
     char name[16];
-    char description[128];
+    char description[512];
 }sCharacter;
 
 extern int character_num;
