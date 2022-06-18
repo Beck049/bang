@@ -129,11 +129,9 @@ void turn_phase(sGame *pGame) {
 	prep_phase(pGame);
 	draw_phase(pGame);
 	play_phase(pGame);
-	if( get_winner(pGame) == -1 ) {
-		discard_phase(pGame);
-		pGame->cur_player = get_next_player( pGame, pGame->cur_player );
-	}
-	
+	if( get_winner(pGame) != -1 ) { return; }
+	discard_phase(pGame);
+	pGame->cur_player = get_next_player( pGame, pGame->cur_player );
 }
 
 void game_end(sGame *pGame) {
