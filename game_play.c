@@ -125,11 +125,15 @@ void discard_phase(sGame *pGame) {
 }
 
 void turn_phase(sGame *pGame) {
-	// print_game(pGame);
-	// prep_phase(pGame);
-	// draw_phase(pGame);
-	// play_phase(pGame);
-	// discard_phase(pGame);
+	print_game(pGame);
+	prep_phase(pGame);
+	draw_phase(pGame);
+	play_phase(pGame);
+	if( get_winner(pGame) == -1 ) {
+		discard_phase(pGame);
+		pGame->cur_player = get_next_player( pGame, pGame->cur_player );
+	}
+	
 }
 
 void game_end(sGame *pGame) {

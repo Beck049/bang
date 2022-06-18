@@ -76,7 +76,7 @@ void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e) {
     }
 
     i32 chose_num = min(recover, beers->size);
-    sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, recover, chose_num, chose_num, beers->size, 128);
+    sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, chose_num, chose_num, options, beers->size, 128);
     i32 select_card_id = beer_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
     i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
     if(take_id != -1) {
@@ -85,27 +85,28 @@ void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e) {
     free_list(select_miss_e.selections);
     free_list(select_miss_e.select_res);
     // discard 2 card
-    i32 left_card_id[beers->size];
-    sListNode *cur_node = LIST_BEGIN(beers);
-	for(i32 i = 0; i < (i32)beers->size; ++i) {
-		beer_id[i] = *(i32*)cur_node->data;
+    i32 left_size = pGame->players[*(i32*)cur_p->data].cards->size;
+    i32 left_card_id[left_size];
+    sListNode *cur_node = LIST_BEGIN(pGame->players[*(i32*)cur_p->data].cards);
+	for(i32 i = 0; i < left_size; ++i) {
+		left_card_id[i] = *(i32*)cur_node->data;
 	}
-    char options[beers->size][128];
-    sListNode *cur_node = LIST_BEGIN(beers);
-    for(i32 i = 0; i < (i32)beers->size; ++i) {
+    char left_options[left_size][128];
+    sListNode *cur_node = LIST_BEGIN(pGame->players[*(i32*)cur_p->data].cards);
+    for(i32 i = 0; i < left_size; ++i) {
         i32 card_id = *(i32*)cur_node->data;
-        sprintf(options[i], "%2d) %s (id: %d):\n%s", i, cards[card_id].name, card_id, cards[card_id].description);
+        sprintf(left_options[i], "%2d) %s (id: %d):\n%s", i, cards[card_id].name, card_id, cards[card_id].description);
     }
 
-    i32 chose_num = min(recover, beers->size);
-    sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, recover, chose_num, chose_num, beers->size, 128);
-    i32 select_card_id = beer_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
+    i32 chose_num = recover*2;
+    sSelectEvent select_discard2_e = select_event_with_arr(pGame, e->target_id, recover, recover, left_options, left_size, 128);
+    i32 select_card_id = left_card_id[*(i32*)LIST_FRONT(select_discard2_e.select_res)];
     i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
     if(take_id != -1) {
         give_card(pGame, pGame->discard_pile, take_id, true);
     }
-    free_list(select_miss_e.selections);
-    free_list(select_miss_e.select_res);
+    free_list(select_discard2_e.selections);
+    free_list(select_discard2_e.select_res);
 
 	free_list(beers);
 

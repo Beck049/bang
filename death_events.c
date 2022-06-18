@@ -1,7 +1,69 @@
 #include "death_events.h"
 
 void death_event_default(sGame *pGame, sDeathEvent *e) {
+    i32 hand_card_id_list[40]={0};
+    i32 desk_card_id_list[40]={0};
+    i32 hand_card_cnt=0;
+    i32 desk_card_cnt=0;
+    e->death_res = true;
     pGame->end_winner_role = getWinner( pGame );
+    sList * death_desk = pGame->players[ e->dead_id ].desk;
+    sList * death_hand = pGame->players[ e->dead_id ].cards;
+
+    // 死掉的這個人的牌都得被丟到棄牌堆。
+    LIST_FOR_EACH(pNode, death_desk ){
+        desk_card_id_list[ desk_card_cnt ] = *(int32_t *)pNode->data;
+        desk_card_cnt++;
+    }
+    LIST_FOR_EACH(pNode, death_hand ){
+        hand_card_id_list[ hand_card_cnt ] = *(int32_t *)pNode->data;
+        hand_card_cnt++;
+    }
+    
+    for(i32 i=0 ; i<desk_card_cnt ; ++i ){
+        give_card( pGame , pGame->discard_pile , desk_card_id_list[i] , true );
+    }
+    for(i32 i=0 ; i<hand_card_cnt ; ++i){
+        give_card( pGame , pGame->discard_pile , hand_card_id_list[i] , true );
+    }
+    // 如果警長殺死副警長，警長的手牌跟面前的紙牌都得丟到棄牌堆。
+    if( pGame->players[ e->dead_id ].role==Deputy && pGame->players[ e->killer_id ].role==Sheriff ){
+        hand_card_cnt=0;
+        desk_card_cnt=0;
+        for(i32 i=0 ; i<40 ; ++i){
+            hand_card_id_list[i]=0;
+            desk_card_id_list[i]=0;
+        }
+        sList * sheriff_desk = pGame->players[ e->killer_id ].desk;
+        sList * sheriff_hand = pGame->players[ e->killer_id ].cards;
+
+        LIST_FOR_EACH( pNode, sheriff_desk ){
+            desk_card_id_list[ desk_card_cnt ] = *(int32_t *)pNode->data;
+            desk_card_cnt++;
+        }
+        LIST_FOR_EACH(pNode, sheriff_hand ){
+            hand_card_id_list[ hand_card_cnt ] = *(int32_t *)pNode->data;
+            hand_card_cnt++;
+        }
+        for(i32 i=0 ; i<desk_card_cnt ; ++i ){
+            give_card( pGame , pGame->discard_pile , desk_card_id_list[i] , true );
+        }
+        for(i32 i=0 ; i<hand_card_cnt ; ++i){
+            give_card( pGame , pGame->discard_pile , hand_card_id_list[i] , true );
+        }
+
+        free_list( sheriff_desk );
+        free_list( sheriff_hand );
+    }
+    // 如果任何玩家消滅歹徒，可以抽三張牌作為獎勵。
+    if( pGame->players[ e->dead_id ].role==Outlaws ){
+        give_card( pGame , pGame->players[ e->killer_id ].cards , *(i32*)LIST_FRONT(pGame->draw_pile) , true );
+        give_card( pGame , pGame->players[ e->killer_id ].cards , *(i32*)LIST_FRONT(pGame->draw_pile) , true );
+        give_card( pGame , pGame->players[ e->killer_id ].cards , *(i32*)LIST_FRONT(pGame->draw_pile) , true );
+    }
+
+    free_list( death_desk );
+    free_list( death_hand );
 }
 
 int getWinner( sGame *pGame ){
@@ -43,4 +105,77 @@ int getWinner( sGame *pGame ){
     }
 
     return -1;
+}
+
+void death_event_Vulture_Sam(sGame *pGame, sDeathEvent *e) {
+    i32 hand_card_id_list[40]={0};
+    i32 desk_card_id_list[40]={0};
+    i32 hand_card_cnt=0;
+    i32 desk_card_cnt=0;
+    e->death_res = true;
+    pGame->end_winner_role = getWinner( pGame );
+    sList * death_desk = pGame->players[ e->dead_id ].desk;
+    sList * death_hand = pGame->players[ e->dead_id ].cards;
+
+    // 找山姆這個人的id
+    i32 id_sam=0;
+    for( i32 i=0 ; i < pGame->total_players ; ++i ){
+        if( pGame->players[ i ].character==15 /*sam的id*/ ) id_sam=i;
+    }
+
+    // 死掉的這個人的牌都得被丟到山姆的手牌。
+    LIST_FOR_EACH(pNode, death_desk ){
+        desk_card_id_list[ desk_card_cnt ] = *(int32_t *)pNode->data;
+        desk_card_cnt++;
+    }
+    LIST_FOR_EACH(pNode, death_hand ){
+        hand_card_id_list[ hand_card_cnt ] = *(int32_t *)pNode->data;
+        hand_card_cnt++;
+    }
+    
+    for(i32 i=0 ; i<desk_card_cnt ; ++i ){
+        give_card( pGame , pGame->players[ id_sam ].cards , desk_card_id_list[i] , true );
+    }
+    for(i32 i=0 ; i<hand_card_cnt ; ++i){
+        give_card( pGame , pGame->players[ id_sam ].cards , hand_card_id_list[i] , true );
+    }
+    // 如果警長殺死副警長，警長的手牌跟面前的紙牌都得丟到棄牌堆。
+    if( pGame->players[ e->dead_id ].role==Deputy && pGame->players[ e->killer_id ].role==Sheriff ){
+        hand_card_cnt=0;
+        desk_card_cnt=0;
+        for(i32 i=0 ; i<40 ; ++i){
+            hand_card_id_list[i]=0;
+            desk_card_id_list[i]=0;
+        }
+        sList * sheriff_desk = pGame->players[ e->killer_id ].desk;
+        sList * sheriff_hand = pGame->players[ e->killer_id ].cards;
+
+        LIST_FOR_EACH( pNode, sheriff_desk ){
+            desk_card_id_list[ desk_card_cnt ] = *(int32_t *)pNode->data;
+            desk_card_cnt++;
+        }
+        LIST_FOR_EACH(pNode, sheriff_hand ){
+            hand_card_id_list[ hand_card_cnt ] = *(int32_t *)pNode->data;
+            hand_card_cnt++;
+        }
+        for(i32 i=0 ; i<desk_card_cnt ; ++i ){
+            give_card( pGame , pGame->discard_pile , desk_card_id_list[i] , true );
+        }
+        for(i32 i=0 ; i<hand_card_cnt ; ++i){
+            give_card( pGame , pGame->discard_pile , hand_card_id_list[i] , true );
+        }
+
+        free_list( sheriff_desk );
+        free_list( sheriff_hand );
+    }
+    // 如果任何玩家消滅歹徒，可以抽三張牌作為獎勵。
+    if( pGame->players[ e->dead_id ].role==Outlaws ){
+        give_card( pGame , pGame->players[ e->killer_id ].cards , *(i32*)LIST_FRONT(pGame->draw_pile) , true );
+        give_card( pGame , pGame->players[ e->killer_id ].cards , *(i32*)LIST_FRONT(pGame->draw_pile) , true );
+        give_card( pGame , pGame->players[ e->killer_id ].cards , *(i32*)LIST_FRONT(pGame->draw_pile) , true );
+    }
+
+    free_list( death_desk );
+    free_list( death_hand );
+    
 }
