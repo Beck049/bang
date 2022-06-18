@@ -51,6 +51,7 @@ void players_setup(sGame *pGame) {
 
 // init game
 void game_init(sGame *pGame, i32 num_players) {
+	pGame->end_winner_role = -1;
 	pGame->total_players = num_players;
 	draw_pile_init(pGame);
 	role_pile_init(pGame);
