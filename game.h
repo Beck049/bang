@@ -8,7 +8,7 @@
 #include "init_character.h"
 
 typedef struct _sGame {
-	bool is_end;
+	eRole end_winner_role;
 	sList *draw_pile;
 	sList *discard_pile;
 	sList *role_pile;
