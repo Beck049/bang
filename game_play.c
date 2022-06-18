@@ -1,4 +1,5 @@
 #include "game_play.h"
+#include "display.h"
 
 bool is_bomb(i32 card_id) {
 	return card_id == 79;
@@ -66,6 +67,7 @@ i32 prep_phase(sGame *pGame) {
 	}
 
 	if(bomb_id != -1) {
+		display_has_bomb(pGame, 0, cur_player_id);
 		take_card_by_id(pGame, cur_player->desk, bomb_id);
 		sDetermineEvent dtm_e = determine_event(pGame, cur_player_id);
 		i32 dtm_res = dtm_e.determine_res;
