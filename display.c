@@ -1,5 +1,23 @@
 #include "display.h"
 
+#define ASCII_ESC "\033"
+#define RST ASCII_ESC"[0m"
+#define RED ASCII_ESC"[31m"
+#define GRN ASCII_ESC"[32m"
+#define YLW ASCII_ESC"[33m"
+#define BL ASCII_ESC"[34m" 
+#define MGT ASCII_ESC"[35m"
+#define CYN ASCII_ESC"[36m"
+#define WHT ASCII_ESC"[37m"
+#define GRY ASCII_ESC"[90m"
+#define LRED ASCII_ESC"[91m"
+#define LGRN ASCII_ESC"[92m"
+#define LYLW ASCII_ESC"[93m"
+#define LBL ASCII_ESC"[94m"
+#define LMGT ASCII_ESC"[95m"
+#define LCYN ASCII_ESC"[96m"
+#define LWHT ASCII_ESC"[97m"
+
 void print_card(char *dst, i32 card_id) {
 	static const char SUIT[] = "SHDC";
 	sCard *card = cards+card_id;
@@ -45,6 +63,37 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		printf("%s Desk (%ld):\n", appellation, player_desk->size);
 		display_pile(player_desk);
 	}
+}
+
+void display_game_test(sGame *pGame, i32 viewer_id) {
+	printf("++============================================================================++\n");
+	printf("||                                                                            ||\n");
+	printf("||                 +----------------- BANG -----------------+                 ||\n");
+	printf("||                 | Draw Pile (%ld)   /  Discard Pile (%ld)|                 ||\n");
+	printf("||                 +----------------------------------------+                 ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	printf("||                                                                            ||\n");
+	
+	printf("||                                                                            ||\n");
+	printf("++============================================================================++\n");
 }
 
 void display_damage(__attribute__((unused)) sGame *pGame, i32 viewer_id, sDamageEvent e) {
@@ -165,14 +214,14 @@ void start_style() {
 	printf("||            :........:::..:::::..::..::::..:::......:::....::               ||\n");
 	printf("||                                                                            ||\n");
 	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                     player required ( 4 ~ 7 )                              ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                  ================================                          ||\n");
-	printf("||                    Press any key to continue...                            ||\n");
-	printf("||                  ================================                          ||\n");
-	printf("||                                                                            ||\n");
+	printf("||                                                          "RED"     .#######'.   ||\n"RST);
+	printf("||                     player required ( 4 ~ 7 )            "RED"   .:#####"BL"#####:  ||\n"RST);
+	printf("||                                                          "RED"  :#######"BL"#####:  ||\n"RST);
+	printf("||                                                          "RED"  :#######"BL"#####:  ||\n"RST);
+	printf("||                  ================================        "RED"  :###########    ||\n"RST);
+	printf("||                    Press any key to continue...          "RED"    .########     ||\n"RST);
+	printf("||                  ================================        "RED"    ..##...##     ||\n"RST);
+	printf("||                                                          "RED"    ..##...##     ||\n"RST);
 	printf("||                                                                            ||\n");
 	printf("--------------------------------------------------------------------------------\n");
 }
