@@ -97,15 +97,15 @@ void display_bang(__attribute__((unused)) sGame *pGame, i32 viewer_id, sBangEven
 	printf("%s bang %s!\n", trigger_appellation, target_appellation);
 }
 
-void display_selection(sGame *pGame, i32 viewer_id, sSelectEvent e) {
+void display_selection(__attribute__((unused)) sGame *pGame, __attribute__((unused)) i32 viewer_id, sSelectEvent e) {
 	printf("Select Event:\n"
-		   "Plaease select %d~%d options:\n", e.min_cnt, e.max_cnt);
+		   "Please select %d~%d options:\n", e.min_cnt, e.max_cnt);
 	LIST_FOR_EACH(pNode, e.selections) {
 		printf("%s\n", (char*)pNode->data);
 	}
 }
 
-void display_selected(sGame *pGame, i32 viewer_id, bool *selected, i32 size) {
+void display_selected(__attribute__((unused)) sGame *pGame, __attribute__((unused)) i32 viewer_id, bool *selected, i32 size) {
 	printf("now selected: [");
 	i32 cnt = 0;
 	for(i32 i = 0; i < size; ++i) {
@@ -118,13 +118,12 @@ void display_selected(sGame *pGame, i32 viewer_id, bool *selected, i32 size) {
 	printf("]\n");
 }
 
-void display_end(sGame *pGame, int role) {
-	char msg[3][32];
-	sprintf(msg[0], "Sheriff  IS THE WINNER");
-	sprintf(msg[1], "Outlaws  IS THE WINNER");
-	sprintf(msg[2], "Renegade IS THE WINNER");
+void display_end(__attribute__((unused)) sGame *pGame, eRole role) {
+	char msg[4][32];
+	strcpy(msg[Sheriff],  "Sheriff  IS THE WINNER");
+	strcpy(msg[Outlaws],  "Outlaws  IS THE WINNER");
+	strcpy(msg[Renegade], "Renegade IS THE WINNER");
 
-	printf("%s", msg[role]);
 	printf("--------------------------------------------------------------------------------\n");
 	printf("||                                                                            ||\n");
 	printf("||                                                                            ||\n");

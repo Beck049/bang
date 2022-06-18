@@ -125,23 +125,29 @@ void discard_phase(sGame *pGame) {
 }
 
 void turn_phase(sGame *pGame) {
-	print_game(pGame);
-	prep_phase(pGame);
+	i32 skip = false;
+	display_game(pGame, 0);
+
+	skip = (prep_phase(pGame) == -1);
+	if(skip) return;
+
 	draw_phase(pGame);
 	play_phase(pGame);
-	if( get_winner(pGame) != -1 ) { return; }
+
+	if(pGame->end_winner_role == (eRole)-1) return;
+
 	discard_phase(pGame);
 	pGame->cur_player = get_next_player( pGame, pGame->cur_player );
 }
 
 void game_end(sGame *pGame) {
-	display_end(pGame, get_winner(pGame));
+	display_end(pGame, pGame->end_winner_role);
 }
 
 
 void play_game(i32 num_players) {
 	sGame *pGame = new_game();  // malloc
-	game_init(pGame, num_players);  // set up pGame
+	init_game(pGame, num_players);  // set up pGame
 	// while(!pGame->is_end) {
 		// turn_phase(pGame);  // process pGame
 	// }

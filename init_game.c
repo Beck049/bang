@@ -1,13 +1,13 @@
 #include "init_game.h"
 
 // init draw pile and shuffle
-void draw_pile_init(sGame *pGame) {
+void init_draw_pile(sGame *pGame) {
 	list_init(pGame->draw_pile, card_num);
 	shuffle(pGame->draw_pile);
 }
 
 // init role pile and shuffle
-void role_pile_init(sGame *pGame) {
+void init_role_pile(sGame *pGame) {
 	for(i32 i = 0; i < ROLE_SIZ; ++i) {  // loop role
 		// push role into list
 		for(i32 j = 0; j < ROLE_DIVIDED[pGame->total_players][i]; ++j) {
@@ -20,7 +20,7 @@ void role_pile_init(sGame *pGame) {
 }
 
 // init character pile and shuffle
-void character_pile_init(sGame *pGame) {
+void init_character_pile(sGame *pGame) {
 	list_init(pGame->character_pile, character_num);
 	shuffle(pGame->character_pile);
 }
@@ -32,7 +32,7 @@ void live_players_init(sGame *pGame) {
 }
 
 // set up player info
-void players_setup(sGame *pGame) {
+void setup_players(sGame *pGame) {
 	for(i32 i = 0; i < pGame->total_players; ++i) {
 		pGame->players[i].id = i;
 		pGame->players[i].attack_range = 1;
@@ -50,18 +50,19 @@ void players_setup(sGame *pGame) {
 }
 
 // init game
-void game_init(sGame *pGame, i32 num_players) {
+void init_game(sGame *pGame, i32 num_players) {
 	pGame->end_winner_role = -1;
 	pGame->total_players = num_players;
-	draw_pile_init(pGame);
-	role_pile_init(pGame);
-	character_pile_init(pGame);
+	init_event_funcs();
+	init_draw_pile(pGame);
+	init_role_pile(pGame);
+	init_character_pile(pGame);
 	live_players_init(pGame);
-	players_setup(pGame);
+	setup_players(pGame);
 	pGame->cur_player = LIST_BEGIN(pGame->live_players);
 }
 
-void game_cleanup(sGame *pGame) {
+void cleanup_game(sGame *pGame) {
 	list_clear(pGame->draw_pile);
 	list_clear(pGame->discard_pile);
 	list_clear(pGame->role_pile);
