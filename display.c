@@ -69,7 +69,7 @@ void display_game_test(sGame *pGame, i32 viewer_id) {
 	printf("++============================================================================++\n");
 	printf("||                                                                            ||\n");
 	printf("||                 +----------------- BANG -----------------+                 ||\n");
-	printf("||                 | Draw Pile (%ld)   /  Discard Pile (%ld)|                 ||\n");
+	printf("||                 | Draw Pile (%ld)   /  Discard Pile (%ld)|                 ||\n", pGame->draw_pile->size, pGame->discard_pile->size);
 	printf("||                 +----------------------------------------+                 ||\n");
 /*
 	printf("||                                                                            ||\n");
