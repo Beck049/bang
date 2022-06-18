@@ -71,21 +71,24 @@ void display_game_test(sGame *pGame, i32 viewer_id) {
 	printf("||                 +----------------- BANG -----------------+                 ||\n");
 	printf("||                 | Draw Pile (%ld)   /  Discard Pile (%ld)|                 ||\n");
 	printf("||                 +----------------------------------------+                 ||\n");
+/*
+	printf("||                                                                            ||\n");
+	printf("||  LoveSnowEx :                                                              ||\n");
+	printf("||                                                                            ||\n");
+	printf("||     +----------+  +----------+                                             ||\n");
+	printf("||     |   Bomb   |  |   Jail   |                                             ||\n");
+	printf("||     +----------+  +----------+                                             ||\n");
+	printf("||                                                                            ||\n");
+	printf("||     +----------+  +----------+  +----------+  +----------+                 ||\n");
+	printf("||     |  scope   |  |  horse   |  |  barrel  |  |   Gun    |                 ||\n");
+	printf("||     +----------+  +----------+  +----------+  +----------+                 ||\n");
+	printf("||                                                                            ||\n");
+*/
 	printf("||                                                                            ||\n");
 	printf("||                                                                            ||\n");
-
 	printf("||                                                                            ||\n");
 	printf("||                                                                            ||\n");
 	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-
 	printf("||                                                                            ||\n");
 	printf("||                                                                            ||\n");
 	printf("||                                                                            ||\n");
