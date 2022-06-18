@@ -20,3 +20,5 @@ void display_determine(sGame *pGame, i32 viewer_id, i32 draw_num);
 void display_bang(sGame *pGame, i32 viewer_id, sBangEvent e);
 
 void display_selection(sGame *pGame, i32 viewer_id, sSelectEvent e);
+
+void display_selected(sGame *pGame, i32 viewer_id, bool *selected, i32 size);

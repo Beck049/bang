@@ -104,3 +104,16 @@ void display_selection(sGame *pGame, i32 viewer_id, sSelectEvent e) {
 		printf("%s\n", (char*)pNode->data);
 	}
 }
+
+void display_selected(sGame *pGame, i32 viewer_id, bool *selected, i32 size) {
+	printf("now selected: [");
+	i32 cnt = 0;
+	for(i32 i = 0; i < size; ++i) {
+		if(selected[i]) {
+			if(cnt != 0) printf(", ");  // [1, 2, 3, 4]: first no ", "
+			printf("%d", i+1);
+			++cnt;
+		}
+	}
+	printf("]\n");
+}
