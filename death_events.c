@@ -62,14 +62,14 @@ eRole getWinner( sGame *pGame ){
         }
     */
 
-    if( role_cnt[Sheriff]==0 ){
-        if(role_cnt[Renegade]==1 && pGame->live_players->size == 1){
+    if( role_cnt[Sheriff]==0 ) {
+        if(role_cnt[Renegade]==1 && pGame->live_players->size == 1) {
             return Renegade;
         }else{
             return Outlaws;
         }
     }else{
-        if( role_cnt[Outlaws]==0 && role_cnt[Renegade]==0 ){
+        if( role_cnt[Outlaws]==0 && role_cnt[Renegade]==0 ) {
             return Sheriff;
         }
     }
@@ -77,7 +77,7 @@ eRole getWinner( sGame *pGame ){
     return -1;
 }
 
-void death_event_Vulture_Sam(sGame *pGame, sDeathEvent *e) {
+void death_event_vulture_vam(sGame *pGame, sDeathEvent *e) {
     i32 hand_card_id_list[40]={0};
     i32 desk_card_id_list[40]={0};
     i32 hand_card_cnt=0;
