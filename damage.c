@@ -1,7 +1,43 @@
 #include "damage.h"
 
-void damage_event_default(sGame *pGame, sDetermineEvent *e);
+void damage_event_default(sGame *pGame, sDamageEvent *e) {
+    sListNode *cur_p = get_player(pGame, e->victim_id);
+    pGame->players[*(i32*)cur_p->data].hp -= e->damage;
+}
 
-void damage_event_bart_cassidy(sGame *pGame, sDetermineEvent *e);
+// draw
+void damage_event_bart_cassidy(sGame *pGame, sDamageEvent *e) {
+    sListNode *cur_p = get_player(pGame, e->victim_id);
+    pGame->players[*(i32*)cur_p->data].hp -= e->damage;
 
-void damage_event_el_gringo(sGame *pGame, sDetermineEvent *e);
+    for(i32 i = 0; i < e->damage; ++i) {
+        i32 card_id = take_card(pGame, pGame->draw_pile, 0);
+		if(card_id == -1) break;
+		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_id, true);
+    }
+}
+
+void damage_event_el_gringo(sGame *pGame, sDamageEvent *e) {
+    sListNode *cur_p = get_player(pGame, e->victim_id);
+    pGame->players[*(i32*)cur_p->data].hp -= e->damage;
+
+    for(i32 i = 0; i < e->damage; ++i) {
+        i32 hand_card_num  = pGame->players[e->damager_id].cards->size;
+        char cards_opt[hand_card_num][8];
+        for(int i = 0; i < hand_card_num; ++i ) {
+
+            sprintf(cards_opt[i], "(%2d)", i);
+        }
+        i32 card_id;
+        sSelectEvent card_select_event = select_event_with_arr(pGame, e->damager_id, 1, 1, cards_opt, hand_card_num, 8);
+    
+        i32 take_id = *(i32*)LIST_FRONT(event.select_res);
+        card_id = take_card(pGame, pGame->players[e->damager_id].cards, take_id);
+        if(card_id != -1) {
+            give_card(pGame, pGame->players[e->victim_id].cards, card_id, true);
+        }
+
+        free_list(card_select_event.selections);
+		free_list(card_select_event.select_res);
+    }
+}
