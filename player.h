@@ -6,6 +6,8 @@
 
 typedef struct _sPlayer {
 	int id;
+	int look_range;
+	int be_looked_range;
 	int attack_range;
 	int hp;
 	int character;
