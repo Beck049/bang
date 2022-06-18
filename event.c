@@ -49,7 +49,7 @@ sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id) {
 sPlayPhaseEvent play_phase_event(sGame *pGame, i32 target_id) {
 	sPlayPhaseEvent play_ph_e = {
 		.target_id = target_id,
-		.result = false;
+		.result = false,
 	};
 	LIST_FOR_EACH(pNode, play_phase_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &play_ph_e);
@@ -166,3 +166,4 @@ sLethalEvent lethal_event(sGame *pGame, i32 target_id) {
 	}
 	return lth_e;
 }
+
