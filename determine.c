@@ -2,8 +2,7 @@
 
 void determine_event_default(sGame *pGame, sDetermineEvent *e) {
 	char buf[BUFSIZ];
-	printf("Determine Event:\n"
-			"Draw 1 card:\n");
+	display_determine(pGame, e->target_id, 1);
 	i32 card_id = take_card(pGame, pGame->draw_pile, 0);
 	print_card(buf, card_id);
 	printf(" 1) %s\n", buf);
@@ -13,8 +12,7 @@ void determine_event_default(sGame *pGame, sDetermineEvent *e) {
 
 void determine_event_lucky_duke(sGame *pGame, sDetermineEvent *e) {
 	char buf[512];
-	printf("Determine Event:\n"
-			"Draw 2 cards:\n");
+	display_determine(pGame, e->target_id, 2);
 	i32 cards_id[2];
 	char selections[2][1024];
 	for(i32 i = 0; i < 2; ++i) {
