@@ -28,6 +28,6 @@ void discard(sGame *pGame, i32 player_id){
 		take_card_by_id(pGame, player->cards, card_id);
 		give_card( pGame, pGame->discard_pile, card_id, false);
 	}
-	free(sl_e.selections);
-	free(sl_e.select_res);
+	free_list(sl_e.selections);
+	free_list(sl_e.select_res);
 }
