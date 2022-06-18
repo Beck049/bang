@@ -9,7 +9,8 @@ bool card_is_bang(i32 card_id) {
 	return cards[card_id].type == BANG_TYPE;
 }
 
-void dodge_event_default(sGame *pGame, sDodgeEvent *e, int dodge_times) {
+void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
+	i32 dodge_times = e->dodge_times;
 	sList *player_cards = pGame->players[e->target_id].cards;
 	sList *miss_cards = card_filter(player_cards, card_is_missed);
 	if(miss_cards->size == 0) {
@@ -44,7 +45,8 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e, int dodge_times) {
 	free_list(miss_cards);
 }
 
-void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e, int dodge_times) {
+void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e) {
+	i32 dodge_times = e->dodge_times;
 	sList *player_cards = pGame->players[e->target_id].cards;
 	sList *miss_cards = card_filter(player_cards, card_is_missed);
 	sList *bang_cards = card_filter(player_cards, card_is_bang);

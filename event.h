@@ -30,6 +30,7 @@ typedef struct _sDetermineEvent {
 typedef struct _sDodgeEvent {
 	i32 target_id;
 	bool dodge_res;
+	i32 dodge_times;
 } sDodgeEvent;
 
 typedef struct _sBangEvent {
@@ -78,7 +79,7 @@ sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damag
 
 sDetermineEvent determine_event(sGame *pGame, i32 target_id);
 
-sDodgeEvent dodge_event(sGame *pGame, i32 target_id);
+sDodgeEvent dodge_event(sGame *pGame, i32 target_id, i32 dodge_times);
 
 sBangEvent bang_event(sGame *pGame, i32 trigger_id, i32 target_id);
 

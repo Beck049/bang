@@ -81,10 +81,11 @@ sDetermineEvent determine_event(sGame *pGame, i32 target_id) {
 	return dtm_e;
 }
 
-sDodgeEvent dodge_event(sGame *pGame, i32 target_id) {
+sDodgeEvent dodge_event(sGame *pGame, i32 target_id, i32 dodge_times) {
 	sDodgeEvent dg_e = {
 		.target_id = target_id,
 		.dodge_res = false,
+		.dodge_times = dodge_times,
 	};
 	LIST_FOR_EACH(pNode, dodge_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &dg_e);
