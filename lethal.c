@@ -1,5 +1,113 @@
 #include"lethal.h"
 
-void lethal_event_default(sGame *pGame, sLethalEvent *e);
+#define BEER_TYPE 11
 
-void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e);
+bool card_is_beer(i32 card_id) {
+    return cards[card_id].type == BEER_TYPE;
+}
+
+void lethal_event_default(sGame *pGame, sLethalEvent *e) {
+    sListNode *cur_p = get_player(pGame, e->target_id);
+    sList *player_cards = pGame->players[e->target_id].cards;
+    sList *beers = card_filter(player_cards, card_is_beer);
+
+    i32 recover = pGame->players[*(i32*)cur_p->data].hp;
+    recover *= (-1);
+    recover += 1;
+
+    if(beers->size < recover) {
+        list_erase( pGame->live_players, cur_p );
+		free_list(beers);
+		return;
+	}
+    i32 beer_id[beers->size];
+
+    sListNode *cur_node = LIST_BEGIN(beers);
+	for(i32 i = 0; i < (i32)beers->size; ++i) {
+		beer_id[i] = *(i32*)cur_node->data;
+	}
+    char options[beers->size][128];
+    sListNode *cur_node = LIST_BEGIN(beers);
+    for(i32 i = 0; i < (i32)beers->size; ++i) {
+        i32 card_id = *(i32*)cur_node->data;
+        sprintf(options[i], "%2d) %s (id: %d):\n%s", i, cards[card_id].name, card_id, cards[card_id].description);
+    }
+    sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, recover, recover, options, beers->size, 128);
+    i32 select_card_id = beer_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
+    i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
+    if(take_id != -1) {
+        give_card(pGame, pGame->discard_pile, take_id, true);
+    }
+    free_list(select_miss_e.selections);
+    free_list(select_miss_e.select_res);
+
+	free_list(beers);
+
+    pGame->players[*(i32*)cur_p->data].hp = 1;
+}
+
+void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e) {
+    sListNode *cur_p = get_player(pGame, e->target_id);
+    sList *player_cards = pGame->players[e->target_id].cards;
+    sList *beers = card_filter(player_cards, card_is_beer);
+
+    i32 hand_card_num = pGame->players[e->target_id].cards->size;
+    i32 recover = pGame->players[*(i32*)cur_p->data].hp;
+    recover *= (-1); recover += 1;
+    i32 max_recover = beers->size + (hand_card_num - beers->size) /2;
+
+    if(max_recover < recover) {
+        list_erase( pGame->live_players, cur_p );
+		free_list(beers);
+		return;
+	}
+    
+    // beer
+    i32 beer_id[beers->size];
+    sListNode *cur_node = LIST_BEGIN(beers);
+	for(i32 i = 0; i < (i32)beers->size; ++i) {
+		beer_id[i] = *(i32*)cur_node->data;
+	}
+    char options[beers->size][128];
+    sListNode *cur_node = LIST_BEGIN(beers);
+    for(i32 i = 0; i < (i32)beers->size; ++i) {
+        i32 card_id = *(i32*)cur_node->data;
+        sprintf(options[i], "%2d) %s (id: %d):\n%s", i, cards[card_id].name, card_id, cards[card_id].description);
+    }
+
+    i32 chose_num = min(recover, beers->size);
+    sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, recover, chose_num, chose_num, beers->size, 128);
+    i32 select_card_id = beer_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
+    i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
+    if(take_id != -1) {
+        give_card(pGame, pGame->discard_pile, take_id, true);
+    }
+    free_list(select_miss_e.selections);
+    free_list(select_miss_e.select_res);
+    // discard 2 card
+    i32 left_card_id[beers->size];
+    sListNode *cur_node = LIST_BEGIN(beers);
+	for(i32 i = 0; i < (i32)beers->size; ++i) {
+		beer_id[i] = *(i32*)cur_node->data;
+	}
+    char options[beers->size][128];
+    sListNode *cur_node = LIST_BEGIN(beers);
+    for(i32 i = 0; i < (i32)beers->size; ++i) {
+        i32 card_id = *(i32*)cur_node->data;
+        sprintf(options[i], "%2d) %s (id: %d):\n%s", i, cards[card_id].name, card_id, cards[card_id].description);
+    }
+
+    i32 chose_num = min(recover, beers->size);
+    sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, recover, chose_num, chose_num, beers->size, 128);
+    i32 select_card_id = beer_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
+    i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
+    if(take_id != -1) {
+        give_card(pGame, pGame->discard_pile, take_id, true);
+    }
+    free_list(select_miss_e.selections);
+    free_list(select_miss_e.select_res);
+
+	free_list(beers);
+
+    pGame->players[*(i32*)cur_p->data].hp = 1;
+}

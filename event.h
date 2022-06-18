@@ -53,7 +53,7 @@ typedef struct _sSelectEvent {
 	sList *select_res;  // list of index selected
 } sSelectEvent;
 
-typedef struct _sLthalEvent {
+typedef struct _sLethalEvent {
 	i32 target_id;
 	bool lethal_res;
 } sLethalEvent;
