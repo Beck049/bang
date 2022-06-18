@@ -27,7 +27,7 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 }
 
 void select_event_bot(sGame *pGame, sSelectEvent *e) {
-	display_selection(pGame, 0, *e);  // display to player 0
+	// display_selection(pGame, 0, *e);  // display to player 0
 
 	i32 size = e->selections->size;
 	sList *res = e->select_res;
@@ -47,5 +47,5 @@ void select_event_bot(sGame *pGame, sSelectEvent *e) {
 		++sl_cnt;
 	}
 	
-	display_selected(pGame, 0, selected, size);
+	// display_selected(pGame, 0, selected, size);
 }
