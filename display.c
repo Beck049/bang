@@ -74,10 +74,12 @@ void display_game_test(sGame *pGame, i32 viewer_id) {
 /*
 	printf("||                                                                            ||\n");
 	printf("||  LoveSnowEx :                                                              ||\n");
+	
 	printf("||                                                                            ||\n");
 	printf("||     +----------+  +----------+                                             ||\n");
 	printf("||     |   Bomb   |  |   Jail   |                                             ||\n");
 	printf("||     +----------+  +----------+                                             ||\n");
+	
 	printf("||                                                                            ||\n");
 	printf("||     +----------+  +----------+  +----------+  +----------+                 ||\n");
 	printf("||     |  scope   |  |  horse   |  |  barrel  |  |   Gun    |                 ||\n");
@@ -217,14 +219,31 @@ void start_style() {
 	printf("||            :........:::..:::::..::..::::..:::......:::....::               ||\n");
 	printf("||                                                                            ||\n");
 	printf("||                                                                            ||\n");
-	printf("||                                                          "RED"     .#######'.   ||\n"RST);
-	printf("||                     player required ( 4 ~ 7 )            "RED"   .:#####"BL"#####:  ||\n"RST);
-	printf("||                                                          "RED"  :#######"BL"#####:  ||\n"RST);
-	printf("||                                                          "RED"  :#######"BL"#####:  ||\n"RST);
-	printf("||                  ================================        "RED"  :###########    ||\n"RST);
-	printf("||                    Press any key to continue...          "RED"    .########     ||\n"RST);
-	printf("||                  ================================        "RED"    ..##...##     ||\n"RST);
-	printf("||                                                          "RED"    ..##...##     ||\n"RST);
+	printf("||                                                          "RED"      .######.    "RST"||\n");
+	printf("||                     player required ( 4 ~ 7 )            "RED"    .#####"BL"#####   "RST"||\n");
+	printf("||                                                          "RED"   :#####"BL"######   "RST"||\n");
+	printf("||                                                          "RED"   :######"BL"#####   "RST"||\n");
+	printf("||                  ================================        "RED"   :##########    "RST"||\n");
+	printf("||                    Press any key to continue...          "RED"    .########     "RST"||\n");
+	printf("||                  ================================        "RED"     .##   ##     "RST"||\n");
+	printf("||                                                          "RED"     .##   ##     "RST"||\n");
 	printf("||                                                                            ||\n");
 	printf("--------------------------------------------------------------------------------\n");
+}
+
+void color() {
+	printf(RED"RED\n");
+	printf(GRN"GRN\n");
+	printf(YLW"YLW\n");
+	printf(BL"BL\n");
+	printf(MGT"MGT\n");
+	printf(CYN"CYN\n");
+	printf(GRY"GRY\n");
+	printf(LRED"LRED\n");
+	printf(LGRN"LGRN\n");
+	printf(LYLW"LYLW\n");
+	printf(LBL"LBL\n");
+	printf(LMGT"LMGT\n");
+	printf(LCYN"LCYN\n");
+	printf(LWHT"LWHT\n");
 }
