@@ -73,3 +73,9 @@ void display_has_bomb(__attribute__((unused)) sGame *pGame, i32 target_id, i32 b
 		printf("Player%d has bomb!\n", bomb_owner_id);
 	}
 }
+
+void display_determine(__attribute__((unused)) sGame *pGame,__attribute__((unused)) i32 target_id, i32 draw_num) {
+	if(draw_num == 0) return;
+	printf("Determine Event:\n"
+			"Draw %d card%c:\n", draw_num, "s"[draw_num == 1]);
+}
