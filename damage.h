@@ -2,6 +2,7 @@
 
 #include "event.h"
 #include "game_play.h"
+#include "list.h"
 
 void damage_event_default(sGame *pGame, sDamageEvent *e);
 
