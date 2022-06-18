@@ -31,7 +31,7 @@ void damage_event_el_gringo(sGame *pGame, sDamageEvent *e) {
         i32 card_id;
         sSelectEvent card_select_event = select_event_with_arr(pGame, e->damager_id, 1, 1, cards_opt, hand_card_num, 8);
     
-        i32 take_id = *(i32*)LIST_FRONT(event.select_res);
+        i32 take_id = *(i32*)LIST_FRONT(card_select_event.select_res);
         card_id = take_card(pGame, pGame->players[e->damager_id].cards, take_id);
         if(card_id != -1) {
             give_card(pGame, pGame->players[e->victim_id].cards, card_id, true);
