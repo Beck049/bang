@@ -52,10 +52,8 @@ sPlayPhaseEvent play_phase_event(sGame *pGame, i32 target_id) {
 		.result = false,
 	};
 	LIST_FOR_EACH(pNode, play_phase_event_funcs[target_id]) {
-		if( get_winner(pGame) != -1 ){
-			return play_ph_e;
-		}
 		EVENT_APPLY_FUNC(pGame, pNode->data, &play_ph_e);
+		if(pGame->end_winner_role != (eRole)-1) break;
 	}
 	return play_ph_e;
 }
@@ -68,6 +66,7 @@ sDamageEvent damage_event(sGame *pGame, i32 victim_id, i32 damager_id, i32 damag
 	};
 	LIST_FOR_EACH(pNode, damage_event_funcs[victim_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &dmg_e);
+		if(pGame->end_winner_role != (eRole)-1) break;
 	}
 	return dmg_e;
 }
@@ -79,6 +78,7 @@ sDetermineEvent determine_event(sGame *pGame, i32 target_id) {
 	};
 	LIST_FOR_EACH(pNode, dodge_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &dtm_e);
+		if(pGame->end_winner_role != (eRole)-1) break;
 		if(dtm_e.determine_res != -1) break;
 	}
 	return dtm_e;
@@ -92,6 +92,7 @@ sDodgeEvent dodge_event(sGame *pGame, i32 target_id, i32 dodge_times) {
 	};
 	LIST_FOR_EACH(pNode, dodge_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &dg_e);
+		if(pGame->end_winner_role != (eRole)-1) break;
 		if(dg_e.dodge_res == true) break;
 	}
 	return dg_e;
@@ -105,6 +106,7 @@ sBangEvent bang_event(sGame *pGame, i32 trigger_id, i32 target_id) {
 	};
 	LIST_FOR_EACH(pNode, bang_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &bng_e);
+		if(pGame->end_winner_role != (eRole)-1) break;
 		if(bng_e.bang_res == true) break;
 	}
 	return bng_e;
@@ -118,6 +120,7 @@ sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id) {
 	};
 	LIST_FOR_EACH(pNode, death_event_funcs[dead_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &dth_e);
+		if(pGame->end_winner_role != (eRole)-1) break;
 		if(dth_e.death_res == true) break;
 	}
 	return dth_e;
@@ -166,6 +169,7 @@ sLethalEvent lethal_event(sGame *pGame, i32 target_id) {
 	};
 	LIST_FOR_EACH(pNode, lethal_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &lth_e);
+		if(pGame->end_winner_role != (eRole)-1) break;
 		if(lth_e.lethal_res == false) break;
 	}
 	return lth_e;
