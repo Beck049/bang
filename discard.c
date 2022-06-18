@@ -1,31 +1,33 @@
 #include "discard.h"
 
-void discard(sGame *pGame ){
-    for(i32 i=0 ; i< (pGame->total_players) ; ++i){
-        i32 size=(i32)(pGame->players[i].cards->size);
-        i32 cur_hp=(int)(pGame->players[i].hp);
-        sSelectEvent card_to_discard;
-        sListNode *table[ size ];
-        sListNode pNode;
+void discard(sGame *pGame, i32 player_id){
+	sPlayer *player = &pGame->players[player_id];
+	i32 size = player->cards->size;
+	i32 hp = player->hp;
 
-        if(size>cur_hp){
-            sListNode *pNode=pGame->players[i].cards->end->next;
+	// no need to discard
+	if(size <= hp) return;
 
-            for( i32 i=0 ; i<size ; ++i ){
-                //所有手牌都可選擇要不要棄，所以把所有的牌都寫進table裡面。
-                table[i] = pNode;
-                pNode = pNode->next;
-            }
-            
-            //如果手牌比當前hp多，就要棄掉多餘的牌。
-            card_to_discard = select_event_with_arr(pGame,i,size-cur_hp,size-cur_hp,table,size,32);
-        }
-        LIST_FOR_EACH(pNode,card_to_discard.select_res){
-            take_card_by_id( pGame,pGame->players[i].cards, *(i32 *) ( table[ *(int*) (pNode->data) ]->data ) );
-            give_card( pGame , pGame->discard_pile , *(i32 *) ( table[ *(int*) (pNode->data) ]->data ) , false );
-            //list_push_front( pGame->discard_pile,table[ *(int*)(pNode->data) ] );
-        }
-    }
-    // 用 list_push_front 放進 discard_pile 拜託
-    // 好
+	i32 cards_id[size];
+	char selections[size][16];
+
+	i32 cnt = 0;
+	LIST_FOR_EACH(pNode, player->cards) {
+		//所有手牌都可選擇要不要棄，所以把所有的牌都寫進table裡面。
+		i32 card_id = *(i32*)pNode->data;
+		cards_id[cnt] = card_id;
+		sprintf(selections[cnt], "%d) %s", cnt+1, cards[card_id].name);
+		++cnt;
+	}
+
+	sSelectEvent sl_e = select_event_with_arr(pGame, player_id, size-hp, size-hp, selections, size, 16);
+
+	LIST_FOR_EACH(pNode, sl_e.select_res){
+		i32 selected_idx = *(i32*)pNode->data;
+		i32 card_id = cards_id[selected_idx];
+		take_card_by_id(pGame, player->cards, card_id);
+		give_card( pGame, pGame->discard_pile, card_id, false);
+	}
+	free(sl_e.selections);
+	free(sl_e.select_res);
 }

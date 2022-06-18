@@ -11,15 +11,15 @@ void swap_pile(sList *pListA, sList *pListB) {
 
 i32 take_card(sGame *pGame, sList *src, i32 pos) {
 	if(!(pos >= 0 && pos < (i32)src->size)) return -1; // take fail
-	sListNode *target = LIST_BEGIN(src);
-	for(i32 i = 0; i < pos; ++i) target = target->next;
+	sListNode *target = node_advance(LIST_BEGIN(src), pos);
+	i32 card_id = *(i32*)target->data;
 	list_erase(src, target);
 	// src is draw pile and it is empty
 	if(src == pGame->draw_pile && src->size == 0) {
 		swap_pile(pGame->draw_pile, pGame->discard_pile);
 		shuffle(pGame->draw_pile);
 	}
-	return *(i32*)target->data;
+	return card_id;
 }
 
 i32 take_card_by_id(sGame *pGame, sList *src, i32 card_id) {
@@ -98,7 +98,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				}
 				sSelectEvent player_event = select_event_with_arr(pGame, e->target_id, 1, 1, player_opt, live_num, 32);
 				i32 distance = *(i32*)LIST_FRONT(event.select_res);
-				sListNode *cur_player = get_player_node(pGame, e->target_id);
+				sListNode *cur_player = get_player(pGame, e->target_id);
 				i32 pos = node_distance( pGame->live_players, LIST_BEGIN(pGame->live_players), cur_player );
 				if( pos + distance >= (i32)pGame->live_players->size )
 				{

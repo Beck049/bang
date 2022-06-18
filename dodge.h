@@ -1,3 +1,5 @@
+#pragma once
+
 #include "event.h"
 #include "game_play.h"
 

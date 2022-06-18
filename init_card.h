@@ -3,17 +3,17 @@
 #include "basic.h"
 #include "cJSON.h"
 
-enum e_suits { SPADE, HEART, DIAMOND, CLUB };
-typedef enum e_suits suits;
+enum _eSuit { SPADE, HEART, DIAMOND, CLUB };
+typedef enum _eSuit eSuit;
 
 typedef struct _sCard {
 	int  id ; // specific card id
 	int  type; // card type id
 
-	suits suit;
+	eSuit suit;
     int  num;
 	char name[16];
-	char description[128];
+	char description[512];
 }sCard;
 
 extern int card_num;
