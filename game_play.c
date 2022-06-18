@@ -147,7 +147,7 @@ void game_end(sGame *pGame) {
 
 void play_game(i32 num_players) {
 	sGame *pGame = new_game();  // malloc
-	game_init(pGame, num_players);  // set up pGame
+	init_game(pGame, num_players);  // set up pGame
 	// while(!pGame->is_end) {
 		// turn_phase(pGame);  // process pGame
 	// }
