@@ -5,7 +5,7 @@ void determine_event_default(sGame *pGame, sDetermineEvent *e) {
 	display_determine(pGame, e->target_id, 1);
 	i32 card_id = take_card(pGame, pGame->draw_pile, 0);
 	print_card(buf, card_id);
-	printf(" 1) %s\n", buf);
+	printf(" 1) %s", buf);
 	give_card(pGame, pGame->discard_pile, card_id, false);
 	e->determine_res = card_id;
 }
@@ -19,7 +19,7 @@ void determine_event_lucky_duke(sGame *pGame, sDetermineEvent *e) {
 		i32 card_id = take_card(pGame, pGame->draw_pile, 0);
 		cards_id[i] = card_id;
 		print_card(buf, card_id);
-		sprintf(selections[i], " %d) %s\n", i+1, buf);
+		sprintf(selections[i], " %d) %s", i+1, buf);
 	}
 
 	sSelectEvent sl_e = select_event_with_arr(pGame, e->target_id, 1, 1, selections, 2, sizeof(*selections));
