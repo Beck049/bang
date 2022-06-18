@@ -120,9 +120,9 @@ void display_selected(sGame *pGame, i32 viewer_id, bool *selected, i32 size) {
 
 void display_end(sGame *pGame, int role) {
 	char msg[3][32];
-	fscanf("Sheriff  IS THE WINNER", msg[0]);
-	fscanf("Outlaws  IS THE WINNER", msg[1]);
-	fscanf("Renegade IS THE WINNER", msg[2]);
+	sprintf(msg[0], "Sheriff  IS THE WINNER");
+	sprintf(msg[1], "Outlaws  IS THE WINNER");
+	sprintf(msg[2], "Renegade IS THE WINNER");
 
 	printf("%s", msg[role]);
 }
