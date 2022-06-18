@@ -88,7 +88,7 @@ i32 prep_phase(sGame *pGame) {
 		}
 		else {
 			//傳給下一個人。
-			give_card(pGame, next_player->desk, bomb_id, false);
+			give_card(pGame, next_player->desk, bomb_id, true);
 		}
 	}
 	if(jail_id != -1){
