@@ -15,11 +15,11 @@ void determine_event_lucky_duke(sGame *pGame, sDetermineEvent *e) {
 	char buf[512];
 	printf("Determine Event:\n"
 			"Draw 2 cards:\n");
-	i32 card_ids[2];
+	i32 cards_id[2];
 	char selections[2][1024];
 	for(i32 i = 0; i < 2; ++i) {
 		i32 card_id = take_card(pGame, pGame->draw_pile, 0);
-		card_ids[i] = card_id;
+		cards_id[i] = card_id;
 		print_card(buf, card_id);
 		sprintf(selections[i], " %d) %s\n", i+1, buf);
 	}
@@ -30,7 +30,7 @@ void determine_event_lucky_duke(sGame *pGame, sDetermineEvent *e) {
 	free_list(sl_e.select_res);
 
 	for(i32 i = 0; i < 2; ++i) {
-		give_card(pGame, pGame->discard_pile, card_ids[i], false);
+		give_card(pGame, pGame->discard_pile, cards_id[i], false);
 	}
 	
 	e->determine_res = card_id;
