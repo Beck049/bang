@@ -1,4 +1,5 @@
 #include "game_play.h"
+#include "display.h"
 
 bool is_bomb(i32 card_id) {
 	return card_id == 79;
@@ -44,7 +45,7 @@ sList *card_filter(sList *cards, bool (*filter)(i32 card_id)) {
 }
 
 //須拿到花色才能接著做
-i32 prep_phase(sGame *pGame) { 
+i32 prep_phase(sGame *pGame) {
 	// 卡牌存： pGame->players[*(i32 *)pGame->cur_player->data ]->desk ;
 	// Determine bomb(79) ,and then determine jail(74.75.76).
 	i32 bomb_id = -1, jail_id = -1;
@@ -66,14 +67,15 @@ i32 prep_phase(sGame *pGame) {
 	}
 
 	if(bomb_id != -1) {
+		display_has_bomb(pGame, 0, cur_player_id);
+		take_card_by_id(pGame, cur_player->desk, bomb_id);
 		sDetermineEvent dtm_e = determine_event(pGame, cur_player_id);
 		i32 dtm_res = dtm_e.determine_res;
 		i32 num = cards[dtm_res].num;
 		eSuit suit = cards[dtm_res].suit;
 		if(suit == SPADE && (num >=2 || num <= 9)) {
 			//若為黑桃的2~9，炸開且扣3點生命。
-			damage_event(pGame, cur_player_id, -1, 3);
-			take_card_by_id(pGame, cur_player->desk, bomb_id);
+			damage_event(pGame, cur_player_id, -1, 3);  // 炸彈的 damager_id = -1
 			give_card(pGame,pGame->discard_pile, bomb_id, false);
 			if(cur_player->hp <= 0) {
 				sLethalEvent lth_e = lethal_event(pGame, cur_player_id);
@@ -86,7 +88,7 @@ i32 prep_phase(sGame *pGame) {
 		}
 		else {
 			//傳給下一個人。
-			give_card(pGame, next_player->desk, bomb_id, false);
+			give_card(pGame, next_player->desk, bomb_id, true);
 		}
 	}
 	if(jail_id != -1){
@@ -103,7 +105,7 @@ i32 prep_phase(sGame *pGame) {
 	return 0;
 }
 
-void draw_phase(sGame *pGame) {  
+void draw_phase(sGame *pGame) {
 	// draw two cards
 	// put in "draw.h"
 	i32 cur_player_id = *(i32*)pGame->cur_player->data;
@@ -115,7 +117,7 @@ void play_phase(sGame *pGame) {  // play any number of cards
 	play_phase_event(pGame, cur_player_id);
 }
 
-void discard_phase(sGame *pGame) {  
+void discard_phase(sGame *pGame) {
 	// discard excess cards
 	// put in "discard.h"
 	i32 cur_player_id = *(i32*)pGame->cur_player->data;
