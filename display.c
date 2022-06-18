@@ -79,3 +79,20 @@ void display_determine(__attribute__((unused)) sGame *pGame,__attribute__((unuse
 	printf("Determine Event:\n"
 			"Draw %d card%c:\n", draw_num, "s"[draw_num == 1]);
 }
+
+void display_bang(__attribute__((unused)) sGame *pGame, i32 viewer_id, sBangEvent e) {
+	char trigger_appellation[16], target_appellation[16];
+	if(e.trigger_id == viewer_id) {
+		sprintf(trigger_appellation, "You");
+	}
+	else {
+		sprintf(trigger_appellation, "Player%d", e.trigger_id);
+	}
+	if(e.target_id == viewer_id) {
+		sprintf(target_appellation, "you");
+	}
+	else {
+		sprintf(target_appellation, "player%d", e.target_id);
+	}
+	printf("%s bang %s!\n", trigger_appellation, target_appellation);
+}
