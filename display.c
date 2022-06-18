@@ -96,3 +96,11 @@ void display_bang(__attribute__((unused)) sGame *pGame, i32 viewer_id, sBangEven
 	}
 	printf("%s bang %s!\n", trigger_appellation, target_appellation);
 }
+
+void display_selection(sGame *pGame, i32 viewer_id, sSelectEvent e) {
+	printf("Select Event:\n"
+		   "Plaease select %d~%d options:\n", e.min_cnt, e.max_cnt);
+	LIST_FOR_EACH(pNode, e.selections) {
+		printf("%s\n", (char*)pNode->data);
+	}
+}

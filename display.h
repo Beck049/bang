@@ -18,3 +18,5 @@ void display_has_bomb(sGame *pGame, i32 viewer_id, i32 bomb_owner_id);
 void display_determine(sGame *pGame, i32 viewer_id, i32 draw_num);
 
 void display_bang(sGame *pGame, i32 viewer_id, sBangEvent e);
+
+void display_selection(sGame *pGame, i32 viewer_id, sSelectEvent e);
