@@ -1,4 +1,4 @@
-#include "death_events.h"
+#include "death.h"
 
 void death_event_default(sGame *pGame, sDeathEvent *e) {
     e->death_res = true;
