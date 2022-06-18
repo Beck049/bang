@@ -13,6 +13,7 @@ typedef struct _sDrawPhaseEvent {
 
 typedef struct _PlayPhaseEvent {
 	i32 target_id;
+	bool result;
 } sPlayPhaseEvent;
 
 typedef struct _sDamageEvent {
