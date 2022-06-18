@@ -17,13 +17,13 @@ void display_pile(sList *pList) {
 	}
 }
 
-void display_game(sGame *pGame, i32 target_id) {
+void display_game(sGame *pGame, i32 viewer_id) {
 	printf( "-----------------BANG-----------------\n"
  			" Draw Pile (%ld)   /  Discard Pile (%ld)\n"
 			"--------------------------------------\n", pGame->draw_pile->size, pGame->discard_pile->size);
 	sList *live_player = pGame->live_players;
 
-	sListNode *player_node = get_player(pGame, target_id);
+	sListNode *player_node = get_player(pGame, viewer_id);
 	if(player_node == NULL) {
 		player_node = LIST_FRONT(live_player);
 	}
@@ -34,7 +34,7 @@ void display_game(sGame *pGame, i32 target_id) {
 		sList *player_cards = pGame->players[player_id].cards;
 		sList *player_desk = pGame->players[player_id].desk;
 		char appellation[16];
-		if(player_id == target_id) {
+		if(player_id == viewer_id) {
 			sprintf(appellation, "Your");
 		}
 		else {
@@ -47,15 +47,15 @@ void display_game(sGame *pGame, i32 target_id) {
 	}
 }
 
-void display_damage(__attribute__((unused)) sGame *pGame, i32 target_id, sDamageEvent e) {
+void display_damage(__attribute__((unused)) sGame *pGame, i32 viewer_id, sDamageEvent e) {
 	char victim_appellation[16], damager_appellation[16];
-	if(e.victim_id == target_id) {
+	if(e.victim_id == viewer_id) {
 		sprintf(victim_appellation, "You");
 	}
 	else {
 		sprintf(victim_appellation, "Player%d", e.victim_id);
 	}
-	if(e.damager_id == target_id) {
+	if(e.damager_id == viewer_id) {
 		sprintf(damager_appellation, "you");
 	}
 	else {
@@ -65,8 +65,8 @@ void display_damage(__attribute__((unused)) sGame *pGame, i32 target_id, sDamage
 	else printf("%s take %d damages!\n", victim_appellation, e.damage);
 }
 
-void display_has_bomb(__attribute__((unused)) sGame *pGame, i32 target_id, i32 bomb_owner_id) {
-	if(bomb_owner_id == target_id) {
+void display_has_bomb(__attribute__((unused)) sGame *pGame, i32 viewer_id, i32 bomb_owner_id) {
+	if(bomb_owner_id == viewer_id) {
 		printf("You have bomb!\n");
 	}
 	else {
@@ -74,7 +74,7 @@ void display_has_bomb(__attribute__((unused)) sGame *pGame, i32 target_id, i32 b
 	}
 }
 
-void display_determine(__attribute__((unused)) sGame *pGame,__attribute__((unused)) i32 target_id, i32 draw_num) {
+void display_determine(__attribute__((unused)) sGame *pGame,__attribute__((unused)) i32 viewer_id, i32 draw_num) {
 	if(draw_num == 0) return;
 	printf("Determine Event:\n"
 			"Draw %d card%c:\n", draw_num, "s"[draw_num == 1]);
