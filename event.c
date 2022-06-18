@@ -52,6 +52,9 @@ sPlayPhaseEvent play_phase_event(sGame *pGame, i32 target_id) {
 		.result = false,
 	};
 	LIST_FOR_EACH(pNode, play_phase_event_funcs[target_id]) {
+		if( get_winner(pGame) != -1 ){
+			return play_ph_e;
+		}
 		EVENT_APPLY_FUNC(pGame, pNode->data, &play_ph_e);
 	}
 	return play_ph_e;
