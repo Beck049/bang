@@ -122,3 +122,9 @@ void card_cat_balou(sGame *pGame, i32 player_id) {
 
 	printf("player %d 棄掉了 %s\n", target_id, cards[ card_id ].name);
 }
+
+
+void init_card_funcs() {
+	card_funcs[0] = &card_miss;
+	card_funcs[1] = &card_bang;
+};

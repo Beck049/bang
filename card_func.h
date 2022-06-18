@@ -6,6 +6,7 @@
 
 extern void (*card_funcs[80])(sGame *pGame, i32 player_id);
 
+void init_card_funcs();
 // cards
 // void card_miss(sGame *pGame, i32 player_id);
 // void card_bang(sGame *pGame, i32 player_id);
