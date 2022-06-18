@@ -118,7 +118,7 @@ void display_selected(__attribute__((unused)) sGame *pGame, __attribute__((unuse
 	printf("]\n");
 }
 
-void display_end(sGame *pGame, eRole role) {
+void display_end(__attribute__((unused)) sGame *pGame, eRole role) {
 	char msg[4][32];
 	strcpy(msg[Sheriff], "Sheriff  IS THE WINNER");
 	strcpy(msg[Outlaws], "Outlaws  IS THE WINNER");
