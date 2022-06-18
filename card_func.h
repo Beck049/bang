@@ -9,13 +9,13 @@
 // void card_bang(sGame *pGame, i32 player_id);
 
 void card_beer(sGame *pGame, i32 player_id);
-void card_saldon(sGame *pGame, i32 player_id);
+// void card_saldon(sGame *pGame, i32 player_id);
 void card_stagecoach(sGame *pGame, i32 player_id);
 void card_wells_fargo(sGame *pGame, i32 player_id);
 
-// void card_general_store(sGame *pGame, i32 player_id);
+void card_general_store(sGame *pGame, i32 player_id);
 // void card_panic(sGame *pGame, i32 player_id);
-// void card_cat_balou(sGame *pGame, i32 player_id);
+void card_cat_balou(sGame *pGame, i32 player_id);
 // void card_gatlin(sGame *pGame, i32 player_id);
 // void card_indians(sGame *pGame, i32 player_id);
 // void card_duel(sGame *pGame, i32 player_id);
