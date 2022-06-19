@@ -42,3 +42,5 @@ typedef uint64_t u64;
 size_t fgets_n(char *str, int size, FILE *stream);
 
 void strncatf(char *dest, char *format, size_t n, ...);
+
+void printf_dbg(FILE *stream, char *format, ...);

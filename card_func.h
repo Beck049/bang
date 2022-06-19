@@ -16,7 +16,7 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id );//直接丟�
 void card_panic(sGame *pGame, i32 player_id,i32 card_id );
 void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id );//直接丟到棄牌堆
 
-void card_gatlin(sGame *pGame, i32 player_id, i32 card_id );  // 從自己開始繞一圈，問每個人要不要丟miss，不要->扣血。 //直接丟到棄牌堆
+void card_gatling(sGame *pGame, i32 player_id, i32 card_id );  // 從自己開始繞一圈，問每個人要不要丟miss，不要->扣血。 //直接丟到棄牌堆
 void card_indians(sGame *pGame, i32 player_id, i32 card_id ); // 從自己開始繞一圈，問每個人要不要丟bang，不要->扣血。 //直接丟到棄牌堆
 void card_duel(sGame *pGame, i32 player_id, i32 card_id );    // 用while()，跑你、我、你、我，直到偵測到throw_card回傳1，就break。 //直接丟到棄牌堆
 

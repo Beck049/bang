@@ -61,8 +61,8 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 		case INDIANS:
 			card_bang(pGame, player_id, select_card_id);
 			break;
-		case DUAL:
-			// card_dual(pGame, player_id, select_card_id);
+		case DUEL:
+			card_duel(pGame, player_id, select_card_id);
 			break;
 		case SALOON:
 			card_saldon(pGame, player_id, select_card_id);
@@ -77,10 +77,10 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 			card_wells_fargo(pGame, player_id, select_card_id);
 			break;
 		case PANIC:
-			// card_panic(pGame, player_id, select_card_id);
+			card_panic(pGame, player_id, select_card_id);
 			break;
 		case GATLING:
-			// card_gatling(pGame, player_id, select_card_id);
+			card_gatling(pGame, player_id, select_card_id);
 			break;
 		case CAT_BALOU:
 			card_cat_balou(pGame, player_id, select_card_id);
@@ -115,8 +115,8 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 		case BARREL:
 			card_barrel(pGame, player_id, select_card_id);
 			break;
-		case DYNAMITE:
-			// card_dynamite(pGame, player_id, select_card_id);
+		case BOMB:
+			card_bomb(pGame, player_id, select_card_id);
 			break;
 		}
 		if(pGame->end_winner_role != (eRole)-1) break;

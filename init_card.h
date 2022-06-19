@@ -14,7 +14,7 @@ typedef enum _eCardType {
 	MISS,
 	BANG,
 	INDIANS,
-	DUAL,
+	DUEL,
 	SALOON,
 	GENERAL_STORE,
 	STAGECOACH,
@@ -32,7 +32,7 @@ typedef enum _eCardType {
 	MUSTANG,
 	JAIL,
 	BARREL,
-	DYNAMITE,
+	BOMB,
 } eCardType;
 
 typedef struct _sCard {
