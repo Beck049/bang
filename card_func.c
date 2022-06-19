@@ -49,6 +49,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 			}
 		}
 	}
+	printf("bang處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
@@ -68,6 +69,7 @@ void card_saldon(sGame *pGame, i32 player_id, i32 card_id ) {
 		
 		if( cur_hp<highest_hp ) pGame->players[ id ].hp += 1;
 	}
+	printf("酒館處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
@@ -102,6 +104,7 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 
 		cur_p = cur_p->next;
 	}
+	printf("雜貨店處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
@@ -178,6 +181,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 	free_list(panic_event.selections);
 	free_list(panic_event.select_res);
 
+	printf("驚慌處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
@@ -193,6 +197,8 @@ void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
 		card_array_id = take_card(pGame, pGame->draw_pile, 0);
 		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_array_id, true);
 	}
+
+	printf("驛馬車處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
@@ -208,6 +214,7 @@ void card_wells_fargo(sGame *pGame, i32 player_id, i32 card_id ) {
 		card_array_id = take_card(pGame, pGame->draw_pile, 0);
 		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_array_id, true);
 	}
+	printf("威爾斯法歌處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
@@ -226,6 +233,8 @@ void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
 			pGame->players[id].hp += 1;
 		}
 	}
+
+	printf("啤酒處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
@@ -293,6 +302,7 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 
 	printf("player %d 棄掉了 %s\n", target_id, cards[ id ].name);
 
+	printf("凱特巴洛處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
@@ -310,15 +320,18 @@ void card_jail(sGame *pGame, i32 player_id, i32 card_id){
 	}else printf(" > player %d 被關進監獄了QQ\n",select_idx);
 	// 把jail放到某個人的桌上
 	// 把jail從自己手牌移除
+	printf("監獄處理完畢\n");
 	give_card( pGame, pGame->players[select_idx].desk, card_id, true );
 	take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
+
 void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
 	// 把bomb從手牌移走 是外面要做的事情
 	if( player_id == 0 ){
 		printf("你放了一個炸彈\n");
 	}else printf("player %d 放了一個炸彈\n",player_id);
 
+	printf("炸彈放置完畢\n");
 	give_card( pGame, pGame->players[player_id].desk, card_id, true );
 	take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
@@ -363,6 +376,7 @@ void card_gatlin(sGame *pGame, i32 player_id, i32 card_id ){
         }
     }
 
+	printf("格林機關槍使用完畢\n");
     give_card( pGame, pGame->players[player_id].desk, card_id, true );
     take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
@@ -403,6 +417,7 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
         }
     }
 
+	printf("印地安人使用完畢\n");
     give_card( pGame, pGame->players[player_id].desk, card_id, true );
     take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
@@ -476,6 +491,8 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 		take_card_by_id( pGame, pGame->players[player_id].cards, player_id_choose );
 		give_card( pGame, pGame->discard_pile, player_id_choose, true );
 	}
+
+	printf("決鬥使用完畢\n");
 	give_card( pGame, pGame->players[player_id].desk, card_id, true );
     take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
