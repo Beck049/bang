@@ -12,7 +12,19 @@ void card_bang(sGame *pGame, i32 player_id) {
 }
 
 void card_saldon(sGame *pGame, i32 player_id) {
-	
+	//幫大家加一滴血
+	if( player_id == 0 ){
+		printf("你幫大家加了回了一滴血!\n");
+	}else printf(" -> %d 號玩家幫大家回了一滴血\n",player_id);
+
+	LIST_FOR_EACH(pNode,pGame->live_players){
+		i32 id = *(i32 *)pNode->data;
+		i32 cur_hp = pGame->players[id].hp;
+		i32 character_id = pGame->players[id].character;
+		i32 highest_hp = characters[ character_id ].hp;
+		
+		if( cur_hp<highest_hp ) pGame->players[ id ].hp += 1;
+	}
 }
 
 void card_general_store(sGame *pGame, i32 player_id) {
@@ -128,8 +140,114 @@ void card_cat_balou(sGame *pGame, i32 player_id) {
 	printf("player %d 棄掉了 %s\n", target_id, cards[ card_id ].name);
 }
 
-
 void init_card_funcs() {
 	card_funcs[0] = &card_miss;
 	card_funcs[1] = &card_bang;
 };
+
+void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
+    sList *live_player = pGame->live_players;
+    sList *player_desk = pGame->players[player_id].desk;
+    char buf[BUFSIZ];
+    i32 pos = 0, take_id = 0;
+    LIST_FOR_EACH(pNode, player_desk) {
+        i32 card_id = *(i32*)pNode->data;
+        if(cards[card_id].type == target_card_type) {
+            take_id = take_card(pGame, pGame->players[player_id].desk, pos);
+            if(take_id != -1) {
+                give_card(pGame, pGame->discard_pile, card_id, true);
+            }
+        }
+        pos++;
+    }
+}
+
+// table
+void card_mustang(sGame *pGame, i32 player_id) {
+	remove_card(pGame, player_id, 18);
+	i32 place_id;
+	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
+	if(place_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, place_id, true);
+	}
+}
+
+void card_scope(sGame *pGame, i32 player_id) {
+	remove_card(pGame, player_id, 17);
+	i32 place_id;
+	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
+	if(place_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, place_id, true);
+	}
+}
+
+void card_barrel(sGame *pGame, i32 player_id) {
+	remove_card(pGame, player_id, 20);
+	i32 place_id;
+	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
+	if(place_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, place_id, true);
+	}
+}
+
+// void card_jail(sGame *pGame, i32 player_id);
+
+
+// void card_bomb(sGame *pGame, i32 player_id);
+
+
+// guns
+void card_remington(sGame *pGame, i32 player_id) {
+	for(int i = 12; i <= 16; ++i) {
+		remove_card(pGame, player_id, i);
+	}
+	i32 place_id;
+	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
+	if(place_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, place_id, true);
+	}
+}
+
+void card_schofild(sGame *pGame, i32 player_id) {
+	for(int i = 12; i <= 16; ++i) {
+		remove_card(pGame, player_id, i);
+	}
+	i32 place_id;
+	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
+	if(place_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, place_id, true);
+	}
+}
+
+void card_winchester(sGame *pGame, i32 player_id) {
+	for(int i = 12; i <= 16; ++i) {
+		remove_card(pGame, player_id, i);
+	}
+	i32 place_id;
+	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
+	if(place_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, place_id, true);
+	}
+}
+
+void card_carabine(sGame *pGame, i32 player_id) {
+	for(int i = 12; i <= 16; ++i) {
+		remove_card(pGame, player_id, i);
+	}
+	i32 place_id;
+	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
+	if(place_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, place_id, true);
+	}
+}
+
+void card_volcano(sGame *pGame, i32 player_id) {
+	for(int i = 12; i <= 16; ++i) {
+		remove_card(pGame, player_id, i);
+	}
+	i32 place_id;
+	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
+	if(place_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, place_id, true);
+	}
+}
