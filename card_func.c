@@ -162,92 +162,41 @@ void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
     }
 }
 
-// table
 void card_mustang(sGame *pGame, i32 player_id) {
-	remove_card(pGame, player_id, 18);
-	i32 place_id;
-	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
-	if(place_id != -1) {
-		give_card(pGame, pGame->players[player_id].desk, place_id, true);
-	}
+    remove_card(pGame, player_id, 18);
 }
-
 void card_scope(sGame *pGame, i32 player_id) {
-	remove_card(pGame, player_id, 17);
-	i32 place_id;
-	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
-	if(place_id != -1) {
-		give_card(pGame, pGame->players[player_id].desk, place_id, true);
-	}
+    remove_card(pGame, player_id, 17);
 }
-
 void card_barrel(sGame *pGame, i32 player_id) {
-	remove_card(pGame, player_id, 20);
-	i32 place_id;
-	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
-	if(place_id != -1) {
-		give_card(pGame, pGame->players[player_id].desk, place_id, true);
-	}
+    remove_card(pGame, player_id, 20);
 }
-
 // void card_jail(sGame *pGame, i32 player_id);
-
-
 // void card_bomb(sGame *pGame, i32 player_id);
 
-
 // guns
-void card_remington(sGame *pGame, i32 player_id) {
-	for(int i = 12; i <= 16; ++i) {
-		remove_card(pGame, player_id, i);
-	}
-	i32 place_id;
-	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
-	if(place_id != -1) {
-		give_card(pGame, pGame->players[player_id].desk, place_id, true);
-	}
+void remington(sGame *pGame, i32 player_id) {
+    for(int i = 12; i <= 16; ++i) {
+        remove_card(pGame, player_id, i);
+    }
 }
-
-void card_schofild(sGame *pGame, i32 player_id) {
-	for(int i = 12; i <= 16; ++i) {
-		remove_card(pGame, player_id, i);
-	}
-	i32 place_id;
-	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
-	if(place_id != -1) {
-		give_card(pGame, pGame->players[player_id].desk, place_id, true);
-	}
+void schofild(sGame *pGame, i32 player_id) {
+    for(int i = 12; i <= 16; ++i) {
+        remove_card(pGame, player_id, i);
+    }
 }
-
-void card_winchester(sGame *pGame, i32 player_id) {
-	for(int i = 12; i <= 16; ++i) {
-		remove_card(pGame, player_id, i);
-	}
-	i32 place_id;
-	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
-	if(place_id != -1) {
-		give_card(pGame, pGame->players[player_id].desk, place_id, true);
-	}
+void winchester(sGame *pGame, i32 player_id) {
+    for(int i = 12; i <= 16; ++i) {
+        remove_card(pGame, player_id, i);
+    }
 }
-
-void card_carabine(sGame *pGame, i32 player_id) {
-	for(int i = 12; i <= 16; ++i) {
-		remove_card(pGame, player_id, i);
-	}
-	i32 place_id;
-	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
-	if(place_id != -1) {
-		give_card(pGame, pGame->players[player_id].desk, place_id, true);
-	}
+void carabine(sGame *pGame, i32 player_id) {
+    for(int i = 12; i <= 16; ++i) {
+        remove_card(pGame, player_id, i);
+    }
 }
-
-void card_volcano(sGame *pGame, i32 player_id) {
-	for(int i = 12; i <= 16; ++i) {
-		remove_card(pGame, player_id, i);
-	}
-	i32 place_id;
-	place_id = take_card(pGame, pGame->players[player_id].cards, 0);
-	if(place_id != -1) {
-		give_card(pGame, pGame->players[player_id].desk, place_id, true);
-	}
+void volcano(sGame *pGame, i32 player_id) {
+    for(int i = 12; i <= 16; ++i) {
+        remove_card(pGame, player_id, i);
+    }
 }
