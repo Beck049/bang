@@ -9,6 +9,8 @@
 #include "discard.h"
 // #include "draw.h"
 
+bool contains_card_type(sList *pPile, eCardType card_type);
+
 sListNode *get_player(sGame *pGame, i32 id);
 
 sListNode *get_prev_player(sGame *pGame, sListNode *pPlayerNode);

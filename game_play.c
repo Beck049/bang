@@ -1,5 +1,14 @@
 #include "game_play.h"
 #include "display.h"
+#include "select.h"
+
+bool contains_card_type(sList *pPile, eCardType card_type) {
+	LIST_FOR_EACH(pNode, pPile) {
+		i32 card_id = *(i32*)pNode->data;
+		if(cards[card_id].type == card_type) return true;
+	}
+	return false;
+}
 
 bool is_bomb(i32 card_id) {
 	return card_id == 79;
