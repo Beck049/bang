@@ -145,6 +145,14 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	i32 hand_size = (i32)viewer_cards->size;
 	display_pile(viewer_cards);
 	printf("\n");
+/*
+	printf("  +-----------+  +-----------+  +-----------+  +-----------+  +-----------+ \n");
+	printf("  |S2       id|  |           |  |           |  |           |  |           | \n");
+	printf("  |           |  |           |  |           |  |           |  |           | \n");
+	printf("  |   name    |  |           |  |           |  |           |  |           | \n");
+	printf("  |           |  |           |  |           |  |           |  |           | \n");
+	printf("  +-----------+  +-----------+  +-----------+  +-----------+  +-----------+ \n\n");
+*/
 }
 
 void display_damage(__attribute__((unused)) sGame *pGame, i32 viewer_id, sDamageEvent e) {
