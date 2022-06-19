@@ -293,7 +293,7 @@ void card_gatlin(sGame *pGame, i32 player_id, i32 card_id ){
             i32 id_choose=select_throw( pGame, id, MISS );
             if( id_choose == -1 ){
                 //不丟bang就扣血
-                sDamageEvent sl_e=damage_event( pGame, id, player_id, 1 );
+                damage_event( pGame, id, player_id, 1 );
                 if( id==0 ){
                     printf("你被扣一滴血了QQ\n");
                 }else printf("> player %d 被扣了一滴血\n",id);
@@ -317,7 +317,7 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
             i32 id_choose=select_throw( pGame, id, BANG );
             if( id_choose == -1 ){
                 //不丟bang就扣血
-                sDamageEvent sl_e=damage_event( pGame, id, player_id, 1 );
+                damage_event( pGame, id, player_id, 1 );
                 if( id==0 ){
                     printf("你被扣一滴血了QQ\n");
                 }else printf("> player %d 被扣了一滴血\n",id);
@@ -351,7 +351,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 		if( duel_id_choose == -1 ){
 			//不丟bang就扣血
 			//pGame->players[duel_id].hp--;阿姨不給機會:)
-			sDamageEvent sl_e=damage_event( pGame, duel_id, player_id, 1 );
+			damage_event( pGame, duel_id, player_id, 1 );
 
 			if( duel_id==0 ){
 				printf("你被扣一滴血了QQ\n");
@@ -366,7 +366,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 		if( duel_id_choose == -1 ){
 			//不丟bang就扣血
 			//pGame->players[player_id].hp--;阿姨不給機會:)
-			sDamageEvent sl_e=damage_event( pGame, duel_id, player_id, 1 );
+			damage_event( pGame, duel_id, player_id, 1 );
 
 			if( player_id==0 ){
 				printf("你被扣一滴血了QAQ\n");
@@ -378,14 +378,13 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 	}
 }
 
-void remove_card(sGame *pGame, i32 player_id, i32 target_card_type, i32 card_id ) {
-    sList *live_player = pGame->live_players;
+void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
+    // sList *live_player = pGame->live_players;
     sList *player_desk = pGame->players[player_id].desk;
-    char buf[BUFSIZ];
     i32 pos = 0, take_id = 0;
     LIST_FOR_EACH(pNode, player_desk) {
         i32 card_id = *(i32*)pNode->data;
-        if(cards[card_id].type == target_card_type) {
+        if(((i32)cards[card_id].type) == target_card_type) {
             take_id = take_card(pGame, pGame->players[player_id].desk, pos);
             if(take_id != -1) {
                 give_card(pGame, pGame->discard_pile, card_id, true);
@@ -396,7 +395,7 @@ void remove_card(sGame *pGame, i32 player_id, i32 target_card_type, i32 card_id 
 }
 
 void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
-    remove_card(pGame, player_id, 18, card_id);
+    remove_card(pGame, player_id, 18);
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
 	if(take_id != -1) {
@@ -404,7 +403,7 @@ void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
 	}
 }
 void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
-    remove_card(pGame, player_id, 17, card_id);
+    remove_card(pGame, player_id, 17);
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
 	if(take_id != -1) {
@@ -412,7 +411,7 @@ void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
 	}
 }
 void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
-    remove_card(pGame, player_id, 20, card_id);
+    remove_card(pGame, player_id, 20);
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
 	if(take_id != -1) {
@@ -423,7 +422,7 @@ void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
 // guns
 void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i, card_id);
+        remove_card(pGame, player_id, i);
     }
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
@@ -433,7 +432,7 @@ void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
 }
 void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i, card_id);
+        remove_card(pGame, player_id, i);
     }
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
@@ -443,7 +442,7 @@ void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
 }
 void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i, card_id);
+        remove_card(pGame, player_id, i);
     }
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
@@ -453,7 +452,7 @@ void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
 }
 void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i, card_id);
+        remove_card(pGame, player_id, i);
     }
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
@@ -463,7 +462,7 @@ void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
 }
 void card_volcano(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i, card_id);
+        remove_card(pGame, player_id, i);
     }
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
