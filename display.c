@@ -35,7 +35,7 @@ void display_pile(sList *pList) {
 	}
 }
 
-void display_game(sGame *pGame, i32 viewer_id) {
+void display_game_old(sGame *pGame, i32 viewer_id) {
 	printf( "-----------------BANG-----------------\n"
  			" Draw Pile (%ld)   /  Discard Pile (%ld)\n"
 			"--------------------------------------\n", pGame->draw_pile->size, pGame->discard_pile->size);
@@ -67,7 +67,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	}
 }
 
-void display_game_test(sGame *pGame, i32 viewer_id) {
+void display_game(sGame *pGame, i32 viewer_id) {
 	printf("++============================================================================++\n");
 	printf("||                                                                            ||\n");
 	printf("||                 +----------------- BANG -----------------+                 ||\n");
@@ -83,24 +83,68 @@ void display_game_test(sGame *pGame, i32 viewer_id) {
 	printf("||     +----------+  +----------+                                             ||\n");
 	
 	printf("||                                                                            ||\n");
-	printf("||     +----------+  +----------+  +----------+  +----------+                 ||\n");
-	printf("||     |  scope   |  |  horse   |  |  barrel  |  |   Gun    |                 ||\n");
-	printf("||     +----------+  +----------+  +----------+  +----------+                 ||\n");
+	printf("||     +-----------+  +-----------+  +-----------+  +-----------+             ||\n");
+	printf("||     |   scope   |  |   horse   |  |   barrel  |  |   Gun     |             ||\n");
+	printf("||     +-----------+  +-----------+  +-----------+  +-----------+             ||\n");
 	printf("||                                                                            ||\n");
 */
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
-	printf("||                                                                            ||\n");
+	sList *live_player = pGame->live_players;
+
+	sListNode *player_node = get_player(pGame, viewer_id);
+	if(player_node == NULL) {
+		player_node = LIST_FRONT(live_player);
+	}
+
+	i32 size = live_player->size;
+	for(i32 i = 0; i < size; ++i) {
+		i32 player_id = *(i32*)player_node->data;
+		sList *player_cards = pGame->players[player_id].cards;
+		sList *player_desk = pGame->players[player_id].desk;
+		char appellation[16];
+		if(player_id == viewer_id) {
+			sprintf(appellation, "  Your   ");
+		}
+		else {
+			sprintf(appellation, "Player%1d's", player_id);
+		}
+
+		printf("||                                                                            ||\n");
+		printf("||    %s  (%2d)                                                       ||\n", appellation, player_cards->size);
+		printf("||                                                                            ||\n");
+		i32 desk_size = (i32)player_desk->size;
+		printf("||     ");
+		for(int k = 0; k < desk_size; ++k)     { printf("+-----------+  "); }
+		for(int k = 0; k < 4 - desk_size; ++k) { printf("               "); }
+		printf("           ||\n");
+
+		char buf[BUFSIZ]; i32 row = 1;
+		printf("||     ");
+		LIST_FOR_EACH(pNode, player_desk) {
+			i32 card_id = *(i32*)pNode->data;
+			print_card(buf, card_id);
+			printf("|%s|  ", buf);
+			++row;
+		}
+		for(int k = 0; k < 4 - desk_size; ++k) { printf("               "); }
+		printf("           ||\n");
+
+		printf("||     ");
+		for(int k = 0; k < desk_size; ++k)     { printf("+-----------+  "); }
+		for(int k = 0; k < 4 - desk_size; ++k) { printf("               "); }
+		printf("           ||\n");
+
+		printf("||                                                                            ||\n");
+
+		player_node = get_next_player(pGame, player_node);
+	}
 	
 	printf("||                                                                            ||\n");
-	printf("++============================================================================++\n");
+	printf("++============================================================================++\n\n");
+
+	sList *viewer_cards = pGame->players[viewer_id].cards;
+	i32 hand_size = (i32)viewer_cards->size;
+	display_pile(viewer_cards);
+	printf("\n");
 }
 
 void display_damage(__attribute__((unused)) sGame *pGame, i32 viewer_id, sDamageEvent e) {
