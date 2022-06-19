@@ -142,7 +142,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	printf("++============================================================================++\n\n");
 
 	sList *viewer_cards = pGame->players[viewer_id].cards;
-	i32 hand_size = (i32)viewer_cards->size;
+	// i32 hand_size = (i32)viewer_cards->size;
 	display_pile(viewer_cards);
 	printf("\n");
 /*
