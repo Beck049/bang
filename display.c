@@ -71,7 +71,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	printf("++============================================================================++\n");
 	printf("||                                                                            ||\n");
 	printf("||                 +----------------- BANG -----------------+                 ||\n");
-	printf("||                 | Draw Pile (%ld)   /  Discard Pile (%ld)|                 ||\n", pGame->draw_pile->size, pGame->discard_pile->size);
+	printf("||                 | Draw Pile (%ld)    /  Discard Pile (%ld)  |                 ||\n", pGame->draw_pile->size, pGame->discard_pile->size);
 	printf("||                 +----------------------------------------+                 ||\n");
 /*
 	printf("||                                                                            ||\n");
@@ -109,7 +109,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		}
 
 		printf("||                                                                            ||\n");
-		printf("||    %s  (%2d)                                                       ||\n", appellation, player_cards->size);
+		printf("||    %s  (%2d)                                                        ||\n", appellation, player_cards->size);
 		printf("||                                                                            ||\n");
 		i32 desk_size = (i32)player_desk->size;
 		printf("||     ");
