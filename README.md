@@ -1,34 +1,31 @@
 # bang
 
-## basic
+## display.c
+- [ ] dilay_game_test
 
-## list
+## init_game.c
+- [ ] setup_players "TODO"
+    - [ ] register event_func by character 
+    - [ ] set pGame->players[i].hp
 
-## card
+## card_function
+- [ ] card_bang
+- [ ] card_saldon
+- [ ] card_panic
 
-- [x] card struct
-- [x] initialize data
+- [ ] card_gatlin
+- [ ] card_indians
+- [ ] card_duel
+- [ ] throw_card
 
-## character
+- [ ] card_mustang
+- [ ] card_scope
+- [ ] card_barrel
+- [ ] card_jail
+- [ ] card_bomb
 
-- [x] character struct
-- [x] initialize data
-
-## player
-
-- [x] player struct
-    - [x] initialize
-
-## game
-
-- [ ] initialize game
-    - [ ] pick role
-    - [ ] pick character
-    - [x] shuffle
-- [ ] draw
-- [ ] turn_phase
-    - [ ] prep_phase
-    - [ ] draw_phase
-    - [ ] play_phase
-    - [ ] discard_phase
-- [ ] free_game
+- [ ] remington
+- [ ] schofild
+- [ ] winchester
+- [ ] carabine
+- [ ] volcano
