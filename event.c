@@ -49,6 +49,12 @@ void free_event_funcs() {
 	}
 }
 
+void register_event_func(eEventType type, i32 player_id, void *func) {
+	void **data = malloc(sizeof(func));
+	*data = func;
+	list_push_front(event_funcs[type][player_id], new_node(data));
+}
+
 sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id) {
 	sDrawPhaseEvent drw_ph_e = {
 		.target_id = target_id,
