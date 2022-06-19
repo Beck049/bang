@@ -9,8 +9,8 @@
     - [ ] set pGame->players[i].hp
 
 ## card_function
-- [ ] card_bang
-- [ ] card_saldon
+- [x] card_bang
+- [x] card_saldon
 - [ ] card_panic
 
 - [ ] card_gatlin
@@ -18,14 +18,14 @@
 - [ ] card_duel
 - [ ] throw_card
 
-- [ ] card_mustang
-- [ ] card_scope
-- [ ] card_barrel
+- [x] card_mustang
+- [x] card_scope
+- [x] card_barrel
 - [ ] card_jail
 - [ ] card_bomb
 
-- [ ] remington
-- [ ] schofild
-- [ ] winchester
-- [ ] carabine
-- [ ] volcano
+- [x] remington
+- [x] schofild
+- [x] winchester
+- [x] carabine
+- [x] volcano
