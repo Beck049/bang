@@ -528,6 +528,10 @@ void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
 }
 
 void card_volcano(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 連發槍 \n");
+	}else printf("> player %d 裝備了 連發槍 \n",player_id);
+
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
