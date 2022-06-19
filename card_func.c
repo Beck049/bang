@@ -1,12 +1,17 @@
 #include "card_func.h"
 
+void init_card_funcs() {
+	card_funcs[0] = &card_miss;
+	card_funcs[1] = &card_bang;
+};
+
 void (*card_funcs[80])(sGame *pGame, i32 player_id);
 
-void card_miss(sGame *pGame, i32 player_id) {
+void card_miss(sGame *pGame, i32 player_id, i32 card_id ) {
 
 }
 
-void card_bang(sGame *pGame, i32 player_id) {
+void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	// select who to bang
 	i32 live_size = pGame->live_players->size;
 	i32 players_id[live_size];
@@ -31,7 +36,7 @@ void card_bang(sGame *pGame, i32 player_id) {
 	bang_event(pGame, player_id, target_id);
 }
 
-void card_saldon(sGame *pGame, i32 player_id) {
+void card_saldon(sGame *pGame, i32 player_id, i32 card_id ) {
 	//幫大家加一滴血
 	if( player_id == 0 ){
 		printf("你幫大家加了回了一滴血!\n");
@@ -47,7 +52,7 @@ void card_saldon(sGame *pGame, i32 player_id) {
 	}
 }
 
-void card_general_store(sGame *pGame, i32 player_id) {
+void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	i32 arr[10] = {0};
 	i32 num = pGame->live_players->size;
 	sListNode *cur_p = get_player(pGame, player_id);
@@ -73,7 +78,7 @@ void card_general_store(sGame *pGame, i32 player_id) {
 	}
 }
 
-void card_stagecoach(sGame *pGame, i32 player_id) {
+void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
 	sListNode *cur_p = get_player(pGame, player_id);
 	i32 card_id;
 	for(i32 i = 0; i < 2; ++i) {
@@ -82,7 +87,7 @@ void card_stagecoach(sGame *pGame, i32 player_id) {
 	}
 }
 
-void card_wells_fargo(sGame *pGame, i32 player_id) {
+void card_wells_fargo(sGame *pGame, i32 player_id, i32 card_id ) {
 	sListNode *cur_p = get_player(pGame, player_id);
 	i32 card_id;
 	for(i32 i = 0; i < 3; ++i) {
@@ -91,14 +96,14 @@ void card_wells_fargo(sGame *pGame, i32 player_id) {
 	}
 }
 
-void card_beer(sGame *pGame, i32 player_id) {
+void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( (i32)pGame->live_players->size >= 2  ) {
 		i32 id = *(i32 *)pGame->cur_player->data;
 		pGame->players[id].hp += 1;
 	}
 }
 
-void card_cat_balou(sGame *pGame, i32 player_id) {
+void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 	printf("您將使用 Cat balou此張卡片!\n");
 	printf("請選擇一位玩家，其將自行選擇棄掉任何一張牌。\n");
 	//選人，除了自己。
@@ -160,12 +165,7 @@ void card_cat_balou(sGame *pGame, i32 player_id) {
 	printf("player %d 棄掉了 %s\n", target_id, cards[ card_id ].name);
 }
 
-void init_card_funcs() {
-	card_funcs[0] = &card_miss;
-	card_funcs[1] = &card_bang;
-};
-
-void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
+void remove_card(sGame *pGame, i32 player_id, i32 target_card_type, i32 card_id ) {
     sList *live_player = pGame->live_players;
     sList *player_desk = pGame->players[player_id].desk;
     char buf[BUFSIZ];
@@ -182,40 +182,45 @@ void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
     }
 }
 
-void card_mustang(sGame *pGame, i32 player_id) {
+void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
     remove_card(pGame, player_id, 18);
 }
-void card_scope(sGame *pGame, i32 player_id) {
+void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
     remove_card(pGame, player_id, 17);
 }
-void card_barrel(sGame *pGame, i32 player_id) {
+void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
     remove_card(pGame, player_id, 20);
 }
-// void card_jail(sGame *pGame, i32 player_id);
-// void card_bomb(sGame *pGame, i32 player_id);
+void card_jail(sGame *pGame, i32 player_id, i32 card_id){
+	
+}
+void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
+	//把bomb從手牌移走 是外面要做的事情
+
+}
 
 // guns
-void remington(sGame *pGame, i32 player_id) {
+void remington(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
 }
-void schofild(sGame *pGame, i32 player_id) {
+void schofild(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
 }
-void winchester(sGame *pGame, i32 player_id) {
+void winchester(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
 }
-void carabine(sGame *pGame, i32 player_id) {
+void carabine(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
 }
-void volcano(sGame *pGame, i32 player_id) {
+void volcano(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
