@@ -80,7 +80,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 		i32 card_id;
 		if( i == 0 ) {
 			// select draw first card from draw_pile or player
-			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, "1) draw from deck pile", "2) draw from player", NULL);
+			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, " 1) draw from deck pile", "2) draw from player", NULL);
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 ) {
 
 				card_id = take_card(pGame, pGame->draw_pile, 0);
@@ -94,7 +94,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				char player_opt[live_num][32];
 				for(int i = 0; i < live_num; ++i ) {
 
-					sprintf(player_opt[i], "pick a card from player %d", i);
+					sprintf(player_opt[i], "pick a card from player %d", i+1);
 				}
 				sSelectEvent player_event = select_event_with_arr(pGame, e->target_id, 1, 1, player_opt, live_num, 32);
 				i32 distance = *(i32*)LIST_FRONT(player_event.select_res);
@@ -113,7 +113,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				char cards_opt[total_card_num][8];
 				for(int i = 0; i < total_card_num; ++i ) {
 
-					sprintf(cards_opt[i], "(%2d)", i);
+					sprintf(cards_opt[i], "%2d)", i+1);
 				}
 				sSelectEvent card_select_event = select_event_with_arr(pGame, e->target_id, 1, 1, cards_opt, total_card_num, 8);
 				i32 take_id = *(i32*)LIST_FRONT(card_select_event.select_res);

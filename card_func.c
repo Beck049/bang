@@ -22,7 +22,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 		i32 id = *(i32 *)pNode->data;
 		if(id  != player_id) {
 			players_id[cnt] = id;
-			sprintf(players_option[cnt], "%d) player%d\n", cnt+1, id);
+			sprintf(players_option[cnt], "%d) player%d", cnt+1, id);
 			++cnt;
 		}
 	}
@@ -33,8 +33,8 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	free_list(sl_e.select_res);
 	free_list(sl_e.selections);
 	if( target_id == 0 ){
-		printf("你被bang了QAQ\n");
-	}else printf("> player %d 被bang了\n",target_id);
+		printf("你被bang了QAQ\n\n");
+	}else printf("> player %d 被bang了\n\n",target_id);
 
 	// call bang_event
 	bang_event( pGame, player_id, target_id );

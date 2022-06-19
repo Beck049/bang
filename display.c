@@ -192,14 +192,12 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		}
 		printf("\n");
 	}
-/*
-	printf("  +-----------+  +-----------+  +-----------+  +-----------+  +-----------+ \n");
-	printf("  |S2       id|  |           |  |           |  |           |  |           | \n");
-	printf("  |           |  |           |  |           |  |           |  |           | \n");
-	printf("  |   name    |  |           |  |           |  |           |  |           | \n");
-	printf("  |           |  |           |  |           |  |           |  |           | \n");
-	printf("  +-----------+  +-----------+  +-----------+  +-----------+  +-----------+ \n\n");
-*/
+	struct timespec ts_req = {.tv_nsec = 0, .tv_sec = 1};
+	nanosleep(&ts_req, NULL);
+	// printf("輸入任意鍵以繼續...");
+	// char tmp[BUFSIZ];
+	// fgets_n(tmp, sizeof(tmp), stdin);
+	printf("\n\n");
 }
 
 void display_damage(__attribute__((unused)) sGame *pGame, i32 viewer_id, sDamageEvent e) {

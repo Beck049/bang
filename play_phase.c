@@ -8,7 +8,7 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 	sPlayer *pPlayer = &pGame->players[player_id];
 	sList *hands = pPlayer->cards;
 	sList *desk = pPlayer->desk;
-	i32 size = pPlayer->cards->size;
+	i32 hands_size = hands->size;
 
 	// init bang times
 	i32 bang_times = 0;
@@ -21,8 +21,8 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 
 	while(true) {
 		i32 cnt = 0;
-		i32 hands_id[size];
-		char options[size][16];
+		i32 hands_id[hands_size];
+		char options[hands_size][16];
 		LIST_FOR_EACH(pNode, hands) {
 			i32 card_id = *(i32*)pNode->data;
 			sCard *card = &cards[card_id];

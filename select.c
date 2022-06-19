@@ -17,7 +17,7 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 			i32 x = strtol(cur, &cur, 10);
 			if(x < 1 || x > size) {
 				printf("index %d is not a valid input!\n", x);
-				continue;
+				break;
 			}
 			--x;  // trnsfer to 0 index: 1, 2, 3 -> 0, 1, 2
 			selected[x] = !selected[x];
@@ -44,7 +44,7 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 
 void select_event_bot(__attribute__((unused)) sGame *pGame, sSelectEvent *e) {
 	// display_selection(pGame, 0, *e);  // display to player 0
-
+	printf("bot selecting...\n");
 	i32 size = e->selections->size;
 	sList *res = e->select_res;
 	bool selected[size];
