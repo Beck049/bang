@@ -3,12 +3,41 @@
 #include "basic.h"
 #include "cJSON.h"
 
-enum _eSuit { SPADE, HEART, DIAMOND, CLUB };
-typedef enum _eSuit eSuit;
+typedef enum _eSuit {
+	SPADE,
+	HEART,
+	DIAMOND,
+	CLUB,
+} eSuit;
+
+typedef enum _eCardType {
+	MISS,
+	BANG,
+	INDIANS,
+	DUAL,
+	SALOON,
+	GENERAK_STORE,
+	STAGECOACH,
+	WELLS_FARGO,
+	PANIC,
+	GATLING,
+	CAT_BALOU,
+	BEER,
+	REMINGTON,
+	SCHOFIELD,
+	WINCHESTER,
+	CARABINE,
+	VOLCANIC,
+	SCOPE,
+	MUSTANG,
+	JAIL,
+	BARREL,
+	DYNAMITE,
+} eCardType;
 
 typedef struct _sCard {
 	int  id ; // specific card id
-	int  type; // card type id
+	eCardType type; // card type id
 
 	eSuit suit;
     int  num;
