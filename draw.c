@@ -157,13 +157,13 @@ void draw_phase_event_kit_carlson(sGame *pGame, sDrawPhaseEvent *e) {
 		if(card_id[i] == -1) break;
 	}
 	// select two of them
-	char options[3][128];
+	char options[3][1024];
 
 	for(int i = 0; i < 3; ++i) {
 		sprintf(options[i], "%2d) %s, :\n%s", i+1, cards[card_id[i]].name, cards[card_id[i]].description);
 	}
 
-	sSelectEvent event = select_event_with_arr(pGame, e->target_id, 2, 2, options, 3, 128);
+	sSelectEvent event = select_event_with_arr(pGame, e->target_id, 2, 2, options, 3, sizeof(*options));
 	// push the other one onto top of draw_pile
 	LIST_FOR_EACH(pNode, event.select_res) {
 		give_card(pGame, pGame->players[e->target_id].cards, card_id[*(i32*)pNode->data], true);
