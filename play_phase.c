@@ -37,7 +37,15 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 			sprintf(options[cnt], "%2d) %s", cnt+1, card->name);
 			++cnt;
 		}
-		if(cnt == 0) break;
+		if(cnt == 0) {
+			if(player_id == 0) {
+				printf("You have no card to play.\n");
+			}
+			else {
+				printf("Player%d have no card to play.\n", player_id);
+			}
+			break;
+		}
 		
 		sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, options, cnt, sizeof(*options));
 		i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
