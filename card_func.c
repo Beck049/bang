@@ -81,7 +81,7 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	for(i32 i = 0; i < num; ++i ) {
 		// draw
 		// print all card
-		sSelectEvent event = select_event_with_arr(pGame, *(i32 *)cur_p->data , 1, 1, cards_opt, num-i, 32);
+		sSelectEvent event = select_event_with_arr(pGame, *(i32 *)cur_p->data , 1, 1, cards_opt, num-i, sizeof(*cards_opt) );
 		i32 take_id = *(i32*)LIST_FRONT(event.select_res);
 		i32 card_id = arr[take_id];
 		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_id, true);
@@ -141,24 +141,23 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		i32 hand_card_num  = pGame->players[p_id].cards->size;
 		i32 desk_card_num  = pGame->players[p_id].desk->size;
 		i32 total_card_num = hand_card_num + desk_card_num;
+		i32 select_card_id = 0;
+
 		char cards_opt[total_card_num][512];
 		for(int i = 0; i < total_card_num; ++i ) {
-
 			sprintf(cards_opt[i], "(%2d)", i);
 		}
-		sSelectEvent card_select_event = select_event_with_arr(pGame, player_id, 1, 1, cards_opt, total_card_num, 8);
+		sSelectEvent card_select_event = select_event_with_arr(pGame, player_id, 1, 1, cards_opt, total_card_num, sizeof(*cards_opt));
 		i32 take_id = *(i32*)LIST_FRONT(card_select_event.select_res);
-		if(take_id < hand_card_num)
-		{
-			card_id = take_card(pGame, pGame->players[p_id].cards, take_id);
-		}
-		else
-		{
-			card_id = take_card(pGame, pGame->players[p_id].desk, take_id - hand_card_num);
+		
+		if(take_id < hand_card_num){
+			select_card_id = take_card(pGame, pGame->players[p_id].cards, take_id);
+		}else{
+			select_card_id = take_card(pGame, pGame->players[p_id].desk, take_id - hand_card_num);
 		}
 		
-		if(card_id != -1) {
-			give_card(pGame, pGame->players[player_id].cards, card_id, true);
+		if( select_card_id != -1) {
+			give_card(pGame, pGame->players[player_id].cards, select_card_id, true);
 		}
 		
 		free_list(card_select_event.selections);
