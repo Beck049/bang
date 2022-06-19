@@ -62,6 +62,8 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		display_pile(player_cards);
 		printf("%s Desk (%ld):\n", appellation, player_desk->size);
 		display_pile(player_desk);
+
+		player_node = get_next_player(pGame, player_node);
 	}
 }
 

@@ -51,7 +51,7 @@ i32 prep_phase(sGame *pGame) {
 	i32 bomb_id = -1, jail_id = -1;
 
 	i32 cur_player_id = *(i32*)pGame->cur_player->data;
-	i32 next_player_id = *(i32*)get_next_player(pGame, pGame->cur_player);
+	i32 next_player_id = *(i32*)get_next_player(pGame, pGame->cur_player)->data;
 	sPlayer *cur_player = &pGame->players[cur_player_id];
 	sPlayer *next_player = &pGame->players[next_player_id];
 	LIST_FOR_EACH(pNode, cur_player->desk){
@@ -134,7 +134,7 @@ void turn_phase(sGame *pGame) {
 	draw_phase(pGame);
 	play_phase(pGame);
 
-	if(pGame->end_winner_role == (eRole)-1) return;
+	if(pGame->end_winner_role != (eRole)-1) return;
 
 	discard_phase(pGame);
 	pGame->cur_player = get_next_player( pGame, pGame->cur_player );
@@ -148,9 +148,9 @@ void game_end(sGame *pGame) {
 void play_game(i32 num_players) {
 	sGame *pGame = new_game();  // malloc
 	init_game(pGame, num_players);  // set up pGame
-	// while(!pGame->is_end) {
-		// turn_phase(pGame);  // process pGame
-	// }
+	while(pGame->end_winner_role == (eRole)-1) {
+		turn_phase(pGame);  // process pGame
+	}
 	game_end(pGame);
 	free_game(pGame);
 }

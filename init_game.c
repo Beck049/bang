@@ -38,14 +38,21 @@ void setup_players(sGame *pGame) {
 		pGame->players[i].attack_range = 1;
 		pGame->players[i].role = *(eRole*)LIST_FRONT(pGame->role_pile);
 		list_pop_front(pGame->role_pile);
-		pGame->players[i].character = *(i32*)LIST_FRONT(pGame->role_pile);
-		list_pop_front(pGame->role_pile);
+		pGame->players[i].character = *(i32*)LIST_FRONT(pGame->character_pile);
+		list_pop_front(pGame->character_pile);
+
+		pGame->players[i].cards = new_list();
+		pGame->players[i].desk  = new_list();
 
 		// TODO setup hp
-		// pGame->players[i].hp = characters[pGame->players[i].character].hp;
+		// register event_func by character
+		pGame->players[i].hp = 2; //  characters[pGame->players[i].character].hp;
 		
-		i32 card_id = take_card(pGame, pGame->draw_pile, 0);
-		give_card(pGame, pGame->players[i].cards, card_id, true);
+		for(int j = 0; j < pGame->players[i].hp; ++j) { 
+			i32 card_id = take_card(pGame, pGame->draw_pile, 0);
+			printf("!!%d\n", card_id);
+			give_card(pGame, pGame->players[i].cards, card_id, true);
+		}
 	}
 }
 
@@ -53,9 +60,12 @@ void setup_players(sGame *pGame) {
 void init_game(sGame *pGame, i32 num_players) {
 	pGame->end_winner_role = -1;
 	pGame->total_players = num_players;
+	init_cards();
+	init_characters();
 	init_event_funcs();
 	init_draw_pile(pGame);
 	init_role_pile(pGame);
+	display_pile(pGame->draw_pile);
 	init_character_pile(pGame);
 	live_players_init(pGame);
 	setup_players(pGame);

@@ -7,6 +7,7 @@ cJSON *json_characters = NULL;
 void read_character( sCharacter *character, cJSON *obj ) {
 
     cJSON *id = cJSON_GetObjectItem(obj, "id");
+	cJSON *hp = cJSON_GetObjectItem(obj, "hp");
     cJSON *name  = cJSON_GetObjectItemCaseSensitive(obj, "name");
 	cJSON *description  = cJSON_GetObjectItemCaseSensitive(obj, "description");
 
@@ -15,6 +16,7 @@ void read_character( sCharacter *character, cJSON *obj ) {
 	// printf("%s\n", description->valuestring);
 
     character->id   = id  ->valueint;
+	character->hp   = hp  ->valueint;
     strcpy(character->name, name->valuestring);
 	strcpy(character->description, description->valuestring);
 

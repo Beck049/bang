@@ -5,6 +5,7 @@
 
 typedef struct _sCharacters {
     int id;
+    int hp;
     char name[16];
     char description[512];
 }sCharacter;
