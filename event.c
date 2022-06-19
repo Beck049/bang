@@ -3,6 +3,7 @@
 sList *draw_phase_event_funcs[MAX_ID];
 sList *play_phase_event_funcs[MAX_ID];
 sList *damage_event_funcs[MAX_ID];
+sList *determine_event_funcs[MAX_ID];
 sList *dodge_event_funcs[MAX_ID];
 sList *bang_event_funcs[MAX_ID];
 sList *death_event_funcs[MAX_ID];
@@ -14,7 +15,7 @@ void init_event_funcs() {
 		draw_phase_event_funcs[i] = new_list();
 		play_phase_event_funcs[i] = new_list();
 		damage_event_funcs[i] = new_list();
-		determine_event_funcs[i] = new_list;
+		determine_event_funcs[i] = new_list();
 		dodge_event_funcs[i] = new_list();
 		bang_event_funcs[i] = new_list();
 		death_event_funcs[i] = new_list();
