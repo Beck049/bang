@@ -35,7 +35,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( target_id == 0 ){
 		printf("你被bang了QAQ\n");
 	}else printf("> player %d 被bang了\n",target_id);
-	
+
 	// call bang_event
 	bang_event( pGame, player_id, target_id );
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
@@ -62,6 +62,10 @@ void card_saldon(sGame *pGame, i32 player_id, i32 card_id ) {
 }
 
 void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
+	if( player_id == 0 ){
+		printf("你使用了雜貨店\n");
+	}else printf("> player %d 使用了雜貨店\n",player_id);
+
 	i32 arr[10] = {0};
 	i32 num = pGame->live_players->size;
 	sListNode *cur_p = get_player(pGame, player_id);
@@ -281,14 +285,53 @@ void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
 }
 
 void card_gatlin(sGame *pGame, i32 player_id, i32 card_id ){
-	// 從自己開始繞一圈，問每個人要不要丟miss，不要->扣血。 
-	// 直接丟到棄牌堆
+    // 從自己開始繞一圈，問每個人要不要丟miss，不要->扣血。 
+    // 直接丟到棄牌堆
+    LIST_FOR_EACH(pNode, pGame->live_players) {
+        i32 id = *(i32 *)pNode->data;
+        if(id  != player_id) {
+            i32 id_choose=select_throw( pGame, id, MISS );
+            if( id_choose == -1 ){
+                //不丟bang就扣血
+                sDamageEvent sl_e=damage_event( pGame, id, player_id, 1 );
+                if( id==0 ){
+                    printf("你被扣一滴血了QQ\n");
+                }else printf("> player %d 被扣了一滴血\n",id);
+                break;
+            }
+            take_card_by_id( pGame, pGame->players[id].cards, id_choose );
+            give_card( pGame, pGame->discard_pile, id_choose, true );
+        }
+    }
 
+    give_card( pGame, pGame->players[player_id].desk, card_id, true );
+    take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
+
 void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
-	// 從自己開始繞一圈，問每個人要不要丟bang，不要->扣血。 
-	// 直接丟到棄牌堆
+    // 從自己開始繞一圈，問每個人要不要丟bang，不要->扣血。 
+    // 直接丟到棄牌堆
+    LIST_FOR_EACH(pNode, pGame->live_players) {
+        i32 id = *(i32 *)pNode->data;
+        if(id  != player_id) {
+            i32 id_choose=select_throw( pGame, id, BANG );
+            if( id_choose == -1 ){
+                //不丟bang就扣血
+                sDamageEvent sl_e=damage_event( pGame, id, player_id, 1 );
+                if( id==0 ){
+                    printf("你被扣一滴血了QQ\n");
+                }else printf("> player %d 被扣了一滴血\n",id);
+                break;
+            }
+            take_card_by_id( pGame, pGame->players[id].cards, id_choose );
+            give_card( pGame, pGame->discard_pile, id_choose, true );
+        }
+    }
+
+    give_card( pGame, pGame->players[player_id].desk, card_id, true );
+    take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
+
 void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 	// 用while()，跑你、我、你、我，直到偵測到throw_card回傳-1，就break。 
 	// 直接丟到棄牌堆
