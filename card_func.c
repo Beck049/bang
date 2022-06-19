@@ -1,12 +1,5 @@
 #include "card_func.h"
 
-void init_card_funcs() {
-	card_funcs[0] = &card_miss;
-	card_funcs[1] = &card_bang;
-};
-
-void (*card_funcs[80])(sGame *pGame, i32 player_id);
-
 void card_miss(sGame *pGame, i32 player_id, i32 card_id ) {
 
 }
@@ -33,8 +26,11 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	free_list(sl_e.select_res);
 	free_list(sl_e.selections);
 	// call bang_event
-	bang_event(pGame, player_id, target_id);
+	bang_event( pGame, player_id, target_id );
+	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+	give_card( pGame, pGame->discard_pile , card_id , true );
 }
+
 
 void card_saldon(sGame *pGame, i32 player_id, i32 card_id ) {
 	//幫大家加一滴血
@@ -50,6 +46,8 @@ void card_saldon(sGame *pGame, i32 player_id, i32 card_id ) {
 		
 		if( cur_hp<highest_hp ) pGame->players[ id ].hp += 1;
 	}
+	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
 void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
@@ -76,24 +74,30 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 
 		cur_p = cur_p->next;
 	}
+	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
 void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
 	sListNode *cur_p = get_player(pGame, player_id);
-	i32 card_id;
+	i32 card_array_id;
 	for(i32 i = 0; i < 2; ++i) {
-		card_id = take_card(pGame, pGame->draw_pile, 0);
-		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_id, true);
+		card_array_id = take_card(pGame, pGame->draw_pile, 0);
+		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_array_id, true);
 	}
+	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
 void card_wells_fargo(sGame *pGame, i32 player_id, i32 card_id ) {
 	sListNode *cur_p = get_player(pGame, player_id);
-	i32 card_id;
+	i32 card_array_id;
 	for(i32 i = 0; i < 3; ++i) {
-		card_id = take_card(pGame, pGame->draw_pile, 0);
-		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_id, true);
+		card_array_id = take_card(pGame, pGame->draw_pile, 0);
+		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_array_id, true);
 	}
+	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
 void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
@@ -101,6 +105,8 @@ void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
 		i32 id = *(i32 *)pGame->cur_player->data;
 		pGame->players[id].hp += 1;
 	}
+	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
 void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
@@ -152,18 +158,30 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 
 	sl_e = select_event_with_arr(pGame, target_id, 1, 1, cards_option, cnt , sizeof(*cards_option));
 	select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
-	i32 card_id = cards_id[select_idx];
+	i32 id = cards_id[select_idx];
 
 	if(select_idx < (i32)target_desk->size) {
-		take_card_by_id(pGame, target_desk, card_id);
+		take_card_by_id(pGame, target_desk, id);
 	} else {
-		take_card_by_id(pGame, target_hand, card_id);
+		take_card_by_id(pGame, target_hand, id);
 	}
 
-	give_card( pGame , pGame->discard_pile , card_id , true );
+	give_card( pGame , pGame->discard_pile , id , true );
 
-	printf("player %d 棄掉了 %s\n", target_id, cards[ card_id ].name);
+	printf("player %d 棄掉了 %s\n", target_id, cards[ id ].name);
+	
+	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+	give_card( pGame, pGame->discard_pile , card_id , true );
 }
+
+void card_jail(sGame *pGame, i32 player_id, i32 card_id){
+	
+}
+void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
+	//把bomb從手牌移走 是外面要做的事情
+
+}
+
 
 void remove_card(sGame *pGame, i32 player_id, i32 target_card_type, i32 card_id ) {
     sList *live_player = pGame->live_players;
@@ -183,45 +201,78 @@ void remove_card(sGame *pGame, i32 player_id, i32 target_card_type, i32 card_id 
 }
 
 void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
-    remove_card(pGame, player_id, 18);
+    remove_card(pGame, player_id, 18, card_id);
+	i32 take_id;
+	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
+	if(take_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, card_id, true);
+	}
 }
 void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
-    remove_card(pGame, player_id, 17);
+    remove_card(pGame, player_id, 17, card_id);
+	i32 take_id;
+	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
+	if(take_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, card_id, true);
+	}
 }
 void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
-    remove_card(pGame, player_id, 20);
-}
-void card_jail(sGame *pGame, i32 player_id, i32 card_id){
-	
-}
-void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
-	//把bomb從手牌移走 是外面要做的事情
-
+    remove_card(pGame, player_id, 20, card_id);
+	i32 take_id;
+	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
+	if(take_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, card_id, true);
+	}
 }
 
 // guns
 void remington(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i);
+        remove_card(pGame, player_id, i, card_id);
     }
+	i32 take_id;
+	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
+	if(take_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, card_id, true);
+	}
 }
 void schofild(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i);
+        remove_card(pGame, player_id, i, card_id);
     }
+	i32 take_id;
+	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
+	if(take_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, card_id, true);
+	}
 }
 void winchester(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i);
+        remove_card(pGame, player_id, i, card_id);
     }
+	i32 take_id;
+	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
+	if(take_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, card_id, true);
+	}
 }
 void carabine(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i);
+        remove_card(pGame, player_id, i, card_id);
     }
+	i32 take_id;
+	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
+	if(take_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, card_id, true);
+	}
 }
 void volcano(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
-        remove_card(pGame, player_id, i);
+        remove_card(pGame, player_id, i, card_id);
     }
+	i32 take_id;
+	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
+	if(take_id != -1) {
+		give_card(pGame, pGame->players[player_id].desk, card_id, true);
+	}
 }
