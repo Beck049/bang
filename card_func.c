@@ -38,6 +38,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 
 	// call bang_event
 	bang_event( pGame, player_id, target_id );
+	damage_event( pGame, target_id , player_id, 1 );
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
