@@ -37,8 +37,22 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	}else printf("> player %d 被bang了\n\n",target_id);
 
 	// call bang_event
-	bang_event( pGame, player_id, target_id );
-	damage_event( pGame, target_id , player_id, 1 );
+	sBangEvent bang=bang_event( pGame, player_id, target_id );
+	if( bang.bang_res==true ){
+		damage_event(pGame, target_id, player_id, 1 );
+		if(pGame->players[target_id].hp<=0){
+			sLethalEvent lth_e = lethal_event(pGame, target_id);
+			if(lth_e.lethal_res == true) {
+				sDeathEvent dth_e = death_event(pGame, target_id, player_id);
+				// cur_player died
+				if(dth_e.death_res == true) {
+					if( target_id == 0 ){
+						printf("You died\n");
+					}else printf("> player %d died",target_id);
+				}
+			}
+		}
+	}
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
