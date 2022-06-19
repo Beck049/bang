@@ -268,7 +268,9 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 	free_list(sl_e.select_res);
 	free_list(sl_e.selections);
 
-	printf("您選擇了： %d \n", target_id);
+	if( target_id == 0 ){
+		printf("你被選擇了\n");
+	}else printf("> player %d 被選擇了 \n", target_id);
 
 	//叫那個人給我丟掉一張牌喔
 	sList *target_desk = pGame->players[ target_id ].desk;
