@@ -340,6 +340,10 @@ void card_gatlin(sGame *pGame, i32 player_id, i32 card_id ){
 void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
     // 從自己開始繞一圈，問每個人要不要丟bang，不要->扣血。 
     // 直接丟到棄牌堆
+	if( player_id == 0 ){
+		printf("你使用了 印地安人 \n");
+	}else printf("> player %d 使用了印地安人\n",player_id);
+
     LIST_FOR_EACH(pNode, pGame->live_players) {
         i32 id = *(i32 *)pNode->data;
         if(id  != player_id) {
@@ -424,6 +428,10 @@ void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
 }
 
 void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
+	if( player_id == 0 ){
+		printf("你裝備了 野馬 \n");
+	}else printf("> player %d 裝備了 野馬 \n",player_id);
+
     remove_card(pGame, player_id, 18);
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
@@ -431,7 +439,12 @@ void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
+
 void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 望遠鏡瞄準器 \n");
+	}else printf("> player %d 裝備了 望遠鏡瞄準器 \n",player_id);
+
     remove_card(pGame, player_id, 17);
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
@@ -439,7 +452,12 @@ void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
+
 void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 啤酒桶 \n");
+	}else printf("> player %d 裝備了 啤酒桶 \n",player_id);
+
     remove_card(pGame, player_id, 20);
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
@@ -450,6 +468,10 @@ void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
 
 // guns
 void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 雷明頓 \n");
+	}else printf("> player %d 裝備了 雷明頓 \n",player_id);
+
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
@@ -459,7 +481,12 @@ void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
+
 void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 史考菲爾德 \n");
+	}else printf("> player %d 裝備了 史考菲爾德 \n",player_id);
+
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
@@ -469,7 +496,12 @@ void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
+
 void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 溫徹斯特 \n");
+	}else printf("> player %d 裝備了 溫徹斯特 \n",player_id);
+
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
@@ -479,7 +511,12 @@ void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
+
 void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 卡賓槍 \n");
+	}else printf("> player %d 裝備了 卡賓槍 \n",player_id);
+
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
@@ -489,7 +526,12 @@ void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
+
 void card_volcano(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 連發槍 \n");
+	}else printf("> player %d 裝備了 連發槍 \n",player_id);
+
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
