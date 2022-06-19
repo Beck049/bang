@@ -433,7 +433,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 	i32 duel_id=select_player(pGame, player_id);
 	if ( duel_id==0 ){
 		printf("你成為 player %d 的決鬥對象\n",player_id);
-	}else printf("> player %d 成為 player %d 的決鬥對象",duel_id,player_id);
+	}else printf("> player %d 成為 player %d 的決鬥對象\n",duel_id,player_id);
 	
 	while(1){
 		if( duel_id == 0 ) printf("您需要丟出一張bang,否則將會扣一滴血\n");
@@ -493,7 +493,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 	}
 
 	printf("決鬥使用完畢\n");
-	give_card( pGame, pGame->players[player_id].desk, card_id, true );
+	give_card( pGame, pGame->discard_pile, card_id, true );
     take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
 
