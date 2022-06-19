@@ -88,13 +88,13 @@ void setup_players(sGame *pGame) {
 			register_event_func(EVENT_DETERMINE, i, determine_event_lucky_duke);
 			break;
 		case 9:
-			pPlayer->be_looked_range+1;
+			pPlayer->be_looked_range += 1;
 			break;
 		case 10:
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_pedro_ramirez);
 			break;
 		case 11:
-			pPlayer->look_range+1;
+			pPlayer->look_range += 1;
 			break;
 		case 12:
 			register_event_func(EVENT_LETHAL, i, lethal_event_sid_ketchum);
