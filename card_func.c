@@ -233,7 +233,9 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 		i32 duel_id_choose=select_throw( pGame, duel_id, BANG );
 		if( duel_id_choose == -1 ){
 			//不丟bang就扣血
-			pGame->players[duel_id].hp--;
+			//pGame->players[duel_id].hp--;阿姨不給機會:)
+			sDamageEvent sl_e=damage_event( pGame, duel_id, player_id, 1 );
+
 			if( duel_id==0 ){
 				printf("你被扣一滴血了QQ\n");
 			}else printf("> player %d 被扣了一滴血\n",duel_id);
@@ -246,7 +248,9 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 		i32 player_id_choose=select_throw( pGame, player_id, BANG );
 		if( duel_id_choose == -1 ){
 			//不丟bang就扣血
-			pGame->players[player_id].hp--;
+			//pGame->players[player_id].hp--;阿姨不給機會:)
+			sDamageEvent sl_e=damage_event( pGame, duel_id, player_id, 1 );
+
 			if( player_id==0 ){
 				printf("你被扣一滴血了QAQ\n");
 			}else printf("> player %d 被扣了一滴血\n",player_id);
