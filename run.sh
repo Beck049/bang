@@ -1,2 +1,1 @@
-make clean
-make debug -sj && ./main
+make clean; make debug -sj && ./main
