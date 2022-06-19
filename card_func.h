@@ -12,7 +12,7 @@ void init_card_funcs();
 // void card_bang(sGame *pGame, i32 player_id);
 
 void card_beer(sGame *pGame, i32 player_id);
-// void card_saldon(sGame *pGame, i32 player_id);
+void card_saldon(sGame *pGame, i32 player_id);
 void card_stagecoach(sGame *pGame, i32 player_id);
 void card_wells_fargo(sGame *pGame, i32 player_id);
 

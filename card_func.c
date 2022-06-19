@@ -11,6 +11,10 @@ void card_bang(sGame *pGame, i32 player_id) {
 	// call bang_event
 }
 
+void card_saldon(sGame *pGame, i32 player_id) {
+	
+}
+
 void card_general_store(sGame *pGame, i32 player_id) {
 	i32 arr[10] = {0};
 	i32 num = pGame->live_players->size;
