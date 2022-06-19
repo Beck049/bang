@@ -107,7 +107,7 @@ sDetermineEvent determine_event(sGame *pGame, i32 target_id) {
 		.target_id = target_id,
 		.determine_res = -1,
 	};
-	LIST_FOR_EACH(pNode, dodge_event_funcs[target_id]) {
+	LIST_FOR_EACH(pNode, determine_event_funcs[target_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &dtm_e);
 		if(pGame->end_winner_role != (eRole)-1) break;
 		if(dtm_e.determine_res != -1) break;

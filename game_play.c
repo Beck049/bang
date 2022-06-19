@@ -138,10 +138,15 @@ void turn_phase(sGame *pGame) {
 	i32 skip = false;
 	display_game(pGame, 0);
 
+	printf("Preparation Phase:\n");
 	skip = (prep_phase(pGame) == -1);
 	if(skip) return;
 
+	printf("Draw Phase:\n");
 	draw_phase(pGame);
+
+	display_game(pGame, 0);
+
 	play_phase(pGame);
 
 	if(pGame->end_winner_role != (eRole)-1) return;
