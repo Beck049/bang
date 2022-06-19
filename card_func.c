@@ -133,7 +133,10 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 	sSelectEvent panic_event = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, 32);
 	i32 p_id = *(i32*)LIST_FRONT(panic_event.select_res);
 	
-
+	if( p_id == 0 ){
+		printf("你被 驚慌了QQ\n");
+	}else printf("> player %d 被驚慌了\n", p_id );
+	
 		i32 hand_card_num  = pGame->players[p_id].cards->size;
 		i32 desk_card_num  = pGame->players[p_id].desk->size;
 		i32 total_card_num = hand_card_num + desk_card_num;
