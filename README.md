@@ -13,9 +13,9 @@
 - [x] card_saldon
 - [x] card_panic
 
-- [ ] card_gatlin
-- [ ] card_indians
-- [ ] card_duel
+- [x] card_gatlin
+- [x] card_indians
+- [x] card_duel
 - [x] throw_card
 
 - [x] card_mustang
@@ -29,3 +29,4 @@
 - [x] winchester
 - [x] carabine
 - [x] volcano
+Cancel
