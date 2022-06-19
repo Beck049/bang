@@ -95,7 +95,10 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 		i32 card_id = arr[take_id];
 		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_id, true);
 
-		strncpy(cards_opt[take_id], cards_opt[num-i-1],18);
+		char tmp_cards_opt[32];
+		strcpy(tmp_cards_opt,cards_opt[num-i-1]);
+
+		strcpy(cards_opt[take_id], tmp_cards_opt );
 
 		cur_p = cur_p->next;
 	}

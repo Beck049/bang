@@ -30,7 +30,7 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 		sListNode *cur_node = LIST_BEGIN(miss_cards);
 		for(i32 i = 0; i < (i32)miss_cards->size; ++i) {
 			i32 card_id = *(i32*)cur_node->data;
-			sprintf(options_2[i], "%2d) %s", i+1, cards[card_id].name, card_id);
+			sprintf(options_2[i], "%2d) %s (%d)", i+1, cards[card_id].name, card_id);
 		}
 		sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, dodge_times, dodge_times, options_2, miss_cards->size, sizeof(*options_2) );
 		i32 select_card_id = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
@@ -73,7 +73,7 @@ void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e) {
 		sListNode *cur_node = LIST_BEGIN(miss_cards);
 		for(i32 i = 0; i < (i32)miss_cards->size; ++i) {
 			i32 card_id = *(i32*)cur_node->data;
-			sprintf(options_2[i], "%2d) %s", i+1, cards[card_id].name, card_id);
+			sprintf(options_2[i], "%2d) %s (%d)", i+1, cards[card_id].name, card_id);
 		}
 		sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, dodge_times, dodge_times, options_2, miss_cards->size, sizeof(*options_2));
 		i32 select_card_id = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
