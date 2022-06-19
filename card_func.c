@@ -182,6 +182,10 @@ void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
 }
 
 void card_wells_fargo(sGame *pGame, i32 player_id, i32 card_id ) {
+	if( player_id == 0 ){
+		printf("你使用了 威爾斯法歌 \n");
+	}else printf("> player %d 使用了威爾斯法歌\n",player_id);
+
 	sListNode *cur_p = get_player(pGame, player_id);
 	i32 card_array_id;
 	for(i32 i = 0; i < 3; ++i) {
@@ -197,7 +201,7 @@ void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
 		if( player_id == 0 ){
 			printf(" 你 使用了 啤酒\n");
 		}else printf("> player %d 使用了 啤酒 ",player_id);
-		
+
 		i32 id = *(i32 *)pGame->cur_player->data;
 		i32 character_id = pGame->players[player_id].character;
 		i32 highest_hp = characters[ character_id ].hp;
