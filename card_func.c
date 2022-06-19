@@ -80,8 +80,73 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
-void card_panic(sGame *pGame, i32 player_id){
+void card_panic(sGame *pGame, i32 player_id, i32 card_id){
+	sListNode *cur_player = get_player(pGame, player_id);
+	char players_option[5][32];
+	i32 opt_num = 0;
+	i32 dis = 0;
+	LIST_FOR_EACH(pNode2, pGame->players[player_id].desk) {
+		i32 id = *(i32*)pNode2->data;
+		i32 type = cards[id].type;
+		if( type == 17 ) {
+			dis--;
+		}
+	}
+	LIST_FOR_EACH(pNode, pGame->live_players) {
+		i32 pos = node_distance( pGame->live_players, pNode, cur_player );
+		if( pos > (i32)pGame->live_players->size /2 )
+		{
+			dis = (i32)pGame->live_players->size - pos;
+		}
+		i32 this_id = *(i32*)pNode->data;
+		dis = dis + pGame->players[this_id].be_looked_range + pGame->players[player_id].look_range;
+		LIST_FOR_EACH(pNode2, pGame->players[this_id].desk) {
+			i32 id = *(i32*)pNode2->data;
+			i32 type = cards[id].type;
+			if( type == 18 ) {
+				dis++;
+			}
+		}
+	
+		if( dis <= 1 ) {
+			sprintf( players_option[opt_num], "pick a card from player %d", this_id ); 
+			opt_num++;
+		}
+	}
+	sSelectEvent panic_event = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, 32);
+	i32 p_id = *(i32*)LIST_FRONT(panic_event.select_res);
 
+		i32 hand_card_num  = pGame->players[p_id].cards->size;
+		i32 desk_card_num  = pGame->players[p_id].desk->size;
+		i32 total_card_num = hand_card_num + desk_card_num;
+		char cards_opt[total_card_num][8];
+		for(int i = 0; i < total_card_num; ++i ) {
+
+			sprintf(cards_opt[i], "(%2d)", i);
+		}
+		sSelectEvent card_select_event = select_event_with_arr(pGame, player_id, 1, 1, cards_opt, total_card_num, 8);
+		i32 take_id = *(i32*)LIST_FRONT(card_select_event.select_res);
+		if(take_id < hand_card_num)
+		{
+			card_id = take_card(pGame, pGame->players[p_id].cards, take_id);
+		}
+		else
+		{
+			card_id = take_card(pGame, pGame->players[p_id].desk, take_id - hand_card_num);
+		}
+		
+		if(card_id != -1) {
+			give_card(pGame, pGame->players[player_id].cards, card_id, true);
+		}
+		
+		free_list(card_select_event.selections);
+		free_list(card_select_event.select_res);
+
+	free_list(panic_event.selections);
+	free_list(panic_event.select_res);
+
+	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
 void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
@@ -221,7 +286,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 	if( player_id == 0 ){
 		printf("你 丟出了 決鬥\n");
 		printf("請選擇決鬥對象：");
-	}else printf("> player %d 丟出了 決鬥\n");
+	}else printf("> player %d 丟出了 決鬥\n",player_id);
 
 	i32 duel_id=select_player(pGame, player_id);
 	if ( duel_id==0 ){
