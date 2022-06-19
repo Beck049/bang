@@ -312,6 +312,10 @@ void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
 void card_gatlin(sGame *pGame, i32 player_id, i32 card_id ){
     // 從自己開始繞一圈，問每個人要不要丟miss，不要->扣血。 
     // 直接丟到棄牌堆
+	if( player_id == 0 ){
+		printf("你使用了格林機關槍\n");
+	}else printf("> player %d 使用了格林機關槍\n",player_id);
+
     LIST_FOR_EACH(pNode, pGame->live_players) {
         i32 id = *(i32 *)pNode->data;
         if(id  != player_id) {
