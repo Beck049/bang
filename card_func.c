@@ -136,7 +136,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 	if( p_id == 0 ){
 		printf("你被 驚慌了QQ\n");
 	}else printf("> player %d 被驚慌了\n", p_id );
-	
+
 		i32 hand_card_num  = pGame->players[p_id].cards->size;
 		i32 desk_card_num  = pGame->players[p_id].desk->size;
 		i32 total_card_num = hand_card_num + desk_card_num;
@@ -195,7 +195,12 @@ void card_wells_fargo(sGame *pGame, i32 player_id, i32 card_id ) {
 void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( (i32)pGame->live_players->size >= 2  ) {
 		i32 id = *(i32 *)pGame->cur_player->data;
-		pGame->players[id].hp += 1;
+		i32 character_id = pGame->players[player_id].character;
+		i32 highest_hp = characters[ character_id ].hp;
+
+		if( pGame->players[id].hp<highest_hp ){
+			pGame->players[id].hp += 1;
+		}
 	}
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
