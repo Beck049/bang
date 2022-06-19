@@ -1,5 +1,16 @@
 #include "init_game.h"
 
+#include "display.h"
+#include "event.h"
+#include "bang.h"
+#include "damage.h"
+#include "death.h"
+#include "determine.h"
+#include "dodge.h"
+#include "draw.h"
+#include "lethal.h"
+#include "select.h"
+
 // init draw pile and shuffle
 void init_draw_pile(sGame *pGame) {
 	list_init(pGame->draw_pile, card_num);
@@ -34,21 +45,76 @@ void live_players_init(sGame *pGame) {
 // set up player info
 void setup_players(sGame *pGame) {
 	for(i32 i = 0; i < pGame->total_players; ++i) {
-		pGame->players[i].id = i;
-		pGame->players[i].attack_range = 1;
-		pGame->players[i].role = *(eRole*)LIST_FRONT(pGame->role_pile);
+		sPlayer *pPlayer = &pGame->players[i];
+		pPlayer->id = i;
+		pPlayer->attack_range = 1;
+		pPlayer->role = *(eRole*)LIST_FRONT(pGame->role_pile);
 		list_pop_front(pGame->role_pile);
-		pGame->players[i].character = *(i32*)LIST_FRONT(pGame->character_pile);
+		pPlayer->character = *(i32*)LIST_FRONT(pGame->character_pile);
 		list_pop_front(pGame->character_pile);
 
-		pGame->players[i].cards = new_list();
-		pGame->players[i].desk  = new_list();
+		pPlayer->cards = new_list();
+		pPlayer->desk  = new_list();
 
 		// TODO setup hp
 		// register event_func by character
-		pGame->players[i].hp = 2; //  characters[pGame->players[i].character].hp;
-		
-		for(int j = 0; j < pGame->players[i].hp; ++j) { 
+		pPlayer->hp = characters[pPlayer->character].hp;
+
+		switch(pPlayer->character) {
+		case 0:
+			break;
+		case 1:
+			register_event_func(EVENT_DAMAGE, i, damage_event_bart_cassidy);
+			break;
+		case 2:
+			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_black_jack);
+			break;
+		case 3:
+			register_event_func(EVENT_DODGE, i, dodge_event_calamity_janet);
+			break;
+		case 4:
+			register_event_func(EVENT_DAMAGE, i, damage_event_el_gringo);
+			break;
+		case 5:
+			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_jesse_jones);
+			break;
+		case 6:
+			register_event_func(EVENT_DODGE, i, dodge_event_barrel);
+			break;
+		case 7:
+			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_kit_carlson);
+			break;
+		case 8:
+			register_event_func(EVENT_DETERMINE, i, determine_event_lucky_duke);
+			break;
+		case 9:
+			pPlayer->be_looked_range+1;
+			break;
+		case 10:
+			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_pedro_ramirez);
+			break;
+		case 11:
+			pPlayer->look_range+1;
+			break;
+		case 12:
+			register_event_func(EVENT_LETHAL, i, lethal_event_sid_ketchum);
+			break;
+		case 13:
+			register_event_func(EVENT_BANG , i, bang_event_slab_the_killer);
+			break;
+		case 14:
+			break;
+		case 15:
+			for(i32 j = 0; j < pGame->total_players; ++j) {
+				register_event_func(EVENT_DEATH, j, death_event_vulture_sam);
+			}
+			break;
+		}
+
+		if(i == 0) register_event_func(EVENT_SELECT, i, select_event_player);
+		else register_event_func(EVENT_SELECT, i, select_event_bot);
+
+		for(int j = 0; j < pGame->players[i].hp; ++j) {
 			i32 card_id = take_card(pGame, pGame->draw_pile, 0);
 			printf("!!%d\n", card_id);
 			give_card(pGame, pGame->players[i].cards, card_id, true);
