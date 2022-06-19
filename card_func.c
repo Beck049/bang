@@ -94,6 +94,10 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 }
 
 void card_panic(sGame *pGame, i32 player_id, i32 card_id){
+	if( player_id == 0 ){
+		printf("你 使用了 驚慌!\n");
+	}else printf("> player %d 使用了 驚慌!\n",player_id);
+
 	sListNode *cur_player = get_player(pGame, player_id);
 	char players_option[5][32];
 	i32 opt_num = 0;
@@ -128,6 +132,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 	}
 	sSelectEvent panic_event = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, 32);
 	i32 p_id = *(i32*)LIST_FRONT(panic_event.select_res);
+	
 
 		i32 hand_card_num  = pGame->players[p_id].cards->size;
 		i32 desk_card_num  = pGame->players[p_id].desk->size;
