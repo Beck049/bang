@@ -92,7 +92,12 @@ i32 prep_phase(sGame *pGame) {
 				if(lth_e.lethal_res == true) {
 					sDeathEvent dth_e = death_event(pGame, cur_player_id, -1);
 					// cur_player died
-					if(dth_e.death_res == true) return -1;
+					if(dth_e.death_res == true) {
+						if( cur_player_id == 0 ){
+							printf("You died by bomb\n");
+						}else printf("> player %d died by bomb\n",cur_player_id );
+						return -1;
+					}
 				}
 			}
 		}
