@@ -27,7 +27,7 @@ void damage_event_el_gringo(sGame *pGame, sDamageEvent *e) {
             sprintf(cards_opt[i], "(%2d)", i);
         }
         i32 card_id;
-        sSelectEvent card_select_event = select_event_with_arr(pGame, e->damager_id, 1, 1, cards_opt, hand_card_num, 8);
+        sSelectEvent card_select_event = select_event_with_arr(pGame, e->damager_id, 1, 1, cards_opt, hand_card_num, sizeof(*cards_opt));
     
         i32 take_id = *(i32*)LIST_FRONT(card_select_event.select_res);
         card_id = take_card(pGame, card_list, take_id);

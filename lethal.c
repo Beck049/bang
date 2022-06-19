@@ -31,7 +31,7 @@ void lethal_event_default(sGame *pGame, sLethalEvent *e) {
         i32 card_id = *(i32*)cur_node->data;
         sprintf(options[i], "%2d) %s (id: %d):\n%s", i, cards[card_id].name, card_id, cards[card_id].description);
     }
-    sSelectEvent select_leth_e = select_event_with_arr(pGame, e->target_id, recover, recover, options, beers->size, 128);
+    sSelectEvent select_leth_e = select_event_with_arr(pGame, e->target_id, recover, recover, options, beers->size, sizeof(*options));
     
     LIST_FOR_EACH(pNode, select_leth_e.select_res){
         i32 select_card_id = beer_id[*(i32*)pNode->data];
@@ -78,7 +78,7 @@ void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e) {
     }
 
     i32 chose_num = min(recover, (i32)beers->size);
-    sSelectEvent select_leth_e = select_event_with_arr(pGame, e->target_id, chose_num, chose_num, options, beers->size, 128);
+    sSelectEvent select_leth_e = select_event_with_arr(pGame, e->target_id, chose_num, chose_num, options, beers->size, sizeof(*options));
     LIST_FOR_EACH(pNode, select_leth_e.select_res){
         i32 select_card_id = beer_id[*(i32*)pNode->data];
         i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
@@ -103,7 +103,7 @@ void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e) {
     }
 
     chose_num = recover*2;
-    sSelectEvent select_discard2_e = select_event_with_arr(pGame, e->target_id, chose_num, chose_num, left_options, left_size, 128);
+    sSelectEvent select_discard2_e = select_event_with_arr(pGame, e->target_id, chose_num, chose_num, left_options, left_size, sizeof(*left_options));
     
     LIST_FOR_EACH(pNode, select_discard2_e.select_res) {
         i32 select_card_id = left_card_id[*(i32*)pNode->data];

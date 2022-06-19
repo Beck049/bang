@@ -41,7 +41,7 @@ typedef struct _sCard {
 
 	eSuit suit;
     int  num;
-	char name[16];
+	char name[64];
 	char description[512];
 }sCard;
 

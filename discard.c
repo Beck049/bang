@@ -20,7 +20,7 @@ void discard(sGame *pGame, i32 player_id){
 		++cnt;
 	}
 
-	sSelectEvent sl_e = select_event_with_arr(pGame, player_id, size-hp, size-hp, selections, size, 16);
+	sSelectEvent sl_e = select_event_with_arr(pGame, player_id, size-hp, size-hp, selections, size, sizeof(*selections));
 
 	LIST_FOR_EACH(pNode, sl_e.select_res){
 		i32 selected_idx = *(i32*)pNode->data;
