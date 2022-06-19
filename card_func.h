@@ -19,9 +19,11 @@ void card_wells_fargo(sGame *pGame, i32 player_id);
 void card_general_store(sGame *pGame, i32 player_id);
 // void card_panic(sGame *pGame, i32 player_id);
 void card_cat_balou(sGame *pGame, i32 player_id);
+
 // void card_gatlin(sGame *pGame, i32 player_id);
 // void card_indians(sGame *pGame, i32 player_id);
 // void card_duel(sGame *pGame, i32 player_id);
+int throw_card(sGame *pGame, i32 player_id, i32 card_id);
 
 // table
 // void card_mustang(sGame *pGame, i32 player_id);

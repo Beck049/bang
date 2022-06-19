@@ -7,7 +7,8 @@ void card_miss(sGame *pGame, i32 player_id) {
 }
 
 void card_bang(sGame *pGame, i32 player_id) {
-
+	// select who to bang
+	// call bang_event
 }
 
 void card_general_store(sGame *pGame, i32 player_id) {
