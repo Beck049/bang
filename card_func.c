@@ -498,6 +498,10 @@ void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
 }
 
 void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 溫徹斯特 \n");
+	}else printf("> player %d 裝備了 溫徹斯特 \n",player_id);
+
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
