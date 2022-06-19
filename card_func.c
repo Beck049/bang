@@ -2,10 +2,6 @@
 #include "select.h"
 #include "draw.h"
 
-void card_miss(sGame *pGame, i32 player_id, i32 card_id ) {
-
-}
-
 void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	// select who to bang
 	if( player_id == 0 ){
@@ -232,8 +228,10 @@ void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
 }
 
 void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
-	printf("您將使用 Cat balou此張卡片!\n");
-	printf("請選擇一位玩家，其將自行選擇棄掉任何一張牌。\n");
+	if( player_id == 0 ){
+		printf("您將使用 凱特巴洛 !\n");
+		printf("請選擇一位玩家，其將自行選擇棄掉任何一張牌。\n");
+	}else printf("> player %d 將使用凱特巴洛\n",player_id);
 	//選人，除了自己。
 	i32 live_size = pGame->live_players->size;
 	i32 players_id[live_size];
@@ -336,11 +334,27 @@ void card_gatlin(sGame *pGame, i32 player_id, i32 card_id ){
             if( id_choose == -1 ){
                 //不丟bang就扣血
                 damage_event( pGame, id, player_id, 1 );
+		
+				if(pGame->players[id].hp<=0){
+					sLethalEvent lth_e = lethal_event(pGame, id);
+					if(lth_e.lethal_res == true) {
+						sDeathEvent dth_e = death_event(pGame, id, player_id);
+						// cur_player died
+						if(dth_e.death_res == true) {
+							if( id == 0 ){
+								printf("You died\n");
+							}else printf("> player %d died",id);
+					}
+					}
+				}
+
                 if( id==0 ){
                     printf("你被扣一滴血了QQ\n");
                 }else printf("> player %d 被扣了一滴血\n",id);
+
                 break;
             }
+
             take_card_by_id( pGame, pGame->players[id].cards, id_choose );
             give_card( pGame, pGame->discard_pile, id_choose, true );
         }
@@ -364,6 +378,18 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
             if( id_choose == -1 ){
                 //不丟bang就扣血
                 damage_event( pGame, id, player_id, 1 );
+				if(pGame->players[id].hp<=0){
+					sLethalEvent lth_e = lethal_event(pGame, id);
+					if(lth_e.lethal_res == true) {
+						sDeathEvent dth_e = death_event(pGame, id, player_id);
+						// cur_player died
+						if(dth_e.death_res == true) {
+							if( id == 0 ){
+								printf("You died\n");
+							}else printf("> player %d died",id);
+					}
+					}
+				}
                 if( id==0 ){
                     printf("你被扣一滴血了QQ\n");
                 }else printf("> player %d 被扣了一滴血\n",id);
@@ -394,11 +420,23 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 	while(1){
 		if( duel_id == 0 ) printf("您需要丟出一張bang,否則將會扣一滴血\n");
 		i32 duel_id_choose=select_throw( pGame, duel_id, BANG );
+
 		if( duel_id_choose == -1 ){
 			//不丟bang就扣血
 			//pGame->players[duel_id].hp--;阿姨不給機會:)
 			damage_event( pGame, duel_id, player_id, 1 );
-
+			if(pGame->players[duel_id].hp<=0){
+				sLethalEvent lth_e = lethal_event(pGame, duel_id);
+				if(lth_e.lethal_res == true) {
+					sDeathEvent dth_e = death_event(pGame, duel_id, player_id);
+					// cur_player died
+					if(dth_e.death_res == true) {
+						if( duel_id == 0 ){
+							printf("You died\n");
+						}else printf("> player %d died",duel_id);
+					}
+				}
+			}
 			if( duel_id==0 ){
 				printf("你被扣一滴血了QQ\n");
 			}else printf("> player %d 被扣了一滴血\n",duel_id);
@@ -408,11 +446,24 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 		give_card( pGame, pGame->discard_pile, duel_id_choose, true );
 
 		if( player_id == 0 ) printf("您需要丟出一張bang,否則將會扣一滴血\n");
+
 		i32 player_id_choose=select_throw( pGame, player_id, BANG );
-		if( duel_id_choose == -1 ){
+		if( player_id_choose == -1 ){
 			//不丟bang就扣血
 			//pGame->players[player_id].hp--;阿姨不給機會:)
-			damage_event( pGame, duel_id, player_id, 1 );
+			damage_event( pGame, player_id, duel_id, 1 );
+			if(pGame->players[player_id].hp<=0){
+				sLethalEvent lth_e = lethal_event(pGame, player_id);
+				if(lth_e.lethal_res == true) {
+					sDeathEvent dth_e = death_event(pGame, player_id, duel_id);
+					// cur_player died
+					if(dth_e.death_res == true) {
+						if( player_id == 0 ){
+							printf("You died\n");
+						}else printf("> player %d died",player_id);
+					}
+				}
+			}
 
 			if( player_id==0 ){
 				printf("你被扣一滴血了QAQ\n");

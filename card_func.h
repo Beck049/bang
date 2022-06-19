@@ -5,7 +5,6 @@
 #include "event.h"
 
 // cards
-void card_miss(sGame *pGame, i32 player_id, i32 card_id );
 void card_bang(sGame *pGame, i32 player_id, i32 card_id );//直接丟到棄牌堆
 
 void card_beer(sGame *pGame, i32 player_id, i32 card_id );//直接丟到棄牌堆
