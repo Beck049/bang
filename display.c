@@ -18,8 +18,9 @@
 #define LCYN ASCII_ESC"[96m"
 #define LWHT ASCII_ESC"[97m"
 
+static const char SUIT[] = "SHDC";
+
 void print_card(char *dst, i32 card_id) {
-	static const char SUIT[] = "SHDC";
 	sCard *card = cards+card_id;
 	sprintf(dst, "%c%-2d %s: %s", SUIT[card->suit], card->num, card->name, card->description);
 }

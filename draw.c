@@ -157,15 +157,13 @@ void draw_phase_event_kit_carlson(sGame *pGame, sDrawPhaseEvent *e) {
 		if(card_id[i] == -1) break;
 	}
 	// select two of them
-	char str[3][128] = { "1) ", "2) ", "3) " };
+	char options[3][128];
 
 	for(int i = 0; i < 3; ++i) {
-		strcat(str[i], cards[card_id[i]].name); 
-		strcat(str[i], ":\n");
-		strcat(str[i], cards[card_id[i]].description);
+		sprintf(options[i], "%2d) %s, :\n%s", i+1, cards[card_id[i]].name, cards[card_id[i]].description);
 	}
 
-	sSelectEvent event = select_event(pGame, e->target_id, 2, 2, str[0], str[1], str[2]);
+	sSelectEvent event = select_event_with_arr(pGame, e->target_id, 2, 2, options, 3, 128);
 	// push the other one onto top of draw_pile
 	LIST_FOR_EACH(pNode, event.select_res) {
 		give_card(pGame, pGame->players[e->target_id].cards, card_id[*(i32*)pNode->data], true);
@@ -189,7 +187,7 @@ void draw_phase_event_pedro_ramirez(sGame *pGame, sDrawPhaseEvent *e) {
 		i32 card_id;
 		if( i == 0 ) {
 			// select draw first card from draw_pile or discard_pile
-			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, "1) draw from deck pile", "2) draw from discard pile");
+			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, " 1) draw from deck pile", " 2) draw from discard pile", NULL);
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 )
 			{
 				card_id = take_card(pGame, pGame->draw_pile, 0);
