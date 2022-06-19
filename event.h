@@ -5,6 +5,19 @@
 #define MAX_ID 32
 #define GAME_ID (MAX_ID-1)
 #define EVENT_APPLY_FUNC(_pGame, _pToFunc, _pEvent) ((*((void (**)(typeof(_pGame), typeof(_pEvent)))(_pToFunc)))(_pGame, _pEvent))
+#define EVENT_TYPE_SIZ 9
+
+typedef enum _eEventType {
+	EVENT_DRAW_PHASE = 0,
+	EVENT_PLAY_PHASE,
+	EVENT_DAMAGE,
+	EVENT_DETERMINE,
+	EVENT_DODGE,
+	EVENT_BANG,
+	EVENT_DEATH,
+	EVENT_SELECT,
+	EVENT_LETHAL,
+} eEventType;
 
 typedef struct _sDrawPhaseEvent {
 	i32 target_id;
