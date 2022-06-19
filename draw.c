@@ -80,7 +80,8 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 		i32 card_id;
 		if( i == 0 ) {
 			// select draw first card from draw_pile or player
-			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, " 1) draw from deck pile", "2) draw from player", NULL);
+			char options[2][32] = {" 1) draw from deck pile", " 2) draw from player"};
+			sSelectEvent event = select_event_with_arr(pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 ) {
 
 				card_id = take_card(pGame, pGame->draw_pile, 0);
@@ -186,8 +187,9 @@ void draw_phase_event_pedro_ramirez(sGame *pGame, sDrawPhaseEvent *e) {
 
 		i32 card_id;
 		if( i == 0 ) {
+			char options[2][32] = {" 1) draw from deck pile", " 2) draw from discard pile"};
 			// select draw first card from draw_pile or discard_pile
-			sSelectEvent event = select_event(pGame, e->target_id, 1, 1, " 1) draw from deck pile", " 2) draw from discard pile", NULL);
+			sSelectEvent event = select_event_with_arr(pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 )
 			{
 				card_id = take_card(pGame, pGame->draw_pile, 0);
