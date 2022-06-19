@@ -89,7 +89,6 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	}
 	char cards_opt[num][32];
 	for(int i = 0; i < num; ++i ) {
-
 		sprintf(cards_opt[i], "pick a card : %d", i);
 	}
 	for(i32 i = 0; i < num; ++i ) {
@@ -100,7 +99,7 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 		i32 card_id = arr[take_id];
 		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_id, true);
 
-		strcpy(cards_opt[take_id], cards_opt[num-i-1]);
+		strncpy(cards_opt[take_id], cards_opt[num-i-1],18);
 
 		cur_p = cur_p->next;
 	}
