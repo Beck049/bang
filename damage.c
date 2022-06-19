@@ -2,7 +2,7 @@
 
 void damage_event_default(sGame *pGame, sDamageEvent *e) {
     pGame->players[e->victim_id].hp -= e->damage;
-    printf("Player%d 受到 %d 點傷害，血量剩餘: %d\n", e->victim_id, pGame->players[e->victim_id].hp);
+    printf("Player%d 受到 %d 點傷害，血量剩餘: %d\n", e->victim_id, e->damage, pGame->players[e->victim_id].hp);
 }
 
 // draw
