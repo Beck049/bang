@@ -6,10 +6,10 @@
 #include "display.h"
 #include "determine.h"
 #include "bang.h"
+#include "play_phase.h"
 
 
 int main() {
-	
 	play_game(4);
 
 	return 0;
