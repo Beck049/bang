@@ -74,6 +74,14 @@ void setup_players(sGame *pGame) {
 		// register event_func by character
 		pPlayer->hp = characters[pPlayer->character].hp;
 
+		printf("Player%d:\n");
+		printf("hp: %d\n", pPlayer->hp);
+		printf("role: %d\n", pPlayer->role);
+		printf("char: %d\n", pPlayer->character);
+		printf("l_rng: %d\n", pPlayer->look_range);
+		printf("bl_rng: %d\n", pPlayer->be_looked_range);
+		printf("===================\n");
+
 		switch(pPlayer->character) {
 		case 0:
 			break;
