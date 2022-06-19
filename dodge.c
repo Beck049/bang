@@ -21,6 +21,7 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 	sListNode *cur_node = LIST_BEGIN(miss_cards);
 	for(i32 i = 0; i < (i32)miss_cards->size; ++i) {
 		miss_card_id[i] = *(i32*)cur_node->data;
+		cur_node = cur_node->next;
 	}
 	char options[2][512] = {" 1) use missed", " 2) no"};
 	sSelectEvent select_dodge_e = select_event_with_arr (pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
