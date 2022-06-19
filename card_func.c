@@ -454,6 +454,10 @@ void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
 }
 
 void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 啤酒桶 \n");
+	}else printf("> player %d 裝備了 啤酒桶 \n",player_id);
+
     remove_card(pGame, player_id, 20);
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
