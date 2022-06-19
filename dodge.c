@@ -13,7 +13,7 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 	i32 dodge_times = e->dodge_times;
 	sList *player_cards = pGame->players[e->target_id].cards;
 	sList *miss_cards = card_filter(player_cards, card_is_missed);
-	if(miss_cards->size < e->dodge_times) {
+	if((i32)miss_cards->size < e->dodge_times) {
 		free_list(miss_cards);
 		return;
 	}
@@ -39,7 +39,7 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 			sprintf(options_2[i], "%2d) %s", i+1, cards[card_id].name);
 			cur_node = cur_node->next;
 		}
-		
+
 		sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, dodge_times, dodge_times, options_2, miss_cards->size, sizeof(*options_2) );
 		i32 select_card_id = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
 		i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);

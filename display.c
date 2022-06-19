@@ -167,7 +167,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		
 		char *cur = name;
 		while(*cur != '\0') {
-			if(*cur > 0x7Fu) {
+			if((uint8_t)*cur > 0x7Fu) {
 				name_len += 2;
 				cur += 3;
 			}
