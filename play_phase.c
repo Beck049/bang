@@ -8,7 +8,6 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 	sPlayer *pPlayer = &pGame->players[player_id];
 	sList *hands = pPlayer->cards;
 	sList *desk = pPlayer->desk;
-	i32 hands_size = hands->size;
 
 	// init bang times
 	i32 bang_times = 0;
@@ -17,12 +16,39 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 		|| contains_card_type(desk, VOLCANIC) ) {
 			max_bang_times = INT_MAX;
 	}
-	
 
 	while(true) {
 		i32 cnt = 0;
+		i32 hands_size = hands->size;
 		i32 hands_id[hands_size];
 		char options[hands_size][512];
+
+		{
+			static char skip_options[2][64] = {" 1) 出牌", " 2) 結束"};
+			if(player_id == 0) {
+				printf("你可以選擇是否結束這個回合\n");
+				sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, skip_options, 2, sizeof(*skip_options));
+				i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+				free_list(sl_e.select_res);
+				free_list(sl_e.selections);
+				if(select_idx == 1) {
+					printf("你結束了這個回合\n");
+					break;
+				}
+			}
+			else {
+				sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, skip_options, 2, sizeof(*skip_options));
+				i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+				free_list(sl_e.select_res);
+				free_list(sl_e.selections);
+				if(select_idx == 1) {
+					printf("Player%d 選擇結束了這個回合\n", player_id);
+					break;
+				}
+			}
+		}
+
+
 		LIST_FOR_EACH(pNode, hands) {
 			i32 card_id = *(i32*)pNode->data;
 			sCard *card = &cards[card_id];
