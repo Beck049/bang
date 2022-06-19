@@ -41,7 +41,7 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 	}
 }
 
-void select_event_bot(sGame *pGame, sSelectEvent *e) {
+void select_event_bot(__attribute__((unused)) sGame *pGame, sSelectEvent *e) {
 	// display_selection(pGame, 0, *e);  // display to player 0
 
 	i32 size = e->selections->size;
@@ -84,4 +84,41 @@ i32 select_player(sGame *pGame, i32 trigger_id) {
 	free_list(sl_e.select_res);
 	free_list(sl_e.selections);
 	return players_id[select_idx];
+}
+
+i32 select_throw(sGame *pGame, i32 target_id, eCardType card_type) {
+	sPlayer *pTarget = &pGame->players[target_id];
+	i32 size = pTarget->cards->size;
+	i32 cnt = 0;
+	i32 hands_id[size];
+	char options[size][16];
+
+	sListNode *pCurNode = LIST_BEGIN(pTarget->cards);
+	for(i32 i = 0; i < size; ++i) {
+		i32 id = *(i32*)pCurNode->data;
+		sCard *card = &cards[id];
+		static const int JANET = 3;
+		// is janet and card_type is miss or bang
+		if(pTarget->character == JANET
+			&& (card_type == MISS || card_type == BANG)) {
+			if(card->type == MISS || card->type == BANG) {
+				hands_id[cnt] = id;
+				sprintf(options[cnt], "%2d) %s", cnt, card->name);
+				++cnt;
+			}
+		}
+		else {
+			if(card->type == card_type) {
+				hands_id[cnt] = id;
+				sprintf(options[cnt], "%2d) %s", cnt, card->name);
+				++cnt;
+			}
+		}
+	}
+	
+	sSelectEvent sl_e = select_event_with_arr(pGame, target_id, 1, 1, options, cnt, sizeof(*options));
+	i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+	free_list(sl_e.select_res);
+	free_list(sl_e.selections);
+	return hands_id[select_idx];
 }
