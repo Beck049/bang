@@ -8,6 +8,11 @@ void card_miss(sGame *pGame, i32 player_id, i32 card_id ) {
 
 void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	// select who to bang
+	if( player_id == 0 ){
+		printf(" 你使用了 bang \n");
+		printf(" 請選擇bang的對象: ");
+	}else printf("> player %d 使用了bang\n",player_id);
+
 	i32 live_size = pGame->live_players->size;
 	i32 players_id[live_size];
 	char players_option[live_size][16];
@@ -27,6 +32,10 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	i32 target_id =  players_id[select_idx];
 	free_list(sl_e.select_res);
 	free_list(sl_e.selections);
+	if( target_id == 0 ){
+		printf("你被bang了QAQ\n");
+	}else printf("> player %d 被bang了\n",target_id);
+	
 	// call bang_event
 	bang_event( pGame, player_id, target_id );
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
