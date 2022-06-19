@@ -1,5 +1,6 @@
 #include "card_func.h"
 #include "select.h"
+#include "draw.h"
 
 void card_miss(sGame *pGame, i32 player_id, i32 card_id ) {
 
@@ -193,7 +194,12 @@ void card_jail(sGame *pGame, i32 player_id, i32 card_id){
 }
 void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
 	// 把bomb從手牌移走 是外面要做的事情
+	if( player_id == 0 ){
+		printf("你放了一個炸彈\n");
+	}else printf("player %d 放了一個炸彈\n",player_id);
 
+	give_card( pGame, pGame->players[player_id].desk, card_id, true );
+	take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
 
 
