@@ -24,6 +24,13 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 		}
 		display_selected(pGame, 0, selected, size);
 	}
+	for(i32 i = 0; i < size; ++i) {
+		if(selected[i]) {
+			i32 *idx = malloc(sizeof(i32));
+			*idx = i;
+			list_push_back(e->select_res, new_node(idx));
+		}
+	}
 }
 
 void select_event_bot(sGame *pGame, sSelectEvent *e) {
@@ -48,4 +55,25 @@ void select_event_bot(sGame *pGame, sSelectEvent *e) {
 	}
 	
 	// display_selected(pGame, 0, selected, size);
+}
+
+i32 select_player(sGame *pGame, i32 trigger_id) {
+	sList *live_players = pGame->live_players;
+	i32 size = live_players->size;
+	i32 players_id[size-1];
+	char options[size-1][16];
+
+	sListNode *pCurPlayer = get_player(pGame, trigger_id);
+	pCurPlayer = get_next_player(pGame, pCurPlayer);  // skip self
+	for(i32 i = 0; i < size-1; ++i) {
+		i32 id = *(i32*)pCurPlayer->data;
+		players_id[i] = id;
+		sprintf(options[i], "%2d) player%d", i+1, id);
+		pCurPlayer = get_next_player(pGame, pCurPlayer);
+	}
+	sSelectEvent sl_e = select_event_with_arr(pGame, trigger_id, 1, 1, options, size-1, sizeof(*options));
+	i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+	free_list(sl_e.select_res);
+	free_list(sl_e.selections);
+	return players_id[select_idx];
 }
