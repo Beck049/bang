@@ -1,6 +1,7 @@
 #include "game_play.h"
 #include "display.h"
 #include "select.h"
+#include "play_phase.h"
 
 bool contains_card_type(sList *pPile, eCardType card_type) {
 	LIST_FOR_EACH(pNode, pPile) {
@@ -123,7 +124,7 @@ void draw_phase(sGame *pGame) {
 
 void play_phase(sGame *pGame) {  // play any number of cards
 	i32 cur_player_id = *(i32*)pGame->cur_player->data;
-	play_phase_event(pGame, cur_player_id);
+	play_phase_default(pGame, cur_player_id);
 }
 
 void discard_phase(sGame *pGame) {
