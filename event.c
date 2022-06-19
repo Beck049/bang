@@ -14,6 +14,7 @@ void init_event_funcs() {
 		draw_phase_event_funcs[i] = new_list();
 		play_phase_event_funcs[i] = new_list();
 		damage_event_funcs[i] = new_list();
+		determine_event_funcs[i] = new_list;
 		dodge_event_funcs[i] = new_list();
 		bang_event_funcs[i] = new_list();
 		death_event_funcs[i] = new_list();
@@ -27,6 +28,7 @@ void free_event_funcs() {
 		free_list(draw_phase_event_funcs[i]);
 		free_list(play_phase_event_funcs[i]);
 		free_list(damage_event_funcs[i]);
+		free_list(determine_event_funcs[i]);
 		free_list(dodge_event_funcs[i]);
 		free_list(bang_event_funcs[i]);
 		free_list(death_event_funcs[i]);
