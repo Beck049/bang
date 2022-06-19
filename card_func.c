@@ -511,7 +511,12 @@ void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
+
 void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
+	if( player_id == 0 ){
+		printf("你裝備了 卡賓槍 \n");
+	}else printf("> player %d 裝備了 卡賓槍 \n",player_id);
+
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
     }
@@ -521,6 +526,7 @@ void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
+
 void card_volcano(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
