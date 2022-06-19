@@ -32,12 +32,12 @@ void read_card( sCard *card, cJSON *obj ) {
 
 void init_cards() {
 	FILE* pFile = NULL;
-	if( ( pFile = fopen( "card_data.json", "rb" ) ) == NULL ) {
+	if( ( pFile = fopen( "card_data_full.json", "rb" ) ) == NULL ) {
 		printf( "File could not be opened!\n" );
 		exit(1);
 	}
 
-	char buf[BUFSIZ];
+	char buf[BUFSIZ<<2];
 	if( fread(buf, 1, sizeof(buf), pFile) <= 0 ) {
 		printf( "Failed to read!\n" );
 		exit(1);
