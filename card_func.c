@@ -77,13 +77,16 @@ void card_saldon(sGame *pGame, i32 player_id, i32 card_id ) {
 void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( player_id == 0 ){
 		printf("你使用了雜貨店\n");
-	}else printf("> player %d 使用了雜貨店\n",player_id);
+	} else printf("> player %d 使用了雜貨店\n",player_id);
+	printf("抽出了:\n");
+
 
 	i32 cards_id[10] = {0};
 	i32 num = pGame->live_players->size;
 	sListNode *cur_p = get_player(pGame, player_id);
 	for(i32 i = 0; i < num; ++i) {
 		cards_id[i] = take_card(pGame, pGame->draw_pile, 0);
+		printf("%2d) %s\n", i+1, cards[cards_id[i]].name);
 	}
 	char cards_opt[num][32];
 	for(int i = 0; i < num; ++i ) {
