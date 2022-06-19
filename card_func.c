@@ -113,7 +113,7 @@ void card_cat_balou(sGame *pGame, i32 player_id) {
 	select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
 	i32 card_id = cards_id[select_idx];
 
-	if(select_idx < target_desk->size) {
+	if(select_idx < (i32)target_desk->size) {
 		take_card_by_id(pGame, target_desk, card_id);
 	} else {
 		take_card_by_id(pGame, target_hand, card_id);
