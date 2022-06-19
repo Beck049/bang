@@ -18,7 +18,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 		i32 id = *(i32 *)pNode->data;
 		if(id  != player_id) {
 			players_id[cnt] = id;
-			sprintf(players_option[cnt], "%d) player%d", cnt+1, id);
+			sprintf(players_option[cnt], "%2d) player%d", cnt+1, id);
 			++cnt;
 		}
 	}
@@ -79,22 +79,22 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 		printf("你使用了雜貨店\n");
 	}else printf("> player %d 使用了雜貨店\n",player_id);
 
-	i32 arr[10] = {0};
+	i32 cards_id[10] = {0};
 	i32 num = pGame->live_players->size;
 	sListNode *cur_p = get_player(pGame, player_id);
 	for(i32 i = 0; i < num; ++i) {
-		arr[i] = take_card(pGame, pGame->draw_pile, 0);
+		cards_id[i] = take_card(pGame, pGame->draw_pile, 0);
 	}
 	char cards_opt[num][32];
 	for(int i = 0; i < num; ++i ) {
-		sprintf(cards_opt[i], "pick a card : %d", i);
+		sprintf(cards_opt[i], "%2d) pick a card: %s", i+1, cards[cards_id[i]].name);
 	}
 	for(i32 i = 0; i < num; ++i ) {
 		// draw
 		// print all card
 		sSelectEvent event = select_event_with_arr(pGame, *(i32 *)cur_p->data , 1, 1, cards_opt, num-i, sizeof(*cards_opt) );
 		i32 take_id = *(i32*)LIST_FRONT(event.select_res);
-		i32 card_id = arr[take_id];
+		i32 card_id = cards_id[take_id];
 		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_id, true);
 
 		char tmp_cards_opt[32];
@@ -102,7 +102,7 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 
 		strcpy(cards_opt[take_id], tmp_cards_opt );
 
-		cur_p = cur_p->next;
+		cur_p = get_next_player(pGame, cur_p);
 	}
 	printf("雜貨店處理完畢\n");
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
