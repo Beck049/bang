@@ -31,6 +31,7 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 		if(sl_cnt < e->min_cnt || sl_cnt > e->max_cnt) continue;
 
 		printf("Select success!\n");
+		break;
 	}
 	for(i32 i = 0; i < size; ++i) {
 		if(selected[i]) {
