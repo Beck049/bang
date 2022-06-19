@@ -8,7 +8,27 @@ void card_miss(sGame *pGame, i32 player_id) {
 
 void card_bang(sGame *pGame, i32 player_id) {
 	// select who to bang
+	i32 live_size = pGame->live_players->size;
+	i32 players_id[live_size];
+	char players_option[live_size][16];
+
+	int cnt=0;
+	LIST_FOR_EACH(pNode, pGame->live_players) {
+		i32 id = *(i32 *)pNode->data;
+		if(id  != player_id) {
+			players_id[cnt] = id;
+			sprintf(players_option[cnt], "%d) player%d\n", cnt+1, id);
+			++cnt;
+		}
+	}
+	
+	sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, players_option, cnt, sizeof(*players_option));
+	i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+	i32 target_id =  players_id[select_idx];
+	free_list(sl_e.select_res);
+	free_list(sl_e.selections);
 	// call bang_event
+	bang_event(pGame, player_id, target_id);
 }
 
 void card_saldon(sGame *pGame, i32 player_id) {
