@@ -34,7 +34,7 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 				if(card->type == MISS || card->type == BANG) continue;
 			}
 			hands_id[cnt] = card_id;
-			sprintf(options[cnt], "%2d) %s", cnt, card->name);
+			sprintf(options[cnt], "%2d) %s", cnt+1, card->name);
 			++cnt;
 		}
 		if(cnt == 0) break;
