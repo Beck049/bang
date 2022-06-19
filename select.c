@@ -10,11 +10,15 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 	bool selected[size];
 	memset(selected, false, sizeof(selected));
 	
-	while(sl_cnt < e->min_cnt || sl_cnt > e->max_cnt) {
+	while(true) {
 		while(!fgets_n(buf, sizeof(buf), stdin));
 		char *cur = buf;
 		while(cur && *cur) {
 			i32 x = strtol(cur, &cur, 10);
+			if(x < 1 || x > size) {
+				printf("index %d is not a valid input!\n", x);
+				continue;
+			}
 			--x;  // trnsfer to 0 index: 1, 2, 3 -> 0, 1, 2
 			selected[x] = !selected[x];
 		}
@@ -23,6 +27,10 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 			if(selected[i]) ++sl_cnt;
 		}
 		display_selected(pGame, 0, selected, size);
+
+		if(sl_cnt < e->min_cnt || sl_cnt > e->max_cnt) continue;
+
+		printf("Select success!\n");
 	}
 	for(i32 i = 0; i < size; ++i) {
 		if(selected[i]) {
