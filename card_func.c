@@ -194,6 +194,10 @@ void card_wells_fargo(sGame *pGame, i32 player_id, i32 card_id ) {
 
 void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( (i32)pGame->live_players->size >= 2  ) {
+		if( player_id == 0 ){
+			printf(" 你 使用了 啤酒\n");
+		}else printf("> player %d 使用了 啤酒 ",player_id);
+		
 		i32 id = *(i32 *)pGame->cur_player->data;
 		i32 character_id = pGame->players[player_id].character;
 		i32 highest_hp = characters[ character_id ].hp;
