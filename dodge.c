@@ -30,15 +30,19 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 		}
 
 		i32 miss_card_id[miss_cards->size];
+		char options_2[miss_cards->size][512];
+
 		sListNode *cur_node = LIST_BEGIN(miss_cards);
 		for(i32 i = 0; i < (i32)miss_cards->size; ++i) {
+			i32 card_id = *(i32*)cur_node->data;
 			miss_card_id[i] = *(i32*)cur_node->data;
+			sprintf(options_2[i], "%2d) %s", i+1, cards[card_id].name);
 			cur_node = cur_node->next;
 		}
-
-		sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, dodge_times, dodge_times, miss_card_id, miss_cards->size, sizeof(*miss_card_id) );
-		i32 select_card_idx = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
-		i32 take_id = take_card_by_id(pGame, player_cards, select_card_idx);
+		
+		sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, dodge_times, dodge_times, options_2, miss_cards->size, sizeof(*options_2) );
+		i32 select_card_id = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
+		i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
 		if(take_id != -1) {
 			give_card(pGame, pGame->discard_pile, take_id, true);
 		}
@@ -80,8 +84,8 @@ void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e) {
 			sprintf(options_2[i], "%2d) %s (%d)", i+1, cards[card_id].name, card_id);
 		}
 		sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, dodge_times, dodge_times, options_2, miss_cards->size, sizeof(*options_2));
-		i32 select_card_idx = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
-		i32 take_id = take_card_by_id(pGame, player_cards, select_card_idx);
+		i32 select_card_id = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
+		i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
 		if(take_id != -1) {
 			give_card(pGame, pGame->discard_pile, take_id, true);
 		}

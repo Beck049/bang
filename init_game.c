@@ -74,7 +74,7 @@ void setup_players(sGame *pGame) {
 		// register event_func by character
 		pPlayer->hp = characters[pPlayer->character].hp;
 
-		printf("Player%d:\n");
+		printf("Player%d:\n", i);
 		printf("hp: %d\n", pPlayer->hp);
 		printf("role: %d\n", pPlayer->role);
 		printf("char: %d\n", pPlayer->character);
