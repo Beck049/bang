@@ -25,7 +25,7 @@ void lethal_event_default(sGame *pGame, sLethalEvent *e) {
 	for(i32 i = 0; i < (i32)beers->size; ++i) {
 		beer_id[i] = *(i32*)cur_node->data;
 	}
-    char options[beers->size][128];
+    char options[beers->size][512];
     cur_node = LIST_BEGIN(beers);
     for(i32 i = 0; i < (i32)beers->size; ++i) {
         i32 card_id = *(i32*)cur_node->data;
@@ -70,7 +70,7 @@ void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e) {
 	for(i32 i = 0; i < (i32)beers->size; ++i) {
 		beer_id[i] = *(i32*)cur_node->data;
 	}
-    char options[beers->size][128];
+    char options[beers->size][512];
     cur_node = LIST_BEGIN(beers);
     for(i32 i = 0; i < (i32)beers->size; ++i) {
         i32 card_id = *(i32*)cur_node->data;
@@ -95,7 +95,7 @@ void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e) {
 	for(i32 i = 0; i < left_size; ++i) {
 		left_card_id[i] = *(i32*)cur_node->data;
 	}
-    char left_options[left_size][128];
+    char left_options[left_size][512];
     cur_node = LIST_BEGIN(pGame->players[*(i32*)cur_p->data].cards);
     for(i32 i = 0; i < left_size; ++i) {
         i32 card_id = *(i32*)cur_node->data;

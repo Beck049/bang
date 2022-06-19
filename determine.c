@@ -14,15 +14,15 @@ void determine_event_lucky_duke(sGame *pGame, sDetermineEvent *e) {
 	char buf[512];
 	display_determine(pGame, e->target_id, 2);
 	i32 cards_id[2];
-	char selections[2][1024];
+	char option[2][1024];
 	for(i32 i = 0; i < 2; ++i) {
 		i32 card_id = take_card(pGame, pGame->draw_pile, 0);
 		cards_id[i] = card_id;
 		print_card(buf, card_id);
-		sprintf(selections[i], " %d) %s", i+1, buf);
+		sprintf(option[i], " %d) %s", i+1, buf);
 	}
 
-	sSelectEvent sl_e = select_event_with_arr(pGame, e->target_id, 1, 1, selections, 2, sizeof(*selections));
+	sSelectEvent sl_e = select_event_with_arr(pGame, e->target_id, 1, 1, option, 2, sizeof(*option));
 	i32 card_id = *(i32*)LIST_FRONT(sl_e.select_res);
 	free_list(sl_e.selections);
 	free_list(sl_e.select_res);

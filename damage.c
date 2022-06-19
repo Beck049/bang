@@ -21,7 +21,7 @@ void damage_event_el_gringo(sGame *pGame, sDamageEvent *e) {
     sList *card_list = pGame->players[e->damager_id].cards;
     for(i32 i = 0; i < e->damage; ++i) {
         i32 hand_card_num  = card_list->size;
-        char cards_opt[hand_card_num][8];
+        char cards_opt[hand_card_num][512];
         for(int i = 0; i < hand_card_num; ++i ) {
 
             sprintf(cards_opt[i], "(%2d)", i);

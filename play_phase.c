@@ -22,7 +22,7 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 	while(true) {
 		i32 cnt = 0;
 		i32 hands_id[hands_size];
-		char options[hands_size][16];
+		char options[hands_size][512];
 		LIST_FOR_EACH(pNode, hands) {
 			i32 card_id = *(i32*)pNode->data;
 			sCard *card = &cards[card_id];

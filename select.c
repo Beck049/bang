@@ -70,7 +70,7 @@ i32 select_player(sGame *pGame, i32 trigger_id) {
 	sList *live_players = pGame->live_players;
 	i32 size = live_players->size;
 	i32 players_id[size-1];
-	char options[size-1][16];
+	char options[size-1][512];
 
 	sListNode *pCurPlayer = get_player(pGame, trigger_id);
 	pCurPlayer = get_next_player(pGame, pCurPlayer);  // skip self
@@ -92,7 +92,7 @@ i32 select_throw(sGame *pGame, i32 target_id, eCardType card_type) {
 	i32 size = pTarget->cards->size;
 	i32 cnt = 0;
 	i32 hands_id[size];
-	char options[size][16];
+	char options[size][512];
 
 	sListNode *pCurNode = LIST_BEGIN(pTarget->cards);
 	for(i32 i = 0; i < size; ++i) {

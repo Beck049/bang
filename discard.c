@@ -9,7 +9,7 @@ void discard(sGame *pGame, i32 player_id){
 	if(size <= hp) return;
 
 	i32 cards_id[size];
-	char selections[size][16];
+	char selections[size][512];
 
 	i32 cnt = 0;
 	LIST_FOR_EACH(pNode, player->cards) {

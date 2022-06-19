@@ -15,7 +15,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 
 	i32 live_size = pGame->live_players->size;
 	i32 players_id[live_size];
-	char players_option[live_size][16];
+	char players_option[live_size][512];
 
 	int cnt=0;
 	LIST_FOR_EACH(pNode, pGame->live_players) {
@@ -100,7 +100,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 	}else printf("> player %d 使用了 驚慌!\n",player_id);
 
 	sListNode *cur_player = get_player(pGame, player_id);
-	char players_option[5][32];
+	char players_option[5][512];
 	i32 opt_num = 0;
 	i32 dis = 0;
 	LIST_FOR_EACH(pNode2, pGame->players[player_id].desk) {
@@ -141,7 +141,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		i32 hand_card_num  = pGame->players[p_id].cards->size;
 		i32 desk_card_num  = pGame->players[p_id].desk->size;
 		i32 total_card_num = hand_card_num + desk_card_num;
-		char cards_opt[total_card_num][8];
+		char cards_opt[total_card_num][512];
 		for(int i = 0; i < total_card_num; ++i ) {
 
 			sprintf(cards_opt[i], "(%2d)", i);
@@ -225,7 +225,7 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 	//選人，除了自己。
 	i32 live_size = pGame->live_players->size;
 	i32 players_id[live_size];
-	char players_option[live_size][16];
+	char players_option[live_size][512];
 
 	int cnt=0;
 	LIST_FOR_EACH(pNode, pGame->live_players) {

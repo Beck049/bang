@@ -22,7 +22,7 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 	for(i32 i = 0; i < (i32)miss_cards->size; ++i) {
 		miss_card_id[i] = *(i32*)cur_node->data;
 	}
-	char options[2][16] = {" 1) use missed", " 2) no"};
+	char options[2][512] = {" 1) use missed", " 2) no"};
 	sSelectEvent select_dodge_e = select_event_with_arr (pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 	i32 choice = *(i32*)LIST_FRONT(select_dodge_e.select_res);
 	if(choice == 0) {

@@ -80,7 +80,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 		i32 card_id;
 		if( i == 0 ) {
 			// select draw first card from draw_pile or player
-			char options[2][32] = {" 1) draw from deck pile", " 2) draw from player"};
+			char options[2][512] = {" 1) draw from deck pile", " 2) draw from player"};
 			sSelectEvent event = select_event_with_arr(pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 ) {
 
@@ -92,7 +92,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 			else {
 
 				int live_num = pGame->live_players->size-1;
-				char player_opt[live_num][32];
+				char player_opt[live_num][512];
 				for(int i = 0; i < live_num; ++i ) {
 
 					sprintf(player_opt[i], "pick a card from player %d", i+1);
@@ -111,7 +111,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				i32 hand_card_num  = pGame->players[player_id].cards->size;
 				i32 desk_card_num  = pGame->players[player_id].desk->size;
 				i32 total_card_num = hand_card_num + desk_card_num;
-				char cards_opt[total_card_num][8];
+				char cards_opt[total_card_num][512];
 				for(int i = 0; i < total_card_num; ++i ) {
 
 					sprintf(cards_opt[i], "%2d)", i+1);
@@ -187,7 +187,7 @@ void draw_phase_event_pedro_ramirez(sGame *pGame, sDrawPhaseEvent *e) {
 
 		i32 card_id;
 		if( i == 0 ) {
-			char options[2][32] = {" 1) draw from deck pile", " 2) draw from discard pile"};
+			char options[2][512] = {" 1) draw from deck pile", " 2) draw from discard pile"};
 			// select draw first card from draw_pile or discard_pile
 			sSelectEvent event = select_event_with_arr(pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 )
