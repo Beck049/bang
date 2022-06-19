@@ -116,6 +116,8 @@ i32 select_throw(sGame *pGame, i32 target_id, eCardType card_type) {
 			}
 		}
 	}
+
+	if(cnt == 0) return -1;
 	
 	sSelectEvent sl_e = select_event_with_arr(pGame, target_id, 1, 1, options, cnt, sizeof(*options));
 	i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
