@@ -476,6 +476,8 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 		take_card_by_id( pGame, pGame->players[player_id].cards, player_id_choose );
 		give_card( pGame, pGame->discard_pile, player_id_choose, true );
 	}
+	give_card( pGame, pGame->players[player_id].desk, card_id, true );
+    take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
 
 void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
