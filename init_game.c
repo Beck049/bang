@@ -45,6 +45,20 @@ void live_players_init(sGame *pGame) {
 // set up player info
 void setup_players(sGame *pGame) {
 	for(i32 i = 0; i < pGame->total_players; ++i) {
+		register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
+		register_event_func(EVENT_PLAY_PHASE, i, play_phase);
+		register_event_func(EVENT_DAMAGE, i, damage_event_default);
+		register_event_func(EVENT_DETERMINE, i, determine_event_default);
+		register_event_func(EVENT_DODGE, i, dodge_event_default);
+		register_event_func(EVENT_BANG, i, bang_event_default);
+		register_event_func(EVENT_DEATH, i, death_event_default);
+		register_event_func(EVENT_LETHAL, i, lethal_event_default);
+
+		if(i == 0) register_event_func(EVENT_SELECT, i, select_event_player);
+		else register_event_func(EVENT_SELECT, i, select_event_bot);
+	}
+
+	for(i32 i = 0; i < pGame->total_players; ++i) {
 		sPlayer *pPlayer = &pGame->players[i];
 		pPlayer->id = i;
 		pPlayer->attack_range = 1;
@@ -64,55 +78,65 @@ void setup_players(sGame *pGame) {
 		case 0:
 			break;
 		case 1:
+			unregister_event_func(EVENT_DAMAGE, i, damage_event_default);
 			register_event_func(EVENT_DAMAGE, i, damage_event_bart_cassidy);
 			break;
 		case 2:
+			unregister_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_black_jack);
 			break;
 		case 3:
+			unregister_event_func(EVENT_DODGE, i, dodge_event_default);
 			register_event_func(EVENT_DODGE, i, dodge_event_calamity_janet);
 			break;
 		case 4:
+			unregister_event_func(EVENT_DAMAGE, i, damage_event_default);
 			register_event_func(EVENT_DAMAGE, i, damage_event_el_gringo);
 			break;
 		case 5:
+			unregister_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_jesse_jones);
 			break;
 		case 6:
+			unregister_event_func(EVENT_DODGE, i, dodge_event_default);
 			register_event_func(EVENT_DODGE, i, dodge_event_barrel);
 			break;
 		case 7:
+			unregister_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_kit_carlson);
 			break;
 		case 8:
+			unregister_event_func(EVENT_DETERMINE, i, determine_event_default);
 			register_event_func(EVENT_DETERMINE, i, determine_event_lucky_duke);
 			break;
 		case 9:
 			pPlayer->be_looked_range += 1;
 			break;
 		case 10:
+			unregister_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_pedro_ramirez);
 			break;
 		case 11:
 			pPlayer->look_range += 1;
 			break;
 		case 12:
+			unregister_event_func(EVENT_LETHAL, i, lethal_event_default);
 			register_event_func(EVENT_LETHAL, i, lethal_event_sid_ketchum);
 			break;
 		case 13:
+			unregister_event_func(EVENT_BANG, i, bang_event_default);
 			register_event_func(EVENT_BANG , i, bang_event_slab_the_killer);
 			break;
 		case 14:
 			break;
 		case 15:
 			for(i32 j = 0; j < pGame->total_players; ++j) {
+				if(j == i) continue;
+				unregister_event_func(EVENT_DEATH, j, death_event_default);
 				register_event_func(EVENT_DEATH, j, death_event_vulture_sam);
 			}
 			break;
 		}
-
-		if(i == 0) register_event_func(EVENT_SELECT, i, select_event_player);
-		else register_event_func(EVENT_SELECT, i, select_event_bot);
 
 		for(int j = 0; j < pGame->players[i].hp; ++j) {
 			i32 card_id = take_card(pGame, pGame->draw_pile, 0);

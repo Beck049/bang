@@ -88,6 +88,8 @@ void free_event_funcs();
 
 void register_event_func(eEventType type, i32 player_id, void *func);
 
+void unregister_event_func(eEventType type, i32 player_id, void *func);
+
 sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id);
 
 sPlayPhaseEvent play_phase_event(sGame *pGame, i32 target_id);

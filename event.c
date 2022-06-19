@@ -56,9 +56,14 @@ void register_event_func(eEventType type, i32 player_id, void *func) {
 }
 
 void unregister_event_func(eEventType type, i32 player_id, void *func) {
-	void **data = malloc(sizeof(func));
-	*data = func;
-	list_push_front(event_funcs[type][player_id], new_node(data));
+	sList *pList = event_funcs[type][player_id];
+	LIST_FOR_EACH(pNode, pList) {
+		void **data = pNode->data;
+		if(*data == func) {
+			list_erase(pList, pNode);
+			break;
+		}
+	}
 }
 
 sDrawPhaseEvent draw_phase_event(sGame *pGame, i32 target_id) {
