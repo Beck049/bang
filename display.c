@@ -147,6 +147,12 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	printf("\n");
 	printf("Your cards: \n");
 	i32 hand_size = (i32)viewer_cards->size;
+
+	if(hand_size == 0) {
+		printf("You have no card!\n\n");
+		return;
+	}
+
 	char lines[6][hand_size][64];
 	sListNode *pViewerCardNode = LIST_BEGIN(viewer_cards);
 	for(i32 i = 0; i < hand_size; ++i) {
