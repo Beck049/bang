@@ -171,6 +171,10 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 }
 
 void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
+	if( player_id == 0 ){
+		printf("你使用了驛馬車\n");
+	}else printf("> player %d 使用了驛馬車\n",player_id);
+
 	sListNode *cur_p = get_player(pGame, player_id);
 	i32 card_array_id;
 	for(i32 i = 0; i < 2; ++i) {
