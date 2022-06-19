@@ -97,7 +97,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 					sprintf(player_opt[i], "pick a card from player %d", i);
 				}
 				sSelectEvent player_event = select_event_with_arr(pGame, e->target_id, 1, 1, player_opt, live_num, 32);
-				i32 distance = *(i32*)LIST_FRONT(event.select_res);
+				i32 distance = *(i32*)LIST_FRONT(player_event.select_res);
 				sListNode *cur_player = get_player(pGame, e->target_id);
 				i32 pos = node_distance( pGame->live_players, LIST_BEGIN(pGame->live_players), cur_player );
 				if( pos + distance >= (i32)pGame->live_players->size )
@@ -116,7 +116,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 					sprintf(cards_opt[i], "(%2d)", i);
 				}
 				sSelectEvent card_select_event = select_event_with_arr(pGame, e->target_id, 1, 1, cards_opt, total_card_num, 8);
-				i32 take_id = *(i32*)LIST_FRONT(event.select_res);
+				i32 take_id = *(i32*)LIST_FRONT(card_select_event.select_res);
 				if(take_id < hand_card_num)
 				{
 					card_id = take_card(pGame, pGame->players[player_id].cards, take_id);
