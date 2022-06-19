@@ -145,16 +145,16 @@ void turn_phase(sGame *pGame) {
 
 	display_game(pGame, 0);
 
-	if(cur_player_id == 0) printf("Preparation Phase:\n");
+	printf("Preparation Phase: id:(%d)\n", cur_player_id);
 	skip = (prep_phase(pGame) == -1);
 	if(skip) return;
 
-	if(cur_player_id == 0) printf("Draw Phase:\n");
+	printf("Draw Phase: id:(%d)\n", cur_player_id);
 	draw_phase(pGame);
 
 	display_game(pGame, 0);
 
-	if(cur_player_id == 0) printf("Play Phase:\n");
+	printf("Play Phase: id:(%d)\n", cur_player_id);
 	play_phase(pGame);
 
 	if(pGame->end_winner_role != (eRole)-1) return;
