@@ -80,6 +80,10 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
+void card_panic(sGame *pGame, i32 player_id){
+
+}
+
 void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
 	sListNode *cur_p = get_player(pGame, player_id);
 	i32 card_array_id;
@@ -202,6 +206,28 @@ void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
 	take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
 
+void card_gatlin(sGame *pGame, i32 player_id, i32 card_id ){
+	// 從自己開始繞一圈，問每個人要不要丟miss，不要->扣血。 
+	// 直接丟到棄牌堆
+
+}
+void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
+	// 從自己開始繞一圈，問每個人要不要丟bang，不要->扣血。 
+	// 直接丟到棄牌堆
+}
+void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
+	// 用while()，跑你、我、你、我，直到偵測到throw_card回傳1，就break。 
+	// 直接丟到棄牌堆
+	if( player_id == 0 ){
+		printf("你 丟出了 決鬥\n");
+		printf("請選擇決鬥對象：");
+	}else printf("> player %d 丟出了 決鬥\n");
+
+	i32 duel_id=select_player(pGame, player_id);
+	if ( duel_id==0 ){
+		printf("你成為 player %d 的決鬥對象\n",player_id);
+	}else printf("> player %d 成為 player %d 的決鬥對象");
+}
 
 void remove_card(sGame *pGame, i32 player_id, i32 target_card_type, i32 card_id ) {
     sList *live_player = pGame->live_players;
@@ -246,7 +272,7 @@ void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
 }
 
 // guns
-void remington(sGame *pGame, i32 player_id, i32 card_id) {
+void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i, card_id);
     }
@@ -256,7 +282,7 @@ void remington(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
-void schofild(sGame *pGame, i32 player_id, i32 card_id) {
+void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i, card_id);
     }
@@ -266,7 +292,7 @@ void schofild(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
-void winchester(sGame *pGame, i32 player_id, i32 card_id) {
+void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i, card_id);
     }
@@ -276,7 +302,7 @@ void winchester(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
-void carabine(sGame *pGame, i32 player_id, i32 card_id) {
+void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i, card_id);
     }
@@ -286,7 +312,7 @@ void carabine(sGame *pGame, i32 player_id, i32 card_id) {
 		give_card(pGame, pGame->players[player_id].desk, card_id, true);
 	}
 }
-void volcano(sGame *pGame, i32 player_id, i32 card_id) {
+void card_volcano(sGame *pGame, i32 player_id, i32 card_id) {
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i, card_id);
     }
