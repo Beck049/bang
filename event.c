@@ -9,6 +9,17 @@ sList *bang_event_funcs[MAX_ID];
 sList *death_event_funcs[MAX_ID];
 sList *select_event_funcs[MAX_ID];
 sList *lethal_event_funcs[MAX_ID];
+sList **event_funcs[EVENT_TYPE_SIZ] = {
+	draw_phase_event_funcs,
+	play_phase_event_funcs,
+	damage_event_funcs,
+	determine_event_funcs,
+	dodge_event_funcs,
+	bang_event_funcs,
+	death_event_funcs,
+	select_event_funcs,
+	lethal_event_funcs,
+};
 
 void init_event_funcs() {
 	for(i32 i = 0; i < MAX_ID; ++i) {

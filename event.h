@@ -80,6 +80,7 @@ extern sList *bang_event_funcs[MAX_ID];
 extern sList *death_event_funcs[MAX_ID];
 extern sList *select_event_funcs[MAX_ID];
 extern sList *lethal_event_funcs[MAX_ID];
+extern sList **event_funcs[EVENT_TYPE_SIZ];
 
 void init_event_funcs();
 
