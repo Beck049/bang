@@ -428,6 +428,10 @@ void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
 }
 
 void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
+	if( player_id == 0 ){
+		printf("你裝備了 野馬 \n");
+	}else printf("> player %d 裝備了 野馬 \n",player_id);
+
     remove_card(pGame, player_id, 18);
 	i32 take_id;
 	take_id = take_card_by_id(pGame, pGame->players[player_id].cards, card_id);
