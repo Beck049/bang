@@ -1,4 +1,5 @@
 #include "card_func.h"
+#include "select.h"
 
 void card_miss(sGame *pGame, i32 player_id, i32 card_id ) {
 
@@ -169,16 +170,29 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 	give_card( pGame , pGame->discard_pile , id , true );
 
 	printf("player %d 棄掉了 %s\n", target_id, cards[ id ].name);
-	
+
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
 }
 
 void card_jail(sGame *pGame, i32 player_id, i32 card_id){
+	if( player_id == 0 ){
+		printf(" 你 使用了 監獄\n");
+		printf(" 請選擇使用對象:\n");
+	}else printf(" > player %d 使用了監獄\n",player_id);
+	i32 select_idx = select_player( pGame, player_id );
 	
+	
+	if( select_idx == 0 ){
+		printf("你被關進監獄了QQ\n");
+	}else printf(" > player %d 被關進監獄了QQ\n",select_idx);
+	// 把jail放到某個人的桌上
+	// 把jail從自己手牌移除
+	give_card( pGame, pGame->players[select_idx].desk, card_id, true );
+	take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
 void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
-	//把bomb從手牌移走 是外面要做的事情
+	// 把bomb從手牌移走 是外面要做的事情
 
 }
 
