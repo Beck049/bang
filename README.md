@@ -1,7 +1,7 @@
 # bang
 
 ## display.c
-- [ ] dilay_game_test
+- [x] dilay_game_test
 
 ## init_game.c
 - [ ] setup_players "TODO"
