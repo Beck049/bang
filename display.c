@@ -72,7 +72,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	printf("++============================================================================++\n");
 	printf("||                                                                            ||\n");
 	printf("||                 +----------------- BANG -----------------+                 ||\n");
-	printf("||                 | Draw Pile (%ld)    /  Discard Pile (%ld)  |                 ||\n", pGame->draw_pile->size, pGame->discard_pile->size);
+	printf("||                 | Draw Pile (%2ld)    /  Discard Pile (%2ld) |                 ||\n", pGame->draw_pile->size, pGame->discard_pile->size);
 	printf("||                 +----------------------------------------+                 ||\n");
 /*
 	printf("||                                                                            ||\n");
@@ -110,7 +110,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		}
 
 		printf("||                                                                            ||\n");
-		printf("||    %s  (%2ld)                                                        ||\n", appellation, player_cards->size);
+		printf("||    %s  (%2ld)                                                         ||\n", appellation, player_cards->size);
 		printf("||                                                                            ||\n");
 		i32 desk_size = (i32)player_desk->size;
 		printf("||     ");
@@ -143,9 +143,55 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	printf("++============================================================================++\n\n");
 
 	sList *viewer_cards = pGame->players[viewer_id].cards;
-	// i32 hand_size = (i32)viewer_cards->size;
-	display_pile(viewer_cards);
-	printf("\n");
+	// display_pile(viewer_cards);
+	// printf("\n");
+	printf("Your cards: \n");
+	i32 hand_size = (i32)viewer_cards->size;
+	char lines[6][hand_size][64];
+	sListNode *pViewerCardNode = LIST_BEGIN(viewer_cards);
+	for(i32 i = 0; i < hand_size; ++i) {
+		i32 card_id = *(i32*)pViewerCardNode->data;
+		pViewerCardNode = pViewerCardNode->next;
+		sCard *card = &cards[card_id];
+		char suit_num_and_id[16];
+		char name[16];
+		i32 name_len = 0, l_padding, r_padding;
+		sprintf(suit_num_and_id, "%c%-2d      %2d", SUIT[card->suit], card->num, card_id);
+		strcpy(name, card->name);
+		
+		char *cur = name;
+		while(*cur != '\0') {
+			if(*cur > 0x7Fu) {
+				name_len += 2;
+				cur += 3;
+			}
+			else {
+				name_len += 1;
+				cur += 1;
+			}
+		}
+		l_padding = (11-name_len)/2;
+		r_padding = (11-name_len)-l_padding;
+
+		strcpy(lines[0][i], " +-----------+ ");
+		strcpy(lines[1][i], " +           + ");
+		memcpy(lines[1][i]+2, suit_num_and_id, strlen(suit_num_and_id));
+		strcpy(lines[2][i], " +           + ");
+		strcpy(lines[3][i], " +");
+		for(i32 j = 0; j < l_padding; ++j) strcat(lines[3][i], " ");
+		strcat(lines[3][i], name);
+		for(i32 j = 0; j < r_padding; ++j) strcat(lines[3][i], " ");
+		strcat(lines[3][i], "+ ");
+		strcpy(lines[4][i], " +           + ");
+		strcpy(lines[5][i], " +-----------+ ");
+		
+	}
+	for(i32 i = 0; i < 6; ++i) {
+		for(i32 j = 0; j < hand_size; ++j) {
+			printf("%s", lines[i][j]);
+		}
+		printf("\n");
+	}
 /*
 	printf("  +-----------+  +-----------+  +-----------+  +-----------+  +-----------+ \n");
 	printf("  |S2       id|  |           |  |           |  |           |  |           | \n");
