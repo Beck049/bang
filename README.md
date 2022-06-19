@@ -11,18 +11,18 @@
 ## card_function
 - [x] card_bang
 - [x] card_saldon
-- [ ] card_panic
+- [x] card_panic
 
 - [ ] card_gatlin
 - [ ] card_indians
 - [ ] card_duel
-- [ ] throw_card
+- [x] throw_card
 
 - [x] card_mustang
 - [x] card_scope
 - [x] card_barrel
-- [ ] card_jail
-- [ ] card_bomb
+- [x] card_jail
+- [x] card_bomb
 
 - [x] remington
 - [x] schofild
