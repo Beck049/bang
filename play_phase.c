@@ -96,7 +96,7 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 			card_bang(pGame, player_id, select_card_id);
 			break;
 		case INDIANS:
-			card_bang(pGame, player_id, select_card_id);
+			card_indians(pGame, player_id, select_card_id);
 			break;
 		case DUEL:
 			card_duel(pGame, player_id, select_card_id);
