@@ -112,8 +112,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				i32 total_card_num = hand_card_num + desk_card_num;
 				char cards_opt[total_card_num][512];
 				for(int i = 0; i < total_card_num; ++i ) {
-
-					sprintf(cards_opt[i], "%2d)", i+1);
+					sprintf(cards_opt[i], "%2d) 手牌 %d", i+1, i+1);
 				}
 				sSelectEvent card_select_event = select_event_with_arr(pGame, e->target_id, 1, 1, cards_opt, total_card_num, sizeof(*cards_opt));
 				i32 take_id = *(i32*)LIST_FRONT(card_select_event.select_res);

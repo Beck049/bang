@@ -13,7 +13,14 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 	while(true) {
 		while(!fgets_n(buf, sizeof(buf), stdin));
 		char *cur = buf;
-		while(cur && *cur) {
+		while(cur) {
+			cur += strspn(cur, " ");
+			if(*cur == '\0') break;
+
+			if(!isdigit(*cur)) {
+				printf("非法輸入: %s\n", cur);
+				break;
+			}
 			i32 x = strtol(cur, &cur, 10);
 			if(x < 1 || x > size) {
 				printf("索引值 %d 是個非法輸入!\n", x);

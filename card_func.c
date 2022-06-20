@@ -169,6 +169,9 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		} else {
 			printf(YLW"-> Player %d 發現沒有可以使用驚慌的目標OAO\n"RST, player_id);
 		}
+		printf(YLW"-> 驚慌處理完畢\n"RST);
+		take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+		give_card( pGame, pGame->discard_pile , card_id , true );
 		return;
 	}
 
