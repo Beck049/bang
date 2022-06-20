@@ -111,7 +111,7 @@ i32 prep_phase(sGame *pGame) {
 		}
 		else {
 			if( cur_player_id == 0 ){
-				printf("-> 你 躲過了一劫!\n");
+				printf("-> 你躲過了一劫!\n");
 			} else printf("-> 玩家 %d 躲過了一劫\n",cur_player_id );
 
 			printf("-> 炸彈傳遞給下一位玩家\n");
@@ -128,13 +128,13 @@ i32 prep_phase(sGame *pGame) {
 		give_card(pGame, pGame->discard_pile, jail_id, false);
 		if(suit != HEART){
 			if( cur_player_id == 0 ){
-				printf("-> 你 逃獄失敗了，乖乖在牢裡待著吧\n");
+				printf("-> 你逃獄失敗了，乖乖在牢裡待著吧\n");
 			} else printf("-> 玩家 %d 逃獄失敗\n", cur_player_id);
 			// 非紅心，逃獄失敗
 			return -1;
 		}
 		if( cur_player_id == 0 ){
-			printf("-> 你 逃獄成功了，算你狠阿!\n");
+			printf("-> 你逃獄成功了，算你狠阿!\n");
 		} else printf("-> 玩家 %d 逃獄成功\n", cur_player_id);
 	}
 	

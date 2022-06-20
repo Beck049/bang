@@ -3,7 +3,7 @@
 void damage_event_default(sGame *pGame, sDamageEvent *e) {
     pGame->players[e->victim_id].hp -= e->damage;
     if(e->victim_id == 0) {
-        printf("你 受到 %d 點傷害，血量剩餘: %d\n", e->damage, pGame->players[e->victim_id].hp);
+        printf("你受到 %d 點傷害，血量剩餘: %d\n", e->damage, pGame->players[e->victim_id].hp);
     } else {
         printf("玩家 %d 受到 %d 點傷害，血量剩餘: %d\n", e->victim_id, e->damage, pGame->players[e->victim_id].hp);
     }
@@ -14,7 +14,7 @@ void damage_event_bart_cassidy(sGame *pGame, sDamageEvent *e) {
     damage_event_default(pGame, e);
 
     if(e->victim_id == 0) {
-        printf("[能力] 你 從排堆抽出 %d 張牌加到自己手上\n", e->damage);
+        printf("[能力] 你從排堆抽出 %d 張牌加到自己手上\n", e->damage);
     } else {
         printf("[能力] 玩家 %d 從排堆抽出 %d 張牌加到自己手上\n", e->victim_id, e->damage);
     }

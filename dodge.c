@@ -84,7 +84,7 @@ void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e) {
 
 	if(choice == 0) {
 		if(e->target_id == 0) {
-			printf("你 選擇進行躲避\n");
+			printf("你選擇進行躲避\n");
 		} else printf("玩家 %d 選擇進行躲避\n", e->target_id);
 
 
