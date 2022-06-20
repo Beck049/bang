@@ -420,12 +420,12 @@ void card_gatling(sGame *pGame, i32 player_id, i32 card_id ){
     }
 
 	printf(YLW"-> 格林機關槍使用完畢\n"RST);
-    give_card( pGame, pGame->players[player_id].desk, card_id, true );
+    give_card( pGame, pGame->discard_pile, card_id, false);
     take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
 
 void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
-    // 從自己開始繞一圈，問每個人要不要丟bang，不要->扣血。 
+    // 從自己開始繞一圈，問每個人要不要丟bang，不要->扣血。
     // 直接丟到棄牌堆
 	if( player_id == 0 ){
 		printf(YLW"-> 你使用了印地安人\n"RST);
