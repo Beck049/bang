@@ -81,10 +81,10 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 		}
 		if(cnt == 0) {
 			if(player_id == 0) {
-				printf("You have no card to play.\n");
+				printf("你沒有任何手牌可以出了\n");
 			}
 			else {
-				printf("Player%d have no card to play.\n", player_id);
+				printf("玩家 %d 你沒有任何手牌可以出了\n", player_id);
 			}
 			break;
 		}
