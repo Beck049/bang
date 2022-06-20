@@ -14,7 +14,7 @@ void display_pile(sList *pList) {
 	LIST_FOR_EACH(pNode, pList) {
 		i32 card_id = *(i32*)pNode->data;
 		print_card(buf, card_id);
-		printf("%2d) %s\n", row, buf);
+		printf("%2d) %s\n", row, buf+4);
 		++row;
 	}
 }
@@ -84,12 +84,15 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		i32 player_id = *(i32*)player_node->data;
 		sList *player_cards = pGame->players[player_id].cards;
 		sList *player_desk = pGame->players[player_id].desk;
+
+		// build appellation
+
 		char appellation[16];
 		if(player_id == viewer_id) sprintf(appellation, "  You  ");
 		else                       sprintf(appellation, "Player%1d", player_id);
 
 		printf("||                                                                            ||\n");
-		printf("||    %s       (hp: %2d)  (%2ld)                                            ||\n", appellation, pGame->players[player_id].hp, player_cards->size);
+		printf("||    %s (hp:%3d)  (Cards:%3ld)                                           ||\n", appellation, pGame->players[player_id].hp, player_cards->size);
 		printf("||                                                                            ||\n");
 		i32 desk_size = (i32)player_desk->size;
 		printf("||     ");
@@ -132,7 +135,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		return;
 	}
 
-	char lines[6][hand_size][64];
+	char lines[7][hand_size][64];
 	sListNode *pViewerCardNode = LIST_BEGIN(viewer_cards);
 	for(i32 i = 0; i < hand_size; ++i) {
 		i32 card_id = *(i32*)pViewerCardNode->data;
@@ -158,20 +161,25 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		l_padding = (11-name_len)/2;
 		r_padding = (11-name_len)-l_padding;
 
-		strcpy(lines[0][i], " +-----------+ ");
-		strcpy(lines[1][i], " +           + ");
-		memcpy(lines[1][i]+2, suit_num_and_id, strlen(suit_num_and_id));
-		strcpy(lines[2][i], " +           + ");
-		strcpy(lines[3][i], " +");
+		strcpy(lines[0][i], " +-------------+ ");
+
+		strcpy(lines[1][i], " +             + ");
+		memcpy(lines[1][i]+3, suit_num_and_id, strlen(suit_num_and_id));
+
+		strcpy(lines[2][i], " +             + ");
+
+		strcpy(lines[3][i], " + ");
 		for(i32 j = 0; j < l_padding; ++j) strcat(lines[3][i], " ");
 		strcat(lines[3][i], name);
 		for(i32 j = 0; j < r_padding; ++j) strcat(lines[3][i], " ");
-		strcat(lines[3][i], "+ ");
-		strcpy(lines[4][i], " +           + ");
-		strcpy(lines[5][i], " +-----------+ ");
+		strcat(lines[3][i], " + ");
+
+		strcpy(lines[4][i], " +             + ");
+		strcpy(lines[5][i], " +             + ");
+		strcpy(lines[6][i], " +-------------+ ");
 		
 	}
-	for(i32 i = 0; i < 6; ++i) {
+	for(i32 i = 0; i < 7; ++i) {
 		for(i32 j = 0; j < hand_size; ++j) {
 			printf("%s", lines[i][j]);
 		}
@@ -179,9 +187,6 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	}
 	struct timespec ts_req = {.tv_nsec = 0, .tv_sec = 1};
 	nanosleep(&ts_req, NULL);
-	// printf("輸入任意鍵以繼續...");
-	// char tmp[BUFSIZ];
-	// fgets_n(tmp, sizeof(tmp), stdin);
 	printf("\n\n");
 }
 
