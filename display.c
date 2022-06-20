@@ -64,6 +64,8 @@ void display_pile(sList *pList) {
 }
 
 void display_board(sGame *pGame, i32 viewer_id) {
+	// reset position
+	printf("\033[2J\033[1;1H");
 	printf("++============================================================================++\n");
 	printf("||                                                                            ||\n");
 	printf("||                 +----------------- BANG -----------------+                 ||\n");
