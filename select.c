@@ -11,7 +11,10 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 	memset(selected, false, sizeof(selected));
 	
 	while(true) {
+		printf(LCYN);
 		while(!fgets_n(buf, sizeof(buf), stdin));
+		printf(RST);
+
 		char *cur = buf;
 		while(cur) {
 			cur += strspn(cur, " ");
