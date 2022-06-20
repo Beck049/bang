@@ -4,7 +4,6 @@ void death_event_default(sGame *pGame, sDeathEvent *e) {
     e->death_res = true;
     pGame->end_winner_role = getWinner( pGame );
     sPlayer *pDead = &pGame->players[e->dead_id];
-    sPlayer *pKiller = &pGame->players[e->killer_id];
     sList *death_desk = pDead->desk;
     sList *death_hand = pDead->cards;
 
@@ -18,6 +17,9 @@ void death_event_default(sGame *pGame, sDeathEvent *e) {
         give_card(pGame, pGame->discard_pile, card_id, false);
     }
 
+    if(e->killer_id == -1) return;
+
+    sPlayer *pKiller = &pGame->players[e->killer_id];
     // 如果警長殺死副警長，警長的手牌跟面前的紙牌都得丟到棄牌堆
     if(pDead->role==Deputy && pKiller->role==Sheriff ){
         sList *sheriff_desk = pKiller->desk;
@@ -94,7 +96,6 @@ void death_event_vulture_sam(sGame *pGame, sDeathEvent *e) {
     e->death_res = true;
     pGame->end_winner_role = getWinner( pGame );
     sPlayer *pDead = &pGame->players[e->dead_id];
-    sPlayer *pKiller = &pGame->players[e->killer_id];
     sList *death_desk = pDead->desk;
     sList *death_hand = pDead->cards;
     sList *sam_hand= pGame->players[sam_player_id].cards;
@@ -108,6 +109,8 @@ void death_event_vulture_sam(sGame *pGame, sDeathEvent *e) {
         give_card(pGame, sam_hand, card_id, false);
     }
 
+    if(e->killer_id == -1) return;
+    sPlayer *pKiller = &pGame->players[e->killer_id];
     // 如果警長殺死副警長，警長的手牌跟面前的紙牌都得丟到棄牌堆
     if(pDead->role==Deputy && pKiller->role==Sheriff ){
         sList *sheriff_desk = pKiller->desk;
