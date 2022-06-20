@@ -60,6 +60,7 @@ typedef struct _sDeathEvent {
 } sDeathEvent;
 
 typedef struct _sSelectEvent {
+	i32 target_id;
 	i32 min_cnt;
 	i32 max_cnt;
 	sList *selections;  // list of string to select
