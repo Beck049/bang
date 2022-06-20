@@ -18,7 +18,6 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 	}
 
 	while(true) {
-		i32 cnt = 0;
 		i32 hands_size = hands->size;
 
 		if(hands_size == 0) {
@@ -60,6 +59,7 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 		}
 
 
+		i32 cnt = 0;
 		LIST_FOR_EACH(pNode, hands) {
 			i32 card_id = *(i32*)pNode->data;
 			sCard *card = &cards[card_id];

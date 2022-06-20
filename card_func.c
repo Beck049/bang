@@ -110,6 +110,7 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 		i32 take_idx = *(i32*)LIST_FRONT(event.select_res);
 		i32 take_id = cards_id[take_idx];
 		give_card(pGame, pGame->players[cur_p_id].cards, take_id, true);
+		take_card_by_id(pGame, pick_cards, take_id);
 
 		cur_p = get_next_player(pGame, cur_p);
 	}
@@ -133,11 +134,19 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 	i32 live_size = live_p->size;
 
 	i32 opt_num = 0;
+	i32 players_id[live_size];
 	char players_option[live_size][512];
 
 	LIST_FOR_EACH(pNode, pGame->live_players) {
 		i32 target_id = *(i32*)pNode->data;
 		sPlayer *target_player = &pGame->players[target_id];
+
+		sList *target_desk = target_player->desk;
+		sList *target_hand = target_player->cards;
+		i32 target_cards_cnt = target_desk->size + target_hand->size;
+
+		if(target_id == player_id || target_cards_cnt == 0) continue;
+
 		i32 dis = node_distance( live_p, pNode, cur_player_node );
 		dis = min(dis, live_size-dis)
 			  - cur_player->look_range
@@ -146,13 +155,8 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		if(contains_card_type(cur_player->desk, SCOPE)) --dis;
 		if(contains_card_type(target_player->desk, MUSTANG)) ++dis;
 		
-		sList *target_desk = pGame->players[ target_id ].desk;
-		sList *target_hand = pGame->players[ target_id ].cards;
-		i32 target_cards_cnt = target_desk->size + target_hand->size;
-
-		if(target_id == player_id || target_cards_cnt == 0) continue;
-	
 		if( dis <= 1 ) {
+			players_id[opt_num] = target_id;
 			sprintf( players_option[opt_num], "%2d) Player %d", opt_num+1, target_id);
 			++opt_num;
 		}
@@ -168,39 +172,49 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 	}
 
 	sSelectEvent panic_event = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, sizeof(*players_option));
-	i32 p_id = *(i32*)LIST_FRONT(panic_event.select_res);
-
-	if( p_id == 0 ){
-		printf(YLW"-> 你被驚慌了QQ\n"RST);
-	} else printf(YLW"-> player %d 被驚慌了\n"RST, p_id );
-
-		i32 hand_card_num  = pGame->players[p_id].cards->size;
-		i32 desk_card_num  = pGame->players[p_id].desk->size;
-		i32 total_card_num = hand_card_num + desk_card_num;
-		i32 select_card_id = 0;
-
-		char cards_opt[total_card_num][512];
-		for(int i = 0; i < total_card_num; ++i ) {
-			sprintf(cards_opt[i], "(%2d)", i);
-		}
-		sSelectEvent card_select_event = select_event_with_arr(pGame, player_id, 1, 1, cards_opt, total_card_num, sizeof(*cards_opt));
-		i32 take_id = *(i32*)LIST_FRONT(card_select_event.select_res);
-		
-		if(take_id < hand_card_num){
-			select_card_id = take_card(pGame, pGame->players[p_id].cards, take_id);
-		}else{
-			select_card_id = take_card(pGame, pGame->players[p_id].desk, take_id - hand_card_num);
-		}
-		
-		if( select_card_id != -1) {
-			give_card(pGame, pGame->players[player_id].cards, select_card_id, true);
-		}
-		
-		free_list(card_select_event.selections);
-		free_list(card_select_event.select_res);
-
+	i32 target_idx = *(i32*)LIST_FRONT(panic_event.select_res);
+	i32 target_id = players_id[target_idx];
 	free_list(panic_event.selections);
 	free_list(panic_event.select_res);
+
+	if( target_id == 0 ){
+		printf(YLW"-> 你被驚慌了QQ\n"RST);
+	} else printf(YLW"-> player %d 被驚慌了\n"RST, target_id );
+
+	// build selection
+
+	sPlayer *target = &pGame->players[target_id];
+	sList *target_hand = target->cards;
+	sList *target_desk = target->desk;
+	i32 hand_card_num  = target_hand->size;
+	i32 desk_card_num  = target_desk->size;
+	i32 total_card_num = hand_card_num + desk_card_num;
+	i32 select_card_id = 0;
+
+	char cards_opt[total_card_num][512];
+	for(int i = 0; i < total_card_num; ++i ) {
+		if(i < hand_card_num) {
+			sprintf(cards_opt[i], "%2d) 手牌 %d", i+1, i+1);
+		} else {
+			i32 id = *(i32*)node_advance(LIST_BEGIN(target_desk), i-hand_card_num)->data;
+			sprintf(cards_opt[i], "%2d) 桌面: %s", i+1, cards[id].name);
+		}
+
+	}
+	sSelectEvent card_select_event = select_event_with_arr(pGame, player_id, 1, 1, cards_opt, total_card_num, sizeof(*cards_opt));
+	i32 take_idx = *(i32*)LIST_FRONT(card_select_event.select_res);
+	free_list(card_select_event.selections);
+	free_list(card_select_event.select_res);
+		
+	if(take_idx < hand_card_num){
+		select_card_id = take_card(pGame, target_hand, take_idx);
+	}else{
+		select_card_id = take_card(pGame, target_desk, take_idx - hand_card_num);
+	}
+		
+	if( select_card_id != -1) {
+		give_card(pGame, cur_player->cards, select_card_id, true);
+	}
 
 	printf(YLW"-> 驚慌處理完畢\n"RST);
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
