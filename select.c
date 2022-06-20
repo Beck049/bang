@@ -55,7 +55,7 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 
 void select_event_bot(__attribute__((unused)) sGame *pGame, sSelectEvent *e) {
 	// display_selection(pGame, 0, *e);  // display to player 0
-	printf("Player %d 正在做出抉擇...\n", e->target_id);
+	printf("玩家 %d 正在做出抉擇...\n", e->target_id);
 	i32 size = e->selections->size;
 	sList *res = e->select_res;
 	bool selected[size];
@@ -88,7 +88,7 @@ i32 select_player(sGame *pGame, i32 trigger_id) {
 	for(i32 i = 0; i < size-1; ++i) {
 		i32 id = *(i32*)pCurPlayer->data;
 		players_id[i] = id;
-		sprintf(options[i], "%2d) player%d", i+1, id);
+		sprintf(options[i], "%2d) 玩家 %d", i+1, id);
 		pCurPlayer = get_next_player(pGame, pCurPlayer);
 	}
 	sSelectEvent sl_e = select_event_with_arr(pGame, trigger_id, 1, 1, options, size-1, sizeof(*options));
