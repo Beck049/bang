@@ -168,7 +168,6 @@ void turn_phase(sGame *pGame) {
 	// return;
 
 	char appellation[16];
-	i32 skip = false;
 	i32 cur_player_id = *(i32*)pGame->cur_player->data;
 
 	display_board(pGame, 0);
@@ -177,26 +176,28 @@ void turn_phase(sGame *pGame) {
 	else                   sprintf(appellation, "Player%1d", cur_player_id);
 	
 	printf(RED"準備階段 ( %s ):\n"RST, appellation);
-	skip = (prep_phase(pGame) == -1);
-	if(skip) return;
+
+	i32 prep_res = prep_phase(pGame);
 	printf("\n");
 
-	display_hands(pGame, cur_player_id);
+	if(prep_res != -1); {
+		display_hands(pGame, cur_player_id);
 
-	printf(RED"抽牌階段 ( %s ):\n"RST, appellation);
-	draw_phase(pGame);
-	printf("\n");
+		printf(RED"抽牌階段 ( %s ):\n"RST, appellation);
+		draw_phase(pGame);
+		printf("\n");
 
-	printf(RED"出牌階段 ( %s ):\n"RST, appellation);
-	play_phase(pGame);
-	if(pGame->end_winner_role != (eRole)-1) return;
-	printf("\n");
+		printf(RED"出牌階段 ( %s ):\n"RST, appellation);
+		play_phase(pGame);
+		if(pGame->end_winner_role != (eRole)-1) return;
+		printf("\n");
 
-	display_hands(pGame, cur_player_id);
+		display_hands(pGame, cur_player_id);
 
-	printf(RED"棄牌階段 ( %s ):\n"RST, appellation);
-	discard_phase(pGame);
-	printf("\n");
+		printf(RED"棄牌階段 ( %s ):\n"RST, appellation);
+		discard_phase(pGame);
+		printf("\n");
+	}
 
 	pGame->cur_player = get_next_player( pGame, pGame->cur_player );
 }
