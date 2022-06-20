@@ -69,9 +69,6 @@ void setup_players(sGame *pGame) {
 		pPlayer->character = *(i32*)LIST_FRONT(pGame->character_pile);
 		list_pop_front(pGame->character_pile);
 
-		pPlayer->cards = new_list();
-		pPlayer->desk  = new_list();
-
 		// TODO setup hp
 		// register event_func by character
 		pPlayer->hp = characters[pPlayer->character].hp;
