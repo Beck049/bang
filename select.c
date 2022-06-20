@@ -101,6 +101,9 @@ i32 select_player(sGame *pGame, i32 trigger_id) {
 i32 select_throw(sGame *pGame, i32 target_id, eCardType card_type) {
 	sPlayer *pTarget = &pGame->players[target_id];
 	i32 size = pTarget->cards->size;
+
+	if(size == 0) return -1;
+
 	i32 cnt = 0;
 	i32 hands_id[size];
 	char options[size][512];
