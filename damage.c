@@ -20,6 +20,8 @@ void damage_event_bart_cassidy(sGame *pGame, sDamageEvent *e) {
 void damage_event_el_gringo(sGame *pGame, sDamageEvent *e) {
     damage_event_default(pGame, e);
 
+    if(e->damager_id == -1) return;
+
     printf("Player%d 可以從 player %d 手上抽出 %d 張牌加到自己手上\n", e->victim_id, e->damager_id, e->damage);
     sList *card_list = pGame->players[e->damager_id].cards;
     for(i32 i = 0; i < e->damage; ++i) {
