@@ -29,6 +29,7 @@ sListNode *get_player(sGame *pGame, i32 id) {
 		}
 	}
 	return res;
+}
 
 void remove_live_player(sGame *pGame, i32 id) {
 	sListNode *pPlayerNode = get_player(pGame, id);
