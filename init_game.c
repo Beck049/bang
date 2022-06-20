@@ -62,6 +62,8 @@ void setup_players(sGame *pGame) {
 		sPlayer *pPlayer = &pGame->players[i];
 		pPlayer->id = i;
 		pPlayer->attack_range = 1;
+		pPlayer->look_range = 0;
+		pPlayer->be_looked_range = 0;
 		pPlayer->role = *(eRole*)LIST_FRONT(pGame->role_pile);
 		list_pop_front(pGame->role_pile);
 		pPlayer->character = *(i32*)LIST_FRONT(pGame->character_pile);

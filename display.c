@@ -240,15 +240,21 @@ void display_bang(__attribute__((unused)) sGame *pGame, i32 viewer_id, sBangEven
 }
 
 void display_selection(__attribute__((unused)) sGame *pGame, __attribute__((unused)) i32 viewer_id, sSelectEvent e) {
-	printf("Select Event:\n"
-		   "Please select %d~%d options:\n", e.min_cnt, e.max_cnt);
+	// printf("Select Event:\n");
+
+	if(e.min_cnt < e.max_cnt) {
+		printf("請選擇 %d ~ %d 個選項:\n", e.min_cnt, e.max_cnt);
+	} else {
+		printf("請選擇 %d 個選項:\n", e.min_cnt);
+	}
+	
 	LIST_FOR_EACH(pNode, e.selections) {
 		printf("%s\n", (char*)pNode->data);
 	}
 }
 
 void display_selected(__attribute__((unused)) sGame *pGame, __attribute__((unused)) i32 viewer_id, bool *selected, i32 size) {
-	printf("now selected: [");
+	printf("目前已經選取的選項: [");
 	i32 cnt = 0;
 	for(i32 i = 0; i < size; ++i) {
 		if(selected[i]) {

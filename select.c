@@ -16,7 +16,7 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 		while(cur && *cur) {
 			i32 x = strtol(cur, &cur, 10);
 			if(x < 1 || x > size) {
-				printf("index %d is not a valid input!\n", x);
+				printf("索引值 %d 是個非法輸入!\n", x);
 				break;
 			}
 			--x;  // trnsfer to 0 index: 1, 2, 3 -> 0, 1, 2
@@ -27,10 +27,11 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 			if(selected[i]) ++sl_cnt;
 		}
 		display_selected(pGame, 0, selected, size);
+		printf("\n");
 
 		if(sl_cnt < e->min_cnt || sl_cnt > e->max_cnt) continue;
 
-		printf("Select success!\n");
+		printf("選擇成功!\n\n");
 		break;
 	}
 	for(i32 i = 0; i < size; ++i) {
@@ -44,7 +45,7 @@ void select_event_player(sGame *pGame, sSelectEvent *e) {
 
 void select_event_bot(__attribute__((unused)) sGame *pGame, sSelectEvent *e) {
 	// display_selection(pGame, 0, *e);  // display to player 0
-	printf("bot selecting...\n");
+	printf("Player %d 正在做出抉擇...\n", e->target_id);
 	i32 size = e->selections->size;
 	sList *res = e->select_res;
 	bool selected[size];
