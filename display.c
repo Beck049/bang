@@ -85,15 +85,11 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		sList *player_cards = pGame->players[player_id].cards;
 		sList *player_desk = pGame->players[player_id].desk;
 		char appellation[16];
-		if(player_id == viewer_id) {
-			sprintf(appellation, "  Your   ");
-		}
-		else {
-			sprintf(appellation, "Player%1d's", player_id);
-		}
+		if(player_id == viewer_id) sprintf(appellation, "  You  ");
+		else                       sprintf(appellation, "Player%1d", player_id);
 
 		printf("||                                                                            ||\n");
-		printf("||    %s  (%2ld)   hp:(%2d)                                               ||\n", appellation, player_cards->size,pGame->players[player_id].hp);
+		printf("||    %s       (hp: %2d)  (%2ld)                                            ||\n", appellation, pGame->players[player_id].hp, player_cards->size);
 		printf("||                                                                            ||\n");
 		i32 desk_size = (i32)player_desk->size;
 		printf("||     ");

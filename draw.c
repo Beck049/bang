@@ -80,7 +80,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 		i32 card_id;
 		if( i == 0 ) {
 			// select draw first card from draw_pile or player
-			char options[2][512] = {" 1) draw from deck pile", " 2) draw from player"};
+			char options[2][512] = {" 1) 從牌堆中抽牌", " 2) 從其他玩家手上抽牌"};
 			sSelectEvent event = select_event_with_arr(pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 ) {
 
@@ -94,8 +94,7 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 				int live_num = pGame->live_players->size-1;
 				char player_opt[live_num][512];
 				for(int i = 0; i < live_num; ++i ) {
-
-					sprintf(player_opt[i], "pick a card from player %d", i+1);
+					sprintf(player_opt[i], "從 player %d 手上抽牌", i+1);
 				}
 				sSelectEvent player_event = select_event_with_arr(pGame, e->target_id, 1, 1, player_opt, live_num, sizeof(*player_opt));
 				i32 distance = *(i32*)LIST_FRONT(player_event.select_res);
