@@ -30,7 +30,7 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 				printf("殘念阿 你已經沒有任何手牌了\n");
 			}
 			else {
-				printf("Player%d 用光了他的手牌\n", player_id);
+				printf("玩家 %d 用光了他的手牌\n", player_id);
 			}
 			break;
 		}
@@ -57,7 +57,7 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 				free_list(sl_e.select_res);
 				free_list(sl_e.selections);
 				if(select_idx == 1) {
-					printf("Player%d 選擇結束了這個回合\n", player_id);
+					printf("玩家 %d 選擇結束了這個回合\n", player_id);
 					break;
 				}
 			}
