@@ -145,6 +145,12 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		
 		if(contains_card_type(cur_player->desk, SCOPE)) --dis;
 		if(contains_card_type(target_player->desk, MUSTANG)) ++dis;
+		
+		sList *target_desk = pGame->players[ target_id ].desk;
+		sList *target_hand = pGame->players[ target_id ].cards;
+		i32 target_cards_cnt = target_desk->size + target_hand->size;
+
+		if(target_id == player_id || target_cards_cnt == 0) continue;
 	
 		if( dis <= 1 ) {
 			sprintf( players_option[opt_num], "%2d) Player %d", opt_num+1, target_id);
@@ -156,14 +162,14 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		if( player_id == 0) {
 			printf(YLW"-> 你發現沒有可以使用驚慌的目標QQ\n"RST);
 		} else {
-			printf(YLW"-> Player %d 發現沒有可以使用驚慌的目標QQ\n"RST, player_id);
+			printf(YLW"-> Player %d 發現沒有可以使用驚慌的目標OAO\n"RST, player_id);
 		}
 		return;
 	}
 
-	sSelectEvent panic_event = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, 32);
+	sSelectEvent panic_event = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, sizeof(*players_option));
 	i32 p_id = *(i32*)LIST_FRONT(panic_event.select_res);
-	
+
 	if( p_id == 0 ){
 		printf(YLW"-> 你被驚慌了QQ\n"RST);
 	} else printf(YLW"-> player %d 被驚慌了\n"RST, p_id );
