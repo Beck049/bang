@@ -13,7 +13,7 @@
 
 struct option long_options[] = 
 {  
-     { "people", 1 , NULL, 'p' },  
+     { "people", 2 , NULL, 'p' },  
      { "help"  , 0 , NULL, 'h' },  
      {  0      , 0 , 0   , 0   },
 };  
@@ -62,6 +62,9 @@ int main( int argc, char *argv[] ) {
 		printf("…………………*…..*                          ..:::::::::..:::::..:::.......::::......::::..:::::..::..:::::..::..:::::..::..:::::..::....::..::::..:::......::::\n");
 		printf("………………….*..*\n");
 		
+		printf("\t\t\t\t\toptions: \n");
+		printf("\t\t\t\t\t[ -h ] : aka --help , 印出此表。\n");
+		printf("\t\t\t\t\t[ -p ] : aka --people , 後方代的是遊玩的人數 , BANG的人數限制是4~7人.\n\n\n\n");
 		if(flag_people){
 
 		}else return 0;
