@@ -2,6 +2,7 @@
 #include "display.h"
 #include "select.h"
 #include "play_phase.h"
+#include "display.h"
 
 bool contains_card_type(sList *pPile, eCardType card_type) {
 	LIST_FOR_EACH(pNode, pPile) {
@@ -155,24 +156,24 @@ void turn_phase(sGame *pGame) {
 	if(cur_player_id == 0) sprintf(appellation, "  You  ");
 	else                   sprintf(appellation, "Player%1d", cur_player_id);
 	
-	printf("準備階段 ( %s ):\n", appellation);
+	printf(RED"準備階段 ( %s ):\n"RST, appellation);
 	skip = (prep_phase(pGame) == -1);
 	if(skip) return;
 	printf("\n");
 
 
-	printf("抽牌階段 ( %s ):\n", appellation);
+	printf(RED"抽牌階段 ( %s ):\n"RST, appellation);
 	draw_phase(pGame);
 	printf("\n");
 
 	display_game(pGame, 0);
 
-	printf("出牌階段 ( %s ):\n", appellation);
+	printf(RED"出牌階段 ( %s ):\n"RST, appellation);
 	play_phase(pGame);
 	if(pGame->end_winner_role != (eRole)-1) return;
 	printf("\n");
 
-	printf("棄牌階段 ( %s ):\n", appellation);
+	printf(RED"棄牌階段 ( %s ):\n"RST, appellation);
 	discard_phase(pGame);
 	printf("\n");
 
