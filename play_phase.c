@@ -1,6 +1,7 @@
 #include "play_phase.h"
 #include "game_play.h"
 #include "card_func.h"
+#include "display.h"
 
 void play_phase_default(sGame *pGame, i32 player_id) {
 	static const int WILLY = 0;
@@ -19,6 +20,10 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 
 	while(true) {
 		i32 hands_size = hands->size;
+
+		display_board(pGame, 0);
+
+		display_hands(pGame, 0);
 
 		if(hands_size == 0) {
 			if(player_id == 0) {
@@ -158,4 +163,6 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 		}
 		if(pGame->end_winner_role != (eRole)-1) break;
 	}
+	struct timespec ts_req = {.tv_nsec = 500000000, .tv_sec = 0};
+	nanosleep(&ts_req, NULL);
 }

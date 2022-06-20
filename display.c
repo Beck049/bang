@@ -2,10 +2,54 @@
 
 
 static const char SUIT[] = "SHDC";
+// static const char *EMPTY_CARD_FRAME = " +             + ";
+// static const char* EMPTY_DESK_FRAME = "||                                                                            ||";
+
+size_t strlen_fix(const char *str) {
+	const char *cur = str;
+	size_t len = 0;
+	while(*cur != '\0') {
+		if((uint8_t)*cur > 0x7Fu) {
+			len += 2;
+			cur += 3;
+		}
+		else {
+			len += 1;
+			cur += 1;
+		}
+	}
+	// printf("len of '%s' is %ld\n", str, len);
+	return len;
+}
 
 void print_card(char *dst, i32 card_id) {
 	sCard *card = cards+card_id;
 	sprintf(dst, "%c%-2d %s: %s", SUIT[card->suit], card->num, card->name, card->description);
+}
+
+void print_center(char *dst, const char *src) {
+	char buf[strlen(dst)+strlen(src)];
+	memset(buf, 0, sizeof(buf));
+
+	i32 width = strlen(dst);
+	i32 len_fix = strlen_fix(src);
+	i32 l_padding = (width-len_fix)/2;
+	i32 r_padding = (width-len_fix)-l_padding;
+
+	char *cur = buf;
+	memcpy(cur, dst, l_padding);
+	cur += l_padding;
+	memcpy(cur, src, strlen(src));
+	cur += strlen(src);
+	memcpy(cur, dst+width-r_padding, r_padding);
+	cur += r_padding;
+	*cur = '\0';
+	strcpy(dst, buf);
+}
+
+void print_with_frame(char *dst, const char *src, const char *frame) {
+	strcpy(dst, frame);
+	print_center(dst, src);
 }
 
 void display_pile(sList *pList) {
@@ -51,42 +95,29 @@ void display_game_old(sGame *pGame, i32 viewer_id) {
 	}
 }
 
-void display_game(sGame *pGame, i32 viewer_id) {
+void display_board(sGame *pGame, i32 viewer_id) {
 	printf("++============================================================================++\n");
 	printf("||                                                                            ||\n");
 	printf("||                 +----------------- BANG -----------------+                 ||\n");
 	printf("||                 | Draw Pile (%2ld)    /  Discard Pile (%2ld) |                 ||\n", pGame->draw_pile->size, pGame->discard_pile->size);
 	printf("||                 +----------------------------------------+                 ||\n");
-/*
-	printf("||                                                                            ||\n");
-	printf("||  LoveSnowEx :                                                              ||\n");
-	
-	printf("||                                                                            ||\n");
-	printf("||     +----------+  +----------+                                             ||\n");
-	printf("||     |   Bomb   |  |   Jail   |                                             ||\n");
-	printf("||     +----------+  +----------+                                             ||\n");
-	
-	printf("||                                                                            ||\n");
-	printf("||     +-----------+  +-----------+  +-----------+  +-----------+             ||\n");
-	printf("||     |   scope   |  |   horse   |  |   barrel  |  |   Gun     |             ||\n");
-	printf("||     +-----------+  +-----------+  +-----------+  +-----------+             ||\n");
-	printf("||                                                                            ||\n");
-*/
+
 	sList *live_player = pGame->live_players;
 
 	sListNode *player_node = get_player(pGame, viewer_id);
 	if(player_node == NULL) {
 		player_node = LIST_BEGIN(live_player);
 	}
-
-	i32 size = live_player->size;
-	for(i32 i = 0; i < size; ++i) {
+	
+	// loop every player
+	i32 live_size = live_player->size;
+	for(i32 i = 0; i < live_size; ++i) {
 		i32 player_id = *(i32*)player_node->data;
 		sList *player_cards = pGame->players[player_id].cards;
 		sList *player_desk = pGame->players[player_id].desk;
+		sListNode *pCurNode;
 
 		// build appellation
-
 		char appellation[16];
 		if(player_id == viewer_id) sprintf(appellation, "  You  ");
 		else                       sprintf(appellation, "Player%1d", player_id);
@@ -94,41 +125,51 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		printf("||                                                                            ||\n");
 		printf("||    %s (hp:%3d)  (Cards:%3ld)                                           ||\n", appellation, pGame->players[player_id].hp, player_cards->size);
 		printf("||                                                                            ||\n");
+
 		i32 desk_size = (i32)player_desk->size;
-		printf("||     ");
-		for(int k = 0; k < desk_size; ++k)     { printf("+-----------+  "); }
-		for(int k = 0; k < 4 - desk_size; ++k) { printf("               "); }
-		printf("           ||\n");
 
-		char buf[BUFSIZ]; i32 row = 1;
-		printf("||     ");
-		LIST_FOR_EACH(pNode, player_desk) {
-			i32 card_id = *(i32*)pNode->data;
-			print_card(buf, card_id);
-			printf("|%s|  ", buf);
-			++row;
+		pCurNode = LIST_BEGIN(player_desk);
+		for(i32 j = 0; j < desk_size; j += 4) {
+			char lines[4][4][64];
+			// k is column
+			for(i32 k = 0; k < 4; ++k) {
+				i32 pos = j*4+k;
+				if(pos == desk_size) break;
+				i32 card_id = *(i32*)pCurNode->data;
+
+				strcpy(lines[0][k],                                  " +-------------+ ");
+				print_with_frame(lines[1][pos], cards[card_id].name, " |             | ");
+				strcpy(lines[2][k],                                  " +-------------+ ");
+				strcpy(lines[3][k],                                  "                 ");
+
+				pCurNode = pCurNode->next;
+			}
+
+			// l is line
+			for(i32 l = 0; l < 4; ++l) {
+				printf("||    ");
+				// k is column
+				for(i32 k = 0; k < 4; ++k) {
+					i32 pos = j*4+k;
+					if(j+k < desk_size) printf("%s", lines[l][pos]);
+					else                printf("                 ");
+				}
+				printf("    ||\n");
+			}
 		}
-		for(int k = 0; k < 4 - desk_size; ++k) { printf("               "); }
-		printf("           ||\n");
-
-		printf("||     ");
-		for(int k = 0; k < desk_size; ++k)     { printf("+-----------+  "); }
-		for(int k = 0; k < 4 - desk_size; ++k) { printf("               "); }
-		printf("           ||\n");
-
 		printf("||                                                                            ||\n");
-
 		player_node = get_next_player(pGame, player_node);
 	}
-	
 	printf("||                                                                            ||\n");
 	printf("++============================================================================++\n\n");
+}
 
-	sList *viewer_cards = pGame->players[viewer_id].cards;
-	display_pile(viewer_cards);
+void display_hands(sGame *pGame, i32 viewer_id) {
+	sList *viewer_hands = pGame->players[viewer_id].cards;
+	display_pile(viewer_hands);
 	printf("\n");
-	printf("Your cards: \n");
-	i32 hand_size = (i32)viewer_cards->size;
+	printf("你的手牌: \n");
+	i32 hand_size = (i32)viewer_hands->size;
 
 	if(hand_size == 0) {
 		printf("You have no card!\n\n");
@@ -136,48 +177,22 @@ void display_game(sGame *pGame, i32 viewer_id) {
 	}
 
 	char lines[7][hand_size][64];
-	sListNode *pViewerCardNode = LIST_BEGIN(viewer_cards);
+	sListNode *pViewerCardNode = LIST_BEGIN(viewer_hands);
 	for(i32 i = 0; i < hand_size; ++i) {
 		i32 card_id = *(i32*)pViewerCardNode->data;
 		pViewerCardNode = pViewerCardNode->next;
+
 		sCard *card = &cards[card_id];
 		char suit_num_and_id[16];
-		char name[16];
-		i32 name_len = 0, l_padding, r_padding;
 		sprintf(suit_num_and_id, "%c%-2d      %2d", SUIT[card->suit], card->num, card_id);
-		strcpy(name, card->name);
-		
-		char *cur = name;
-		while(*cur != '\0') {
-			if((uint8_t)*cur > 0x7Fu) {
-				name_len += 2;
-				cur += 3;
-			}
-			else {
-				name_len += 1;
-				cur += 1;
-			}
-		}
-		l_padding = (11-name_len)/2;
-		r_padding = (11-name_len)-l_padding;
 
-		strcpy(lines[0][i], " +-------------+ ");
-
-		strcpy(lines[1][i], " +             + ");
-		memcpy(lines[1][i]+3, suit_num_and_id, strlen(suit_num_and_id));
-
-		strcpy(lines[2][i], " +             + ");
-
-		strcpy(lines[3][i], " + ");
-		for(i32 j = 0; j < l_padding; ++j) strcat(lines[3][i], " ");
-		strcat(lines[3][i], name);
-		for(i32 j = 0; j < r_padding; ++j) strcat(lines[3][i], " ");
-		strcat(lines[3][i], " + ");
-
-		strcpy(lines[4][i], " +             + ");
-		strcpy(lines[5][i], " +             + ");
-		strcpy(lines[6][i], " +-------------+ ");
-		
+		strcpy(lines[0][i],                            " +-------------+ ");
+		print_with_frame(lines[1][i], suit_num_and_id, " +             + ");
+		strcpy(lines[2][i],                            " +             + ");
+		print_with_frame(lines[3][i], card->name,      " +             + ");
+		strcpy(lines[4][i],                            " +             + ");
+		strcpy(lines[5][i],                            " +             + ");
+		strcpy(lines[6][i],                            " +-------------+ ");
 	}
 	for(i32 i = 0; i < 7; ++i) {
 		for(i32 j = 0; j < hand_size; ++j) {
@@ -185,8 +200,8 @@ void display_game(sGame *pGame, i32 viewer_id) {
 		}
 		printf("\n");
 	}
-	struct timespec ts_req = {.tv_nsec = 0, .tv_sec = 1};
-	nanosleep(&ts_req, NULL);
+	// struct timespec ts_req = {.tv_nsec = 0, .tv_sec = 1};
+	// nanosleep(&ts_req, NULL);
 	printf("\n\n");
 }
 

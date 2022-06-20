@@ -26,7 +26,9 @@ void print_card(char *dst, i32 card_id);
 
 void display_pile(sList *pList);
 
-void display_game(sGame *pGame, i32 viewer_id);
+void display_board(sGame *pGame, i32 viewer_id);
+
+void display_hands(sGame *pGame, i32 viewer_id);
 
 void display_damage(sGame *pGame, i32 viewer_id, sDamageEvent e);
 
