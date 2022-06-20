@@ -37,10 +37,10 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 		if(contains_card_type(cur_player->desk, SCOPE)) --dis;
 		if(contains_card_type(target_player->desk, MUSTANG)) ++dis;
 
-		if(contains_card_type(target_player->desk, REMINGTON)) dis += 3;
-		else if(contains_card_type(target_player->desk, SCHOFIELD )) dis += 2;
-		else if(contains_card_type(target_player->desk, CARABINE  )) dis += 4;
-		else if(contains_card_type(target_player->desk, WINCHESTER)) dis += 5;
+		if(contains_card_type(target_player->desk, REMINGTON)) dis -= 2;
+		else if(contains_card_type(target_player->desk, SCHOFIELD )) dis -= 1;
+		else if(contains_card_type(target_player->desk, CARABINE  )) dis -= 3;
+		else if(contains_card_type(target_player->desk, WINCHESTER)) dis -= 4;
 		
 		if( dis <= 1 ) {
 			players_id[opt_num] = target_id;
@@ -49,39 +49,40 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 		}
 	}
 	
-	sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, sizeof(*players_option));
-	i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
-	i32 target_id =  players_id[select_idx];
-	free_list(sl_e.select_res);
-	free_list(sl_e.selections);
-	if( target_id == 0 ){
-		printf(YLW"-> 你被bang了QAQ\n\n"RST);
-	}else printf(YLW"-> player %d 被bang了\n\n"RST,target_id);
+	if (opt_num != 0) {
+		sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, sizeof(*players_option));
+		i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+		i32 target_id =  players_id[select_idx];
+		free_list(sl_e.select_res);
+		free_list(sl_e.selections);
+		if( target_id == 0 ){
+			printf(YLW"-> 你被bang了QAQ\n\n"RST);
+		}else printf(YLW"-> player %d 被bang了\n\n"RST,target_id);
 
-	// call bang_event
-	sBangEvent bang=bang_event( pGame, player_id, target_id );
-	if( bang.bang_res==true ){
-		damage_event(pGame, target_id, player_id, 1 );
-		if(pGame->players[target_id].hp<=0){
-			sLethalEvent lth_e = lethal_event(pGame, target_id);
-			if(lth_e.lethal_res == true) {
-				sDeathEvent dth_e = death_event(pGame, target_id, player_id);
-				// cur_player died
-				if(dth_e.death_res == true) {
-					if( target_id == 0 ){
-						printf(YLW"-> You died\n"RST);
-					}else printf(YLW"-> player %d died"RST,target_id);
+		// call bang_event
+		sBangEvent bang=bang_event( pGame, player_id, target_id );
+		if( bang.bang_res==true ){
+			damage_event(pGame, target_id, player_id, 1 );
+			if(pGame->players[target_id].hp<=0){
+				sLethalEvent lth_e = lethal_event(pGame, target_id);
+				if(lth_e.lethal_res == true) {
+					sDeathEvent dth_e = death_event(pGame, target_id, player_id);
+					// cur_player died
+					if(dth_e.death_res == true) {
+						if( target_id == 0 ){
+							printf(YLW"-> You died\n"RST);
+						}else printf(YLW"-> player %d died"RST,target_id);
 
-					if(pGame->end_winner_role != (eRole)-1) return;
+						if(pGame->end_winner_role != (eRole)-1) return;
+					}
 				}
 			}
 		}
 	}
-	printf(YLW"-> bang處理完畢\n"RST);
-	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
-	give_card( pGame, pGame->discard_pile , card_id , true );
-	free_list( sl_e.select_res );
-	free_list( sl_e.selections );
+		printf(YLW"-> bang處理完畢\n"RST);
+		take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
+		give_card( pGame, pGame->discard_pile , card_id , true );
+	
 }
 
 
