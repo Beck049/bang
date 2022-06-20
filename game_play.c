@@ -140,27 +140,36 @@ void discard_phase(sGame *pGame) {
 }
 
 void turn_phase(sGame *pGame) {
+	char appellation[16];
 	i32 skip = false;
 	i32 cur_player_id = *(i32*)pGame->cur_player->data;
 
 	display_game(pGame, 0);
-
-	printf("Preparation Phase (Player%d):\n", cur_player_id);
+	
+	if(cur_player_id == 0) sprintf(appellation, "  You  ");
+	else                   sprintf(appellation, "Player%1d", cur_player_id);
+	
+	printf("準備階段 ( %s ):\n", appellation);
 	skip = (prep_phase(pGame) == -1);
 	if(skip) return;
+	printf("\n");
 
-	printf("Draw Phase (Player%d):\n", cur_player_id);
+
+	printf("抽牌階段 ( %s ):\n", appellation);
 	draw_phase(pGame);
+	printf("\n");
 
 	display_game(pGame, 0);
 
-	printf("Play Phase (Player%d):\n", cur_player_id);
+	printf("出牌階段 ( %s ):\n", appellation);
 	play_phase(pGame);
-
 	if(pGame->end_winner_role != (eRole)-1) return;
+	printf("\n");
 
-	printf("Discard Phase (Player%d):\n", cur_player_id);
+	printf("棄牌階段 ( %s ):\n", appellation);
 	discard_phase(pGame);
+	printf("\n");
+
 	pGame->cur_player = get_next_player( pGame, pGame->cur_player );
 }
 
