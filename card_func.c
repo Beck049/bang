@@ -70,8 +70,8 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 					// cur_player died
 					if(dth_e.death_res == true) {
 						if( target_id == 0 ){
-							printf(YLW"-> You died\n"RST);
-						}else printf(YLW"-> player %d died\n"RST,target_id);
+							printf(YLW"-> 你死翹翹了QQ\n"RST);
+						}else printf(YLW"-> 玩家 %d 死亡\n"RST,target_id);
 
 						if(pGame->end_winner_role != (eRole)-1) return;
 					}
@@ -444,8 +444,8 @@ void card_gatling(sGame *pGame, i32 player_id, i32 card_id ){
 						// cur_player died
 						if(dth_e.death_res == true) {
 							if( id == 0 ){
-								printf(YLW"-> You died\n"RST);
-							}else printf(YLW"-> player %d died"RST,id);
+								printf(YLW"-> 你死翹翹了QQ\n"RST);
+							}else printf(YLW"-> 玩家 %d 死亡\n"RST,id);
 							if(pGame->end_winner_role != (eRole)-1) return;
 						}
 					}
@@ -489,8 +489,8 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
 						// cur_player died
 						if(dth_e.death_res == true) {
 							if( id == 0 ){
-								printf(YLW"-> You died\n"RST);
-							}else printf(YLW"-> player %d died\n"RST,id);
+								printf(YLW"-> 你死翹翹了QQ\n"RST);
+							}else printf(YLW"-> 玩家 %d 死亡\n"RST,id);
 							if(pGame->end_winner_role != (eRole)-1) return;
 						}
 					}
@@ -543,8 +543,8 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 					// cur_player died
 					if(dth_e.death_res == true) {
 						if( duel_id == 0 ){
-							printf(YLW"-> You died\n"RST);
-						}else printf(YLW"-> player %d died\n"YLW,duel_id);
+							printf(YLW"-> 你死翹翹了QQ\n"RST);
+						}else printf(YLW"-> 玩家 %d 死亡\n"RST,duel_id);
 						if(pGame->end_winner_role != (eRole)-1) return;
 					}
 				}
@@ -571,8 +571,8 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 					// cur_player died
 					if(dth_e.death_res == true) {
 						if( player_id == 0 ){
-							printf("You died\n");
-						}else printf("> player %d died",player_id);
+							printf(YLW"-> 你死翹翹了QQ\n"RST);
+						}else printf(YLW"-> 玩家 %d 死亡\n"RST,player_id);
 					}
 				}
 			}
