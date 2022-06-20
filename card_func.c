@@ -10,23 +10,46 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 		printf(YLW"-> 請選擇bang的對象: "RST);
 	}else printf(YLW"-> player %d 使用了bang\n"RST,player_id);
 
-	i32 live_size = pGame->live_players->size;
+
+	sListNode *cur_player_node = pGame->cur_player;
+	sPlayer *cur_player = &pGame->players[player_id];
+	sList *live_p = pGame->live_players;
+	i32 live_size = live_p->size;
 	i32 players_id[live_size];
 	char players_option[live_size][512];
 
-	int cnt=0;
+	i32 opt_num = 0;
 	LIST_FOR_EACH(pNode, pGame->live_players) {
-		i32 id = *(i32 *)pNode->data;
-		//bang要考慮距離才能建立選項
-		//距離需考慮角色players[ ].
-		if(id  != player_id) {
-			players_id[cnt] = id;
-			sprintf(players_option[cnt], "%2d) player%d", cnt+1, id);
-			++cnt;
+		i32 target_id = *(i32*)pNode->data;
+		sPlayer *target_player = &pGame->players[target_id];
+
+		sList *target_desk = target_player->desk;
+		sList *target_hand = target_player->cards;
+		i32 target_cards_cnt = target_desk->size + target_hand->size;
+
+		if(target_id == player_id || target_cards_cnt == 0) continue;
+
+		i32 dis = node_distance( live_p, pNode, cur_player_node );
+		dis = min(dis, live_size-dis)
+			  - cur_player->look_range
+			  + target_player->be_looked_range;
+		
+		if(contains_card_type(cur_player->desk, SCOPE)) --dis;
+		if(contains_card_type(target_player->desk, MUSTANG)) ++dis;
+
+		if(contains_card_type(target_player->desk, REMINGTON)) dis += 3;
+		else if(contains_card_type(target_player->desk, SCHOFIELD )) dis += 2;
+		else if(contains_card_type(target_player->desk, CARABINE  )) dis += 4;
+		else if(contains_card_type(target_player->desk, WINCHESTER)) dis += 5;
+		
+		if( dis <= 1 ) {
+			players_id[opt_num] = target_id;
+			sprintf( players_option[opt_num], "%2d) Player %d", opt_num+1, target_id);
+			++opt_num;
 		}
 	}
 	
-	sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, players_option, cnt, sizeof(*players_option));
+	sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, players_option, opt_num, sizeof(*players_option));
 	i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
 	i32 target_id =  players_id[select_idx];
 	free_list(sl_e.select_res);
@@ -57,6 +80,8 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	printf(YLW"-> bang處理完畢\n"RST);
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
+	free_list( sl_e.select_res );
+	free_list( sl_e.selections );
 }
 
 
