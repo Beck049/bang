@@ -181,20 +181,18 @@ void turn_phase(sGame *pGame) {
 	if(skip) return;
 	printf("\n");
 
-	display_hands(pGame, 0);
+	display_hands(pGame, cur_player_id);
 
 	printf(RED"抽牌階段 ( %s ):\n"RST, appellation);
 	draw_phase(pGame);
 	printf("\n");
-
-	display_hands(pGame, 0);
 
 	printf(RED"出牌階段 ( %s ):\n"RST, appellation);
 	play_phase(pGame);
 	if(pGame->end_winner_role != (eRole)-1) return;
 	printf("\n");
 
-	display_hands(pGame, 0);
+	display_hands(pGame, cur_player_id);
 
 	printf(RED"棄牌階段 ( %s ):\n"RST, appellation);
 	discard_phase(pGame);

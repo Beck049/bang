@@ -137,13 +137,16 @@ void display_hands(sGame *pGame, i32 viewer_id) {
 	// display_pile(viewer_hands);
 	// printf("\n");
 
-	printf("你的手牌: \n");
+	if(viewer_id != 0) return;
+
 	i32 hand_size = (i32)viewer_hands->size;
 
+	printf("你的手牌: \n");
 	if(hand_size == 0) {
-		printf("You have no card!\n\n");
+		printf("Empty\n\n");
 		return;
 	}
+	
 
 	char lines[7][hand_size][64];
 	sListNode *pViewerCardNode = LIST_BEGIN(viewer_hands);
