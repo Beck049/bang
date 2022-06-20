@@ -87,61 +87,61 @@ void setup_players(sGame *pGame) {
 		// printf("bl_rng: %d\n", pPlayer->be_looked_range);
 
 		switch(pPlayer->character) {
-		case 0:
+		case WILLY_THE_KID:
 			break;
-		case 1:
+		case BART_CASSIDY:
 			unregister_event_func(EVENT_DAMAGE, i, damage_event_default);
 			register_event_func(EVENT_DAMAGE, i, damage_event_bart_cassidy);
 			break;
-		case 2:
+		case BLACK_JACK:
 			unregister_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_black_jack);
 			break;
-		case 3:
+		case CALAMITY_JANET:
 			unregister_event_func(EVENT_DODGE, i, dodge_event_default);
 			register_event_func(EVENT_DODGE, i, dodge_event_calamity_janet);
 			break;
-		case 4:
+		case EL_GRINGO:
 			unregister_event_func(EVENT_DAMAGE, i, damage_event_default);
 			register_event_func(EVENT_DAMAGE, i, damage_event_el_gringo);
 			break;
-		case 5:
+		case JESSE_JONES:
 			unregister_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_jesse_jones);
 			break;
-		case 6:
+		case JOURDONNAIS:
 			unregister_event_func(EVENT_DODGE, i, dodge_event_default);
 			register_event_func(EVENT_DODGE, i, dodge_event_barrel);
 			break;
-		case 7:
+		case KIT_CARLSON:
 			unregister_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_kit_carlson);
 			break;
-		case 8:
+		case LUCKY_DUKE:
 			unregister_event_func(EVENT_DETERMINE, i, determine_event_default);
 			register_event_func(EVENT_DETERMINE, i, determine_event_lucky_duke);
 			break;
-		case 9:
+		case PAUL_REGRET:
 			pPlayer->be_looked_range += 1;
 			break;
-		case 10:
+		case PEDRO_RAMIREZ:
 			unregister_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_default);
 			register_event_func(EVENT_DRAW_PHASE, i, draw_phase_event_pedro_ramirez);
 			break;
-		case 11:
+		case ROSE_DOOLAN:
 			pPlayer->look_range += 1;
 			break;
-		case 12:
+		case SID_KETCHUM:
 			unregister_event_func(EVENT_LETHAL, i, lethal_event_default);
 			register_event_func(EVENT_LETHAL, i, lethal_event_sid_ketchum);
 			break;
-		case 13:
+		case SLAB_THE_KILLER:
 			unregister_event_func(EVENT_BANG, i, bang_event_default);
 			register_event_func(EVENT_BANG , i, bang_event_slab_the_killer);
 			break;
-		case 14:
+		case SUZY_LAFAYETTE:
 			break;
-		case 15:
+		case VALTURE_SAM:
 			for(i32 j = 0; j < pGame->total_players; ++j) {
 				if(j == i) continue;
 				unregister_event_func(EVENT_DEATH, j, death_event_default);
