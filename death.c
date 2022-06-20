@@ -2,7 +2,6 @@
 
 void death_event_default(sGame *pGame, sDeathEvent *e) {
     e->death_res = true;
-    list_erase(pGame->live_players, get_player(pGame, e->dead_id));
     pGame->end_winner_role = getWinner( pGame );
     sPlayer *pDead = &pGame->players[e->dead_id];
     sPlayer *pKiller = &pGame->players[e->killer_id];
