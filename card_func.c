@@ -467,7 +467,7 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
     }
 
 	printf(YLW"-> 印地安人使用完畢\n"RST);
-    give_card( pGame, pGame->players[player_id].desk, card_id, true );
+    give_card( pGame, pGame->discard_pile, card_id, true );
     take_card_by_id( pGame, pGame->players[player_id].cards, card_id );
 }
 
