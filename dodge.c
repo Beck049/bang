@@ -65,8 +65,9 @@ void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e) {
 	sList *miss_cards = card_filter(player_cards, card_is_missed);
 	sList *bang_cards = card_filter(player_cards, card_is_bang);
 	// concat two sList
-	LIST_FOR_EACH(pNode, bang_cards) {
-		list_push_back(miss_cards, pNode);
+	while((i32) bang_cards->size > 0) {
+		i32 card_id = take_card(pGame, bang_cards, 0);
+		give_card(pGame, miss_cards, card_id, true);
 	}
 
 	if((i32)miss_cards->size < e->dodge_times) {
@@ -83,7 +84,7 @@ void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e) {
 
 	if(choice == 0) {
 		if(e->target_id == 0) {
-			printf("你選擇進行躲避\n");
+			printf("你 選擇進行躲避\n");
 		} else printf("玩家 %d 選擇進行躲避\n", e->target_id);
 
 
