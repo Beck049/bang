@@ -455,7 +455,12 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
                     printf(YLW"-> 你被扣一滴血了QQ\n"RST);
                 }else printf(YLW"-> player %d 被扣了一滴血\n"RST,id);
                 break;
-            }
+            }else{
+				if( id==0 ){
+					printf(YLW"-> 你丟出了一張Bang以避免扣血\n"RST);
+				}else printf(YLW"-> player %d 丟出了一張Bang以避免扣血\n"RST,id);
+			}
+			
             take_card_by_id( pGame, pGame->players[id].cards, id_choose );
             give_card( pGame, pGame->discard_pile, id_choose, true );
         }
