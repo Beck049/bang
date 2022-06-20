@@ -49,6 +49,16 @@ void damage_event_el_gringo(sGame *pGame, sDamageEvent *e) {
     sList *card_list = pGame->players[e->damager_id].cards;
     for(i32 i = 0; i < e->damage; ++i) {
         i32 hand_card_num  = card_list->size;
+
+        if(hand_card_num == 0) {
+            if(e->damager_id == 0) {
+                printf("哈哈我沒有牌可以讓你抽了> <\n");
+            } else {
+                printf("很可惜的是，玩家 %d 手上已經沒牌了\n", e->damager_id);
+            }
+            return;
+        }
+
         char cards_opt[hand_card_num][512];
         for(int i = 0; i < hand_card_num; ++i ) {
             sprintf(cards_opt[i], "%2d) 手牌 %d", i+1, i+1);
