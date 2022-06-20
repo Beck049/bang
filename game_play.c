@@ -180,7 +180,7 @@ void turn_phase(sGame *pGame) {
 	i32 prep_res = prep_phase(pGame);
 	printf("\n");
 
-	if(prep_res != -1); {
+	if(prep_res != -1) {
 		display_hands(pGame, cur_player_id);
 
 		printf(RED"抽牌階段 ( %s ):\n"RST, appellation);
