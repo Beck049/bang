@@ -13,11 +13,11 @@ bool contains_card_type(sList *pPile, eCardType card_type) {
 }
 
 bool is_bomb(i32 card_id) {
-	return card_id == 79;
+	return cards[card_id].type == BOMB;
 }
 
 bool is_jail(i32 card_id) {
-	return card_id >= 74 && card_id <= 76;
+	return cards[card_id].type == JAIL;
 }
 
 sListNode *get_player(sGame *pGame, i32 id) {
@@ -102,14 +102,19 @@ i32 prep_phase(sGame *pGame) {
 					// cur_player died
 					if(dth_e.death_res == true) {
 						if( cur_player_id == 0 ){
-							printf("You died by bomb\n");
-						}else printf("> player %d died by bomb\n",cur_player_id );
+							printf("-> 你被炸得粉身碎骨，死前還看見自己的腿掛在樹上\n");
+						}else printf("-> 玩家 %d 被炸死了\n",cur_player_id );
 						return -1;
 					}
 				}
 			}
 		}
 		else {
+			if( cur_player_id == 0 ){
+				printf("-> 你 躲過了一劫!\n");
+			} else printf("-> 玩家 %d 躲過了一劫\n",cur_player_id );
+
+			printf("-> 炸彈傳遞給下一位玩家\n");
 			//傳給下一個人。
 			give_card(pGame, next_player->desk, bomb_id, true);
 		}
@@ -119,10 +124,18 @@ i32 prep_phase(sGame *pGame) {
 		sDetermineEvent dtm_e = determine_event(pGame, cur_player_id);
 		i32 dtm_res = dtm_e.determine_res;
 		eSuit suit = cards[dtm_res].suit;
+		take_card_by_id(pGame, cur_player->desk, jail_id);
+		give_card(pGame, pGame->discard_pile, jail_id, false);
 		if(suit != HEART){
+			if( cur_player_id == 0 ){
+				printf("-> 你 逃獄失敗了，乖乖在牢裡待著吧\n");
+			} else printf("-> 玩家 %d 逃獄失敗\n", cur_player_id);
 			// 非紅心，逃獄失敗
 			return -1;
 		}
+		if( cur_player_id == 0 ){
+			printf("-> 你 逃獄成功了，算你狠阿!\n");
+		} else printf("-> 玩家 %d 逃獄成功\n", cur_player_id);
 	}
 	
 	return 0;
