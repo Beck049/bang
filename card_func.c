@@ -17,6 +17,8 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	int cnt=0;
 	LIST_FOR_EACH(pNode, pGame->live_players) {
 		i32 id = *(i32 *)pNode->data;
+		//bang要考慮距離才能建立選項
+		//距離需考慮角色players[ ].
 		if(id  != player_id) {
 			players_id[cnt] = id;
 			sprintf(players_option[cnt], "%2d) player%d", cnt+1, id);
@@ -55,8 +57,6 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	printf(YLW"-> bang處理完畢\n"RST);
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
-	free_list( sl_e.select_res );
-	free_list( sl_e.selections );
 }
 
 
@@ -353,7 +353,7 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 
 		printf(YLW"-> player %d 棄掉了 %s\n"RST, target_id, cards[ id ].name);
 	}
-	
+
 	printf(YLW"-> 凱特巴洛處理完畢\n"RST);
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
