@@ -137,6 +137,8 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 
 		sSelectEvent event = select_event_with_arr(pGame, *(i32 *)cur_p->data , 1, 1, cards_opt, last_size, sizeof(*cards_opt) );
 		i32 take_idx = *(i32*)LIST_FRONT(event.select_res);
+		free_list(event.select_res);
+		free_list(event.selections);
 		i32 take_id = cards_id[take_idx];
 		give_card(pGame, pGame->players[cur_p_id].cards, take_id, true);
 		take_card_by_id(pGame, pick_cards, take_id);
