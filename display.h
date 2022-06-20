@@ -4,6 +4,23 @@
 #include "list.h"
 #include "init_card.h"
 #include "game_play.h"
+#define ASCII_ESC "\033"
+#define RST ASCII_ESC"[0m"
+#define RED ASCII_ESC"[31m"
+#define GRN ASCII_ESC"[32m"
+#define YLW ASCII_ESC"[33m"
+#define BL ASCII_ESC"[34m" 
+#define MGT ASCII_ESC"[35m"
+#define CYN ASCII_ESC"[36m"
+#define WHT ASCII_ESC"[37m"
+#define GRY ASCII_ESC"[90m"
+#define LRED ASCII_ESC"[91m"
+#define LGRN ASCII_ESC"[92m"
+#define LYLW ASCII_ESC"[93m"
+#define LBL ASCII_ESC"[94m"
+#define LMGT ASCII_ESC"[95m"
+#define LCYN ASCII_ESC"[96m"
+#define LWHT ASCII_ESC"[97m"
 
 void print_card(char *dst, i32 card_id);
 
