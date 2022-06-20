@@ -23,8 +23,7 @@ int main( int argc, char *argv[] ) {
     int32_t index = 0;
     int32_t people = 4;
 	int32_t flag_help = 0;
-	
-printf("123\n");
+
     while ( ( c = getopt_long( argc, argv, "p:h", long_options, &index ) ) != -1 ){
         switch( c ){
             case 'p':
@@ -33,11 +32,9 @@ printf("123\n");
 					printf("不能 %d 個人遊玩\n",people);
 					exit(1);
 				}
-printf("p\n");
                 break;
             case 'h':
 				flag_help=1;
-printf("h\n");
                 break;
            	default:
                 printf( "option: unknown\n" ); 
@@ -62,9 +59,9 @@ printf("h\n");
 		printf("………………*..lovelo…*                      ##:::::::: ##:::. ##:. #######::. ######::: ##:::. ##: ##:::: ##: ##:::: ##: ##:::: ##:'####: ##::. ##:. ######:::\n");
 		printf("…………………*…..*                          ..:::::::::..:::::..:::.......::::......::::..:::::..::..:::::..::..:::::..::..:::::..::....::..::::..:::......::::\n");
 		printf("………………….*..*\n");
-		return 0;
 	}
-printf("people:%d\n",people);
+
+	start_style();
 	play_game(people);
 
 	return 0;
