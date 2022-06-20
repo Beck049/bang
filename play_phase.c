@@ -20,6 +20,17 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 	while(true) {
 		i32 cnt = 0;
 		i32 hands_size = hands->size;
+
+		if(hands_size == 0) {
+			if(player_id == 0) {
+				printf("殘念阿 你已經沒有任何手牌了\n");
+			}
+			else {
+				printf("Player%d 用光了他的手牌\n", player_id);
+			}
+			break;
+		}
+
 		i32 hands_id[hands_size];
 		char options[hands_size][512];
 
