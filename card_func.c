@@ -55,6 +55,8 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	printf(YLW"-> bang處理完畢\n"RST);
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
+	free_list( sl_e.select_res );
+	free_list( sl_e.selections );
 }
 
 
@@ -118,6 +120,7 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	printf(YLW"-> 雜貨店處理完畢\n"RST);
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
+	
 	free_list( pick_cards );
 }
 
