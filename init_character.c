@@ -11,10 +11,10 @@ void read_character( sCharacter *character, cJSON *obj ) {
     cJSON *name  = cJSON_GetObjectItemCaseSensitive(obj, "name");
 	cJSON *description  = cJSON_GetObjectItemCaseSensitive(obj, "description");
 
-    printf("%d\t", id->valueint);
-    printf("%d\t", hp->valueint);
-    printf("%s\t", name->valuestring);
-	printf("%s\n", description->valuestring);
+    // printf("%d\t", id->valueint);
+    // printf("%d\t", hp->valueint);
+    // printf("%s\t", name->valuestring);
+	// printf("%s\n", description->valuestring);
 
     character->id   = id  ->valueint;
 	character->hp   = hp  ->valueint;

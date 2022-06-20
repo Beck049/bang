@@ -76,13 +76,15 @@ void setup_players(sGame *pGame) {
 		// register event_func by character
 		pPlayer->hp = characters[pPlayer->character].hp;
 
-		printf("Player%d:\n", i);
-		printf("hp: %d\n", pPlayer->hp);
-		printf("role: %d\n", pPlayer->role);
-		printf("char: %d\n", pPlayer->character);
-		printf("l_rng: %d\n", pPlayer->look_range);
-		printf("bl_rng: %d\n", pPlayer->be_looked_range);
-		printf("===================\n");
+		printf("--------------------------------------------------------------------------------\n");
+		if(i == 0) printf("You:\n");
+		else       printf("Player%d:\n", i);
+		printf("生命: %d\n", pPlayer->hp);
+		// printf("身分: %d\n", pPlayer->role);
+		printf("角色: %s\n", characters[pPlayer->character].name);
+		printf("能力: %s\n", characters[pPlayer->character].description);
+		// printf("l_rng: %d\n", pPlayer->look_range);
+		// printf("bl_rng: %d\n", pPlayer->be_looked_range);
 
 		switch(pPlayer->character) {
 		case 0:
@@ -150,7 +152,7 @@ void setup_players(sGame *pGame) {
 
 		for(int j = 0; j < pGame->players[i].hp; ++j) {
 			i32 card_id = take_card(pGame, pGame->draw_pile, 0);
-			printf("!!%d\n", card_id);
+			// printf("!!%d\n", card_id);
 			give_card(pGame, pGame->players[i].cards, card_id, true);
 		}
 	}
@@ -165,7 +167,7 @@ void init_game(sGame *pGame, i32 num_players) {
 	init_event_funcs();
 	init_draw_pile(pGame);
 	init_role_pile(pGame);
-	display_pile(pGame->draw_pile);
+	// display_pile(pGame->draw_pile);
 	init_character_pile(pGame);
 	live_players_init(pGame);
 	setup_players(pGame);
