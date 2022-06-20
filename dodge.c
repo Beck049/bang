@@ -1,12 +1,11 @@
 #include "dodge.h"
-#define MISS_TYPE 0
-#define BANG_TYPE 1
+#include "display.h"
 
 bool card_is_missed(i32 card_id) {
-	return cards[card_id].type == MISS_TYPE;
+	return cards[card_id].type == MISS;
 }
 bool card_is_bang(i32 card_id) {
-	return cards[card_id].type == BANG_TYPE;
+	return cards[card_id].type == BANG;
 }
 
 void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
@@ -24,7 +23,7 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 	i32 choice = *(i32*)LIST_FRONT(select_dodge_e.select_res);
 	free_list(select_dodge_e.selections);
 	free_list(select_dodge_e.select_res);
-	
+
 	if(choice == 0) {
 		if(e->target_id == 0) {
 			printf("你選擇進行躲避\n");
@@ -52,6 +51,8 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 				give_card(pGame, pGame->discard_pile, take_id, false);
 			}
 		}
+		printf(YLW"-> 躲避成功\n"RST);
+		e->dodge_res = true;
 		free_list(select_miss_e.selections);
 		free_list(select_miss_e.select_res);
 	}
@@ -108,6 +109,8 @@ void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e) {
 				give_card(pGame, pGame->discard_pile, take_id, false);
 			}
 		}
+		printf(YLW"-> 躲避成功\n"RST);
+		e->dodge_res = true;
 		free_list(select_miss_e.selections);
 		free_list(select_miss_e.select_res);
 	}
@@ -119,5 +122,6 @@ void dodge_event_barrel(sGame *pGame, sDodgeEvent *e) {
 	sDetermineEvent dtm_e = determine_event(pGame, e->target_id);
 	if(cards[dtm_e.determine_res].suit == HEART) {
 		e->dodge_res = true;
+		printf(YLW"-> 躲避成功\n"RST);
 	}
 }
