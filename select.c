@@ -105,14 +105,14 @@ i32 select_throw(sGame *pGame, i32 target_id, eCardType card_type) {
 			&& (card_type == MISS || card_type == BANG)) {
 			if(card->type == MISS || card->type == BANG) {
 				hands_id[cnt] = id;
-				sprintf(options[cnt], "%2d) %s", cnt, card->name);
+				sprintf(options[cnt], "%2d) %s", cnt+1, card->name);
 				++cnt;
 			}
 		}
 		else {
 			if(card->type == card_type) {
 				hands_id[cnt] = id;
-				sprintf(options[cnt], "%2d) %s", cnt, card->name);
+				sprintf(options[cnt], "%2d) %s", cnt+1, card->name);
 				++cnt;
 			}
 		}
