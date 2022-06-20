@@ -16,7 +16,6 @@ void lethal_event_default(sGame *pGame, sLethalEvent *e) {
     recover += 1;
 
     if((i32)beers->size < recover) {
-        list_erase( pGame->live_players, cur_p );
 		free_list(beers);
 		return;
 	}
@@ -60,7 +59,6 @@ void lethal_event_sid_ketchum(sGame *pGame, sLethalEvent *e) {
     i32 max_recover = beers->size + (hand_card_num - beers->size) /2;
 
     if(max_recover < recover) {
-        list_erase( pGame->live_players, cur_p );
 		free_list(beers);
 		return;
 	}
