@@ -81,29 +81,35 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 		printf(YLW"-> 你使用了雜貨店\n"RST);
 	} else printf(YLW"-> player %d 使用了雜貨店\n"RST,player_id);
 
-	i32 cards_id[10] = {0};
+
+	// take `num` of card to pick
 	i32 num = pGame->live_players->size;
-	sListNode *cur_p = get_player(pGame, player_id);
+	sList *pick_cards = new_list();
 	for(i32 i = 0; i < num; ++i) {
-		cards_id[i] = take_card(pGame, pGame->draw_pile, 0);
-		printf("%2d) %s\n", i+1, cards[cards_id[i]].name);
+		i32 take_id = take_card(pGame, pGame->draw_pile, 0);
+		give_card(pGame, pick_cards, take_id, true);
+		printf("%2d) %s\n", i+1, cards[take_id].name);
 	}
-	char cards_opt[num][32];
-	for(int i = 0; i < num; ++i ) {
-		sprintf(cards_opt[i], "%2d) 挑選一張牌: %s", i+1, cards[cards_id[i]].name);
-	}
-	for(i32 i = 0; i < num; ++i ) {
-		// draw
-		// print all card
-		sSelectEvent event = select_event_with_arr(pGame, *(i32 *)cur_p->data , 1, 1, cards_opt, num-i, sizeof(*cards_opt) );
-		i32 take_id = *(i32*)LIST_FRONT(event.select_res);
-		i32 card_id = cards_id[take_id];
-		give_card(pGame, pGame->players[*(i32*)cur_p->data].cards, card_id, true);
 
-		char tmp_cards_opt[32];
-		strcpy(tmp_cards_opt,cards_opt[num-i-1]);
+	sListNode *cur_p = get_player(pGame, player_id);
+	// loop everyone to pick
+	while(pick_cards->size > 0) {
+		i32 last_size = pick_cards->size;
 
-		strcpy(cards_opt[take_id], tmp_cards_opt );
+		// cur_p to draw
+		i32 cur_p_id = *(i32*)cur_p->data;
+
+		i32 cards_id[last_size];
+		char cards_opt[last_size][64];
+		for(i32 j = 0; j < (i32)pick_cards->size; ++j) {
+			cards_id[j] = *(i32*)node_advance(LIST_BEGIN(pick_cards), j)->data;
+			sprintf(cards_opt[j], "%2d) 挑選一張牌: %s", j+1, cards[cards_id[j]].name);
+		}
+
+		sSelectEvent event = select_event_with_arr(pGame, *(i32 *)cur_p->data , 1, 1, cards_opt, last_size, sizeof(*cards_opt) );
+		i32 take_idx = *(i32*)LIST_FRONT(event.select_res);
+		i32 take_id = cards_id[take_idx];
+		give_card(pGame, pGame->players[cur_p_id].cards, take_id, true);
 
 		cur_p = get_next_player(pGame, cur_p);
 	}
