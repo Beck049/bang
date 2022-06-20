@@ -318,7 +318,7 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( player_id == 0 ){
 		printf(YLW"-> 您將使用凱特巴洛!\n"RST);
 		printf(YLW"-> 請選擇一位玩家，其將自行選擇棄掉任何一張牌。\n"RST);
-	}else printf(YLW"-> player %d 將使用凱特巴洛\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 將使用凱特巴洛\n"RST,player_id);
 
 	//選人，除了自己。
 	i32 live_size = pGame->live_players->size;
@@ -335,10 +335,10 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 		if(target_id == player_id || target_cards_cnt == 0) continue;
 
 		players_id[cnt] = target_id;
-		sprintf(players_option[cnt], "%d) player%d\n", cnt+1, target_id);
+		sprintf(players_option[cnt], "%d) 玩家 %d", cnt+1, target_id);
 		++cnt;
 	}
-	if( cnt != 0 ) {	
+	if( cnt != 0 ) {
 		sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, players_option, cnt, sizeof(*players_option));
 		i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
 		i32 target_id =  players_id[select_idx];
@@ -347,7 +347,7 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 
 		if( target_id == 0 ){
 			printf(YLW"-> 你被選擇了\n"RST);
-		}else printf(YLW"-> player %d 被選擇了\n"RST, target_id);
+		}else printf(YLW"-> 玩家 %d 被選擇了\n"RST, target_id);
 
 		//叫那個人給我丟掉一張牌喔
 		sList *target_desk = pGame->players[ target_id ].desk;
@@ -360,13 +360,13 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 		LIST_FOR_EACH(pNode, target_desk){
 			i32 id = *(i32*)pNode->data;
 			cards_id[cnt] = id;
-			sprintf(cards_option[cnt], "%d) %s (desk)\n", cnt+1, cards[id].name);
+			sprintf(cards_option[cnt], "%d) %s (桌面)\n", cnt+1, cards[id].name);
 			++cnt;
 		}
 		LIST_FOR_EACH(pNode, target_hand){
 			i32 id = *(i32*)pNode->data;
 			cards_id[cnt] = id;
-			sprintf(cards_option[cnt], "%d) %s (hand)\n", cnt+1, cards[id].name);
+			sprintf(cards_option[cnt], "%d) %s (手牌)\n", cnt+1, cards[id].name);
 			++cnt;
 		}
 		
@@ -385,7 +385,7 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 
 			give_card( pGame , pGame->discard_pile , id , true );
 
-			printf(YLW"-> player %d 棄掉了 %s\n"RST, target_id, cards[ id ].name);
+			printf(YLW"-> 玩家 %d 棄掉了 %s\n"RST, target_id, cards[ id ].name);
 		}
 	}
 	printf(YLW"-> 凱特巴洛處理完畢\n"RST);
