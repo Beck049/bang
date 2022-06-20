@@ -71,7 +71,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 					if(dth_e.death_res == true) {
 						if( target_id == 0 ){
 							printf(YLW"-> You died\n"RST);
-						}else printf(YLW"-> player %d died"RST,target_id);
+						}else printf(YLW"-> player %d died\n"RST,target_id);
 
 						if(pGame->end_winner_role != (eRole)-1) return;
 					}

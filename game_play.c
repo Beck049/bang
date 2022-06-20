@@ -203,7 +203,7 @@ void turn_phase(sGame *pGame) {
 }
 
 void game_end(sGame *pGame) {
-	display_end(pGame, pGame->end_winner_role);
+	display_end(pGame, pGame->end_winner_role, 0 );
 }
 
 

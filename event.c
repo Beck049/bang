@@ -1,5 +1,6 @@
 #include "event.h"
 #include "game_play.h"
+#include "death.h"
 
 sList *draw_phase_event_funcs[MAX_ID];
 sList *play_phase_event_funcs[MAX_ID];
@@ -154,6 +155,7 @@ sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id) {
 		if(pGame->end_winner_role != (eRole)-1) break;
 	}
 	remove_live_player(pGame, dth_e.dead_id);
+	pGame->end_winner_role = getWinner( pGame );
 
 	return dth_e;
 }
