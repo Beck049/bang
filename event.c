@@ -144,8 +144,6 @@ sBangEvent bang_event(sGame *pGame, i32 trigger_id, i32 target_id) {
 }
 
 sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id) {
-	printf("------------------calling death event:\n");
-	printf("------------------death event info: dead: %d, killer: %d\n", dead_id, killer_id);
 	sDeathEvent dth_e = {
 		.dead_id = dead_id,
 		.killer_id = killer_id,
@@ -155,7 +153,6 @@ sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &dth_e);
 		if(pGame->end_winner_role != (eRole)-1) break;
 	}
-	printf("------------------death event res: %d\n", dth_e.death_res);
 	remove_live_player(pGame, dth_e.dead_id);
 
 	return dth_e;
