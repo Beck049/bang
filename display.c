@@ -63,38 +63,6 @@ void display_pile(sList *pList) {
 	}
 }
 
-void display_game_old(sGame *pGame, i32 viewer_id) {
-	printf( "-----------------BANG-----------------\n"
- 			" Draw Pile (%ld)   /  Discard Pile (%ld)\n"
-			"--------------------------------------\n", pGame->draw_pile->size, pGame->discard_pile->size);
-	sList *live_player = pGame->live_players;
-
-	sListNode *player_node = get_player(pGame, viewer_id);
-	if(player_node == NULL) {
-		player_node = LIST_FRONT(live_player);
-	}
-
-	i32 size = live_player->size;
-	for(i32 i = 0; i < size; ++i) {
-		i32 player_id = *(i32*)player_node->data;
-		sList *player_cards = pGame->players[player_id].cards;
-		sList *player_desk = pGame->players[player_id].desk;
-		char appellation[16];
-		if(player_id == viewer_id) {
-			sprintf(appellation, "Your");
-		}
-		else {
-			sprintf(appellation, "Player%d's", player_id);
-		}
-		printf("%s Cards (%ld):\n", appellation, player_cards->size);
-		display_pile(player_cards);
-		printf("%s Desk (%ld):\n", appellation, player_desk->size);
-		display_pile(player_desk);
-
-		player_node = get_next_player(pGame, player_node);
-	}
-}
-
 void display_board(sGame *pGame, i32 viewer_id) {
 	printf("++============================================================================++\n");
 	printf("||                                                                            ||\n");
@@ -166,8 +134,9 @@ void display_board(sGame *pGame, i32 viewer_id) {
 
 void display_hands(sGame *pGame, i32 viewer_id) {
 	sList *viewer_hands = pGame->players[viewer_id].cards;
-	display_pile(viewer_hands);
-	printf("\n");
+	// display_pile(viewer_hands);
+	// printf("\n");
+
 	printf("你的手牌: \n");
 	i32 hand_size = (i32)viewer_hands->size;
 

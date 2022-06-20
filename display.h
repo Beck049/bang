@@ -22,7 +22,13 @@
 #define LCYN ASCII_ESC"[96m"
 #define LWHT ASCII_ESC"[97m"
 
+size_t strlen_fix(const char *str);
+
 void print_card(char *dst, i32 card_id);
+
+void print_center(char *dst, const char *src);
+
+void print_with_frame(char *dst, const char *src, const char *frame);
 
 void display_pile(sList *pList);
 
