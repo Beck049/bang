@@ -74,10 +74,10 @@ void setup_players(sGame *pGame) {
 		pPlayer->hp = characters[pPlayer->character].hp;
 
 		printf("--------------------------------------------------------------------------------\n");
-		if(i == 0) printf("You:\n");
-		else       printf("Player%d:\n", i);
+		if(i == 0) printf("你:\n");
+		else       printf("玩家 %d:\n", i);
 		printf("生命: %d\n", pPlayer->hp);
-		// printf("身分: %d\n", pPlayer->role);
+		if(i == 0) printf("身分: %s\n", ROLE_STR[pPlayer->role]);
 		printf("角色: %s\n", characters[pPlayer->character].name);
 		printf("能力: %s\n", characters[pPlayer->character].description);
 		// printf("l_rng: %d\n", pPlayer->look_range);
