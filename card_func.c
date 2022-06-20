@@ -46,6 +46,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 					if( target_id == 0 ){
 						printf(YLW"-> You died\n"RST);
 					}else printf(YLW"-> player %d died"RST,target_id);
+					return;
 				}
 			}
 		}
@@ -89,7 +90,7 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	}
 	char cards_opt[num][32];
 	for(int i = 0; i < num; ++i ) {
-		sprintf(cards_opt[i], "%2d) pick a card: %s", i+1, cards[cards_id[i]].name);
+		sprintf(cards_opt[i], "%2d) 挑選一張牌: %s", i+1, cards[cards_id[i]].name);
 	}
 	for(i32 i = 0; i < num; ++i ) {
 		// draw
@@ -375,7 +376,8 @@ void card_gatling(sGame *pGame, i32 player_id, i32 card_id ){
 							if( id == 0 ){
 								printf(YLW"-> You died\n"RST);
 							}else printf(YLW"-> player %d died"RST,id);
-					}
+							return;
+						}
 					}
 				}
 
@@ -419,7 +421,8 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
 							if( id == 0 ){
 								printf(YLW"-> You died\n"RST);
 							}else printf(YLW"-> player %d died\n"RST,id);
-					}
+							return;
+						}
 					}
 				}
                 if( id==0 ){
@@ -467,6 +470,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 						if( duel_id == 0 ){
 							printf(YLW"-> You died\n"RST);
 						}else printf(YLW"-> player %d died\n"YLW,duel_id);
+						return;
 					}
 				}
 			}
