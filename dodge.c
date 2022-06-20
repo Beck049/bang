@@ -13,21 +13,22 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 	i32 dodge_times = e->dodge_times;
 	sList *player_cards = pGame->players[e->target_id].cards;
 	sList *miss_cards = card_filter(player_cards, card_is_missed);
-	if((i32)miss_cards->size < e->dodge_times) {
+
+	if((i32)miss_cards->size < dodge_times) {
 		free_list(miss_cards);
 		return;
 	}
 
-	char options[2][512] = {" 1) use missed", " 2) no"};
+	char options[2][512] = {" 1) 丟出 miss 以進行躲避", " 2) 不進行躲避"};
 	sSelectEvent select_dodge_e = select_event_with_arr (pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 	i32 choice = *(i32*)LIST_FRONT(select_dodge_e.select_res);
+	free_list(select_dodge_e.selections);
+	free_list(select_dodge_e.select_res);
+	
 	if(choice == 0) {
 		if(e->target_id == 0) {
-			printf("你選擇躲避\n");
-		}
-		else {
-			printf("Player%d 選擇躲避\n", e->target_id);
-		}
+			printf("你選擇進行躲避\n");
+		} else printf("玩家 %d 選擇進行躲避\n", e->target_id);
 
 		i32 miss_card_id[miss_cards->size];
 		char options_2[miss_cards->size][512];
@@ -40,17 +41,20 @@ void dodge_event_default(sGame *pGame, sDodgeEvent *e) {
 			cur_node = cur_node->next;
 		}
 
-		sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, dodge_times, dodge_times, options_2, miss_cards->size, sizeof(*options_2) );
-		i32 select_card_id = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
-		i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
-		if(take_id != -1) {
-			give_card(pGame, pGame->discard_pile, take_id, true);
+		sSelectEvent select_miss_e = select_event_with_arr(
+			pGame, e->target_id, dodge_times, dodge_times,
+			options_2, miss_cards->size, sizeof(*options_2));
+
+		LIST_FOR_EACH(pNode, select_miss_e.select_res) {
+			i32 select_card_id = miss_card_id[*(i32*)pNode->data];
+			i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
+			if(take_id != -1) {
+				give_card(pGame, pGame->discard_pile, take_id, false);
+			}
 		}
 		free_list(select_miss_e.selections);
 		free_list(select_miss_e.select_res);
 	}
-	free_list(select_dodge_e.selections);
-	free_list(select_dodge_e.select_res);
 	free_list(miss_cards);
 }
 
@@ -64,36 +68,49 @@ void dodge_event_calamity_janet(sGame *pGame, sDodgeEvent *e) {
 		list_push_back(miss_cards, pNode);
 	}
 
-	if(miss_cards->size == 0) {
+	if((i32)miss_cards->size < e->dodge_times) {
+		free_list(bang_cards);
 		free_list(miss_cards);
 		return;
 	}
-	i32 miss_card_id[miss_cards->size];
-	sListNode *cur_node = LIST_BEGIN(miss_cards);
-	for(i32 i = 0; i < (i32)miss_cards->size; ++i) {
-		miss_card_id[i] = *(i32*)cur_node->data;
-	}
-	char options[2][512] = {" 1) use missed", " 2) no"};
+
+	char options[2][512] = {" 1) 丟出 miss 以進行躲避", " 2) 不進行躲避"};
 	sSelectEvent select_dodge_e = select_event_with_arr(pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 	i32 choice = *(i32*)LIST_FRONT(select_dodge_e.select_res);
+	free_list(select_dodge_e.selections);
+	free_list(select_dodge_e.select_res);
+
 	if(choice == 0) {
+		if(e->target_id == 0) {
+			printf("你選擇進行躲避\n");
+		} else printf("玩家 %d 選擇進行躲避\n", e->target_id);
+
+
+		i32 miss_card_id[miss_cards->size];
 		char options_2[miss_cards->size][512];
+
 		sListNode *cur_node = LIST_BEGIN(miss_cards);
 		for(i32 i = 0; i < (i32)miss_cards->size; ++i) {
 			i32 card_id = *(i32*)cur_node->data;
-			sprintf(options_2[i], "%2d) %s (%d)", i+1, cards[card_id].name, card_id);
+			miss_card_id[i] = *(i32*)cur_node->data;
+			sprintf(options_2[i], "%2d) %s", i+1, cards[card_id].name);
+			cur_node = cur_node->next;
 		}
-		sSelectEvent select_miss_e = select_event_with_arr(pGame, e->target_id, dodge_times, dodge_times, options_2, miss_cards->size, sizeof(*options_2));
-		i32 select_card_id = miss_card_id[*(i32*)LIST_FRONT(select_miss_e.select_res)];
-		i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
-		if(take_id != -1) {
-			give_card(pGame, pGame->discard_pile, take_id, true);
+
+		sSelectEvent select_miss_e = select_event_with_arr(
+			pGame, e->target_id, dodge_times, dodge_times,
+			options_2, miss_cards->size, sizeof(*options_2));
+
+		LIST_FOR_EACH(pNode, select_miss_e.select_res) {
+			i32 select_card_id = miss_card_id[*(i32*)pNode->data];
+			i32 take_id = take_card_by_id(pGame, player_cards, select_card_id);
+			if(take_id != -1) {
+				give_card(pGame, pGame->discard_pile, take_id, false);
+			}
 		}
 		free_list(select_miss_e.selections);
 		free_list(select_miss_e.select_res);
 	}
-	free_list(select_dodge_e.selections);
-	free_list(select_dodge_e.select_res);
 	free_list(miss_cards);
 	free_list(bang_cards);
 }
