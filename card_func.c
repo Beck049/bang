@@ -137,6 +137,8 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 
 		sSelectEvent event = select_event_with_arr(pGame, *(i32 *)cur_p->data , 1, 1, cards_opt, last_size, sizeof(*cards_opt) );
 		i32 take_idx = *(i32*)LIST_FRONT(event.select_res);
+		free_list(event.select_res);
+		free_list(event.selections);
 		i32 take_id = cards_id[take_idx];
 		give_card(pGame, pGame->players[cur_p_id].cards, take_id, true);
 		take_card_by_id(pGame, pick_cards, take_id);
@@ -332,54 +334,56 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 		sprintf(players_option[cnt], "%d) player%d\n", cnt+1, target_id);
 		++cnt;
 	}
-	
-	sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, players_option, cnt, sizeof(*players_option));
-	i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
-	i32 target_id =  players_id[select_idx];
-	free_list(sl_e.select_res);
-	free_list(sl_e.selections);
+	if( cnt != 0 ) {	
+		sSelectEvent sl_e = select_event_with_arr(pGame, player_id, 1, 1, players_option, cnt, sizeof(*players_option));
+		i32 select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+		i32 target_id =  players_id[select_idx];
+		free_list(sl_e.select_res);
+		free_list(sl_e.selections);
 
-	if( target_id == 0 ){
-		printf(YLW"-> 你被選擇了\n"RST);
-	}else printf(YLW"-> player %d 被選擇了\n"RST, target_id);
+		if( target_id == 0 ){
+			printf(YLW"-> 你被選擇了\n"RST);
+		}else printf(YLW"-> player %d 被選擇了\n"RST, target_id);
 
-	//叫那個人給我丟掉一張牌喔
-	sList *target_desk = pGame->players[ target_id ].desk;
-	sList *target_hand = pGame->players[ target_id ].cards;
-	i32 target_cards_cnt = target_desk->size + target_hand->size;
-	i32 cards_id[target_cards_cnt];
-	char cards_option[target_cards_cnt][512];
+		//叫那個人給我丟掉一張牌喔
+		sList *target_desk = pGame->players[ target_id ].desk;
+		sList *target_hand = pGame->players[ target_id ].cards;
+		i32 target_cards_cnt = target_desk->size + target_hand->size;
+		i32 cards_id[target_cards_cnt];
+		char cards_option[target_cards_cnt][512];
 
-	cnt = 0;
-	LIST_FOR_EACH(pNode, target_desk){
-		i32 id = *(i32*)pNode->data;
-		cards_id[cnt] = id;
-		sprintf(cards_option[cnt], "%d) %s (desk)\n", cnt+1, cards[id].name);
-		++cnt;
-	}
-	LIST_FOR_EACH(pNode, target_hand){
-		i32 id = *(i32*)pNode->data;
-		cards_id[cnt] = id;
-		sprintf(cards_option[cnt], "%d) %s (hand)\n", cnt+1, cards[id].name);
-		++cnt;
-	}
-	
-	if( cnt != 0 ){
-		sl_e = select_event_with_arr(pGame, target_id, 1, 1, cards_option, cnt , sizeof(*cards_option));
-		select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
-		i32 id = cards_id[select_idx];
-
-		if(select_idx < (i32)target_desk->size) {
-			take_card_by_id(pGame, target_desk, id);
-		} else {
-			take_card_by_id(pGame, target_hand, id);
+		cnt = 0;
+		LIST_FOR_EACH(pNode, target_desk){
+			i32 id = *(i32*)pNode->data;
+			cards_id[cnt] = id;
+			sprintf(cards_option[cnt], "%d) %s (desk)\n", cnt+1, cards[id].name);
+			++cnt;
 		}
+		LIST_FOR_EACH(pNode, target_hand){
+			i32 id = *(i32*)pNode->data;
+			cards_id[cnt] = id;
+			sprintf(cards_option[cnt], "%d) %s (hand)\n", cnt+1, cards[id].name);
+			++cnt;
+		}
+		
+		if( cnt != 0 ){
+			sl_e = select_event_with_arr(pGame, target_id, 1, 1, cards_option, cnt , sizeof(*cards_option));
+			select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+			i32 id = cards_id[select_idx];
+			free_list(sl_e.select_res);
+			free_list(sl_e.selections);
 
-		give_card( pGame , pGame->discard_pile , id , true );
+			if(select_idx < (i32)target_desk->size) {
+				take_card_by_id(pGame, target_desk, id);
+			} else {
+				take_card_by_id(pGame, target_hand, id);
+			}
 
-		printf(YLW"-> player %d 棄掉了 %s\n"RST, target_id, cards[ id ].name);
+			give_card( pGame , pGame->discard_pile , id , true );
+
+			printf(YLW"-> player %d 棄掉了 %s\n"RST, target_id, cards[ id ].name);
+		}
 	}
-
 	printf(YLW"-> 凱特巴洛處理完畢\n"RST);
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
