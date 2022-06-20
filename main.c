@@ -23,10 +23,12 @@ int main( int argc, char *argv[] ) {
     int32_t index = 0;
     int32_t people = 4;
 	int32_t flag_help = 0;
+	int32_t flag_people = 0;
 
     while ( ( c = getopt_long( argc, argv, "p:h", long_options, &index ) ) != -1 ){
         switch( c ){
             case 'p':
+				flag_people=1;
                 people=atoi(optarg);
 				if( people>7 || people<4 ){
 					printf("不能 %d 個人遊玩\n",people);
@@ -59,6 +61,10 @@ int main( int argc, char *argv[] ) {
 		printf("………………*..lovelo…*                      ##:::::::: ##:::. ##:. #######::. ######::: ##:::. ##: ##:::: ##: ##:::: ##: ##:::: ##:'####: ##::. ##:. ######:::\n");
 		printf("…………………*…..*                          ..:::::::::..:::::..:::.......::::......::::..:::::..::..:::::..::..:::::..::..:::::..::....::..::::..:::......::::\n");
 		printf("………………….*..*\n");
+		
+		if(flag_people){
+
+		}else return 0;
 	}
 
 	start_style();
