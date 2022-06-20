@@ -76,7 +76,7 @@ void display_game(sGame *pGame, i32 viewer_id) {
 
 	sListNode *player_node = get_player(pGame, viewer_id);
 	if(player_node == NULL) {
-		player_node = LIST_FRONT(live_player);
+		player_node = LIST_BEGIN(live_player);
 	}
 
 	i32 size = live_player->size;
