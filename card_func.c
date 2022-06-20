@@ -360,13 +360,13 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 		LIST_FOR_EACH(pNode, target_desk){
 			i32 id = *(i32*)pNode->data;
 			cards_id[cnt] = id;
-			sprintf(cards_option[cnt], "%d) %s (桌面)\n", cnt+1, cards[id].name);
+			sprintf(cards_option[cnt], "%2d) %s (桌面)", cnt+1, cards[id].name);
 			++cnt;
 		}
 		LIST_FOR_EACH(pNode, target_hand){
 			i32 id = *(i32*)pNode->data;
 			cards_id[cnt] = id;
-			sprintf(cards_option[cnt], "%d) %s (手牌)\n", cnt+1, cards[id].name);
+			sprintf(cards_option[cnt], "%2d) %s (手牌)", cnt+1, cards[id].name);
 			++cnt;
 		}
 		
