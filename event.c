@@ -145,17 +145,19 @@ sBangEvent bang_event(sGame *pGame, i32 trigger_id, i32 target_id) {
 }
 
 sDeathEvent death_event(sGame *pGame, i32 dead_id, i32 killer_id) {
+	printf("------------------calling death event:\n");
+	printf("------------------death event info: dead: %d, killer: %d\n", dead_id, killer_id);
 	sDeathEvent dth_e = {
 		.dead_id = dead_id,
 		.killer_id = killer_id,
-		.death_res = false,
+		.death_res = true,
 	};
 	LIST_FOR_EACH(pNode, death_event_funcs[dead_id]) {
 		EVENT_APPLY_FUNC(pGame, pNode->data, &dth_e);
 		if(pGame->end_winner_role != (eRole)-1) break;
-		if(dth_e.death_res == true) break;
 	}
-	list_erase(pGame->live_players, get_player(pGame, dth_e.dead_id));
+	printf("------------------death event res: %d\n", dth_e.death_res);
+	remove_live_player(pGame, dth_e.dead_id);
 
 	return dth_e;
 }

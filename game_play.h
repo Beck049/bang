@@ -13,6 +13,8 @@ bool contains_card_type(sList *pPile, eCardType card_type);
 
 sListNode *get_player(sGame *pGame, i32 id);
 
+void remove_live_player(sGame *pGame, i32 id);
+
 sListNode *get_prev_player(sGame *pGame, sListNode *pPlayerNode);
 
 sListNode *get_next_player(sGame *pGame, sListNode *pPlayerNode);

@@ -28,6 +28,12 @@ sListNode *get_player(sGame *pGame, i32 id) {
 		}
 	}
 	return res;
+
+void remove_live_player(sGame *pGame, i32 id) {
+	sListNode *pPlayerNode = get_player(pGame, id);
+	if(pGame->cur_player == pPlayerNode) pGame->cur_player = get_next_player(pGame, pPlayerNode);
+	list_erase(pGame->live_players, pPlayerNode);
+
 }
 
 sListNode *get_prev_player(sGame *pGame, sListNode *pPlayerNode) {
