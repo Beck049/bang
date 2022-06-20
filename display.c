@@ -87,11 +87,11 @@ void display_board(sGame *pGame, i32 viewer_id) {
 
 		// build appellation
 		char appellation[16];
-		if(player_id == viewer_id) sprintf(appellation, "  You  ");
-		else                       sprintf(appellation, "Player%1d", player_id);
+		if(player_id == viewer_id) sprintf(appellation, "  你  ");
+		else                       sprintf(appellation, "玩家 %d", player_id);
 
 		printf("||                                                                            ||\n");
-		printf("||    %s (hp:%3d)  (Cards:%3ld)                                           ||\n", appellation, pGame->players[player_id].hp, player_cards->size);
+		printf("||     [ %s ]  hp:%2d  Cards:%2ld                                            ||\n", appellation, pGame->players[player_id].hp, player_cards->size);
 		printf("||                                                                            ||\n");
 
 		i32 desk_size = (i32)player_desk->size;
