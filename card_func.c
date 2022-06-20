@@ -569,8 +569,8 @@ void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
 
 void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( player_id == 0 ){
-		printf("你裝備了 野馬 \n");
-	}else printf("> player %d 裝備了 野馬 \n",player_id);
+		printf(GRN"-> 你裝備了 野馬 \n"RST);
+	}else printf(GRN"> player %d 裝備了 野馬 \n"RST,player_id);
 
     remove_card(pGame, player_id, 18);
 	i32 take_id;
@@ -582,8 +582,8 @@ void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
 
 void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
-		printf("你裝備了 望遠鏡瞄準器 \n");
-	}else printf("> player %d 裝備了 望遠鏡瞄準器 \n",player_id);
+		printf(GRN"-> 你裝備了 望遠鏡瞄準器 \n"RST);
+	}else printf(GRN"-> player %d 裝備了 望遠鏡瞄準器 \n"RST,player_id);
 
     remove_card(pGame, player_id, 17);
 	i32 take_id;
@@ -595,8 +595,8 @@ void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
 
 void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
-		printf("你裝備了 啤酒桶 \n");
-	}else printf("> player %d 裝備了 啤酒桶 \n",player_id);
+		printf(GRN"-> 你裝備了 啤酒桶 \n"RST);
+	}else printf(GRN"-> player %d 裝備了 啤酒桶 \n"RST,player_id);
 
     remove_card(pGame, player_id, 20);
 	i32 take_id;
@@ -609,8 +609,8 @@ void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
 // guns
 void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
-		printf("你裝備了 雷明頓 \n");
-	}else printf("> player %d 裝備了 雷明頓 \n",player_id);
+		printf(GRN"-> 你裝備了 雷明頓 \n"RST);
+	}else printf(GRN"-> player %d 裝備了 雷明頓 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
@@ -624,8 +624,8 @@ void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
 
 void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
-		printf("你裝備了 史考菲爾德 \n");
-	}else printf("> player %d 裝備了 史考菲爾德 \n",player_id);
+		printf(GRN"-> 你裝備了 史考菲爾德 \n"RST);
+	}else printf(GRN"-> player %d 裝備了 史考菲爾德 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
@@ -639,8 +639,8 @@ void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
 
 void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
-		printf("你裝備了 溫徹斯特 \n");
-	}else printf("> player %d 裝備了 溫徹斯特 \n",player_id);
+		printf(GRN"->你裝備了 溫徹斯特 \n"RST);
+	}else printf(GRN"-> player %d 裝備了 溫徹斯特 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
@@ -654,8 +654,8 @@ void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
 
 void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
-		printf("你裝備了 卡賓槍 \n");
-	}else printf("> player %d 裝備了 卡賓槍 \n",player_id);
+		printf(GRN"-> 你裝備了 卡賓槍 \n"RST);
+	}else printf(GRN"-> player %d 裝備了 卡賓槍 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
@@ -669,8 +669,8 @@ void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
 
 void card_volcano(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
-		printf("你裝備了 連發槍 \n");
-	}else printf("> player %d 裝備了 連發槍 \n",player_id);
+		printf(GRN"-> 你裝備了 連發槍 \n"RST);
+	}else printf(GRN"-> player %d 裝備了 連發槍 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
