@@ -187,7 +187,7 @@ void draw_phase_event_pedro_ramirez(sGame *pGame, sDrawPhaseEvent *e) {
 
 		i32 card_id;
 		if( i == 0 ) {
-			char options[2][512] = {" 1) draw from deck pile", " 2) draw from discard pile"};
+			char options[2][512] = {" 1) 從牌堆中抽牌", " 2) 從其他玩家手上抽牌"};
 			// select draw first card from draw_pile or discard_pile
 			sSelectEvent event = select_event_with_arr(pGame, e->target_id, 1, 1, options, 2, sizeof(*options));
 			if( *(i32*)LIST_FRONT(event.select_res) == 1 )
