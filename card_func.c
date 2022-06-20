@@ -89,8 +89,8 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 void card_saldon(sGame *pGame, i32 player_id, i32 card_id ) {
 	//幫大家加一滴血
 	if( player_id == 0 ){
-		printf(YLW"-> 你幫大家加了回了一滴血!\n"RST);
-	}else printf(YLW"-> %d 號玩家幫大家回了一滴血\n"RST,player_id);
+		printf(YLW"-> 你 幫大家加了回了一滴血!\n"RST);
+	}else printf(YLW"-> 玩家 %d 幫大家回了一滴血\n"RST,player_id);
 
 	LIST_FOR_EACH(pNode,pGame->live_players){
 		i32 id = *(i32 *)pNode->data;
@@ -107,8 +107,8 @@ void card_saldon(sGame *pGame, i32 player_id, i32 card_id ) {
 
 void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( player_id == 0 ){
-		printf(YLW"-> 你使用了雜貨店\n"RST);
-	} else printf(YLW"-> player %d 使用了雜貨店\n"RST,player_id);
+		printf(YLW"-> 你 使用了雜貨店\n"RST);
+	} else printf(YLW"-> 玩家 %d 使用了雜貨店\n"RST,player_id);
 
 
 	// take `num` of card to pick
@@ -143,6 +143,10 @@ void card_general_store(sGame *pGame, i32 player_id, i32 card_id ) {
 		give_card(pGame, pGame->players[cur_p_id].cards, take_id, true);
 		take_card_by_id(pGame, pick_cards, take_id);
 
+	if( player_id == 0 ){
+		printf(YLW"-> 你 挑選了 %s\n"RST, cards[take_id].name);
+	} else printf(YLW"-> 玩家 %d 挑選了 %s\n"RST, player_id, cards[take_id].name);
+
 		cur_p = get_next_player(pGame, cur_p);
 	}
 	printf(YLW"-> 雜貨店處理完畢\n"RST);
@@ -157,8 +161,8 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		printf(YLW"-> 你 使用了 驚慌!\n"RST);
 		printf(YLW"-> 請選擇你要使用驚慌的目標\n"RST);
 	} else {
-		printf(YLW"-> player %d 使用了 驚慌!\n"RST,player_id);
-		printf(YLW"-> Player %d 正在選擇他的目標\n"RST, player_id);
+		printf(YLW"-> 玩家 %d 使用了 驚慌!\n"RST,player_id);
+		printf(YLW"-> 玩家 %d 正在選擇他的目標\n"RST, player_id);
 	}
 
 	sListNode *cur_player_node = pGame->cur_player;
