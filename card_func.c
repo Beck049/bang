@@ -46,7 +46,8 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 					if( target_id == 0 ){
 						printf(YLW"-> You died\n"RST);
 					}else printf(YLW"-> player %d died"RST,target_id);
-					return;
+
+					if(pGame->end_winner_role != (eRole)-1) return;
 				}
 			}
 		}
@@ -402,7 +403,7 @@ void card_gatling(sGame *pGame, i32 player_id, i32 card_id ){
 							if( id == 0 ){
 								printf(YLW"-> You died\n"RST);
 							}else printf(YLW"-> player %d died"RST,id);
-							return;
+							if(pGame->end_winner_role != (eRole)-1) return;
 						}
 					}
 				}
@@ -447,7 +448,7 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
 							if( id == 0 ){
 								printf(YLW"-> You died\n"RST);
 							}else printf(YLW"-> player %d died\n"RST,id);
-							return;
+							if(pGame->end_winner_role != (eRole)-1) return;
 						}
 					}
 				}
@@ -501,7 +502,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 						if( duel_id == 0 ){
 							printf(YLW"-> You died\n"RST);
 						}else printf(YLW"-> player %d died\n"YLW,duel_id);
-						return;
+						if(pGame->end_winner_role != (eRole)-1) return;
 					}
 				}
 			}
