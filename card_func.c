@@ -8,7 +8,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( player_id == 0 ){
 		printf( YLW"->你使用了 bang \n"RST);
 		printf(YLW"-> 請選擇bang的對象: "RST);
-	}else printf(YLW"-> player %d 使用了bang\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 使用了bang\n"RST,player_id);
 
 
 	sListNode *cur_player_node = pGame->cur_player;
@@ -44,7 +44,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 		
 		if( dis <= 1 ) {
 			players_id[opt_num] = target_id;
-			sprintf( players_option[opt_num], "%2d) Player %d", opt_num+1, target_id);
+			sprintf( players_option[opt_num], "%2d) 玩家 %d", opt_num+1, target_id);
 			++opt_num;
 		}
 	}
@@ -57,7 +57,7 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 		free_list(sl_e.selections);
 		if( target_id == 0 ){
 			printf(YLW"-> 你被bang了QAQ\n\n"RST);
-		}else printf(YLW"-> player %d 被bang了\n\n"RST,target_id);
+		}else printf(YLW"-> 玩家 %d 被bang了\n\n"RST,target_id);
 
 		// call bang_event
 		sBangEvent bang=bang_event( pGame, player_id, target_id );
@@ -194,7 +194,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		
 		if( dis <= 1 ) {
 			players_id[opt_num] = target_id;
-			sprintf( players_option[opt_num], "%2d) Player %d", opt_num+1, target_id);
+			sprintf( players_option[opt_num], "%2d) 玩家 %d", opt_num+1, target_id);
 			++opt_num;
 		}
 	}
@@ -203,7 +203,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 		if( player_id == 0) {
 			printf(YLW"-> 你發現沒有可以使用驚慌的目標QQ\n"RST);
 		} else {
-			printf(YLW"-> Player %d 發現沒有可以使用驚慌的目標OAO\n"RST, player_id);
+			printf(YLW"-> 玩家 %d 發現沒有可以使用驚慌的目標OAO\n"RST, player_id);
 		}
 		printf(YLW"-> 驚慌處理完畢\n"RST);
 		take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
@@ -219,7 +219,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 
 	if( target_id == 0 ){
 		printf(YLW"-> 你被驚慌了QQ\n"RST);
-	} else printf(YLW"-> player %d 被驚慌了\n"RST, target_id );
+	} else printf(YLW"-> 玩家 %d 被驚慌了\n"RST, target_id );
 
 	// build selection
 
@@ -264,7 +264,7 @@ void card_panic(sGame *pGame, i32 player_id, i32 card_id){
 void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( player_id == 0 ){
 		printf(YLW"-> 你使用了驛馬車\n"RST);
-	}else printf(YLW"-> player %d 使用了驛馬車\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 使用了驛馬車\n"RST,player_id);
 
 	sListNode *cur_p = get_player(pGame, player_id);
 	i32 card_array_id;
@@ -281,7 +281,7 @@ void card_stagecoach(sGame *pGame, i32 player_id, i32 card_id ) {
 void card_wells_fargo(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( player_id == 0 ){
 		printf(YLW"-> 你使用了威爾斯法歌\n"RST);
-	}else printf(YLW"-> player %d 使用了威爾斯法歌\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 使用了威爾斯法歌\n"RST,player_id);
 
 	sListNode *cur_p = get_player(pGame, player_id);
 	i32 card_array_id;
@@ -298,7 +298,7 @@ void card_beer(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( (i32)pGame->live_players->size >= 2  ) {
 		if( player_id == 0 ){
 			printf(YLW"-> 你使用了啤酒\n"RST);
-		}else printf(YLW"-> player %d 使用了 啤酒\n"RST,player_id);
+		}else printf(YLW"-> 玩家 %d 使用了 啤酒\n"RST,player_id);
 
 		i32 id = *(i32 *)pGame->cur_player->data;
 		i32 character_id = pGame->players[player_id].character;
@@ -397,13 +397,13 @@ void card_jail(sGame *pGame, i32 player_id, i32 card_id){
 	if( player_id == 0 ){
 		printf(YLW"-> 你使用了監獄\n"RST);
 		printf(YLW"-> 請選擇使用對象:\n"RST);
-	}else printf(YLW"-> player %d 使用了監獄\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 使用了監獄\n"RST,player_id);
 	i32 select_idx = select_player( pGame, player_id );
 	
 	
 	if( select_idx == 0 ){
 		printf(YLW"-> 你被關進監獄了QQ\n"RST);
-	}else printf(YLW"-> player %d 被關進監獄了QQ\n"RST,select_idx);
+	}else printf(YLW"-> 玩家 %d 被關進監獄了QQ\n"RST,select_idx);
 	// 把jail放到某個人的桌上
 	// 把jail從自己手牌移除
 	printf(YLW"-> 監獄處理完畢\n"RST);
@@ -415,7 +415,7 @@ void card_bomb(sGame *pGame, i32 player_id, i32 card_id){
 	// 把bomb從手牌移走 是外面要做的事情
 	if( player_id == 0 ){
 		printf(YLW"-> 你放了一個炸彈\n"RST);
-	}else printf(YLW"-> player %d 放了一個炸彈\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 放了一個炸彈\n"RST,player_id);
 
 	printf(YLW"-> 炸彈放置完畢\n"RST);
 	give_card( pGame, pGame->players[player_id].desk, card_id, true );
@@ -427,7 +427,7 @@ void card_gatling(sGame *pGame, i32 player_id, i32 card_id ){
     // 直接丟到棄牌堆
 	if( player_id == 0 ){
 		printf(YLW"-> 你使用了格林機關槍\n"RST);
-	}else printf(YLW"-> player %d 使用了格林機關槍\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 使用了格林機關槍\n"RST,player_id);
 
     LIST_FOR_EACH(pNode, pGame->live_players) {
         i32 id = *(i32 *)pNode->data;
@@ -453,7 +453,7 @@ void card_gatling(sGame *pGame, i32 player_id, i32 card_id ){
 
                 if( id==0 ){
                     printf(YLW"-> 你被扣一滴血了QQ\n"RST);
-                }else printf(YLW"-> player %d 被扣了一滴血\n"RST,id);
+                }else printf(YLW"-> 玩家 %d 被扣了一滴血\n"RST,id);
 
                 break;
             }
@@ -473,7 +473,7 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
     // 直接丟到棄牌堆
 	if( player_id == 0 ){
 		printf(YLW"-> 你使用了印地安人\n"RST);
-	}else printf(YLW"-> player %d 使用了印地安人\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 使用了印地安人\n"RST,player_id);
 
     LIST_FOR_EACH(pNode, pGame->live_players) {
         i32 id = *(i32 *)pNode->data;
@@ -497,12 +497,12 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
 				}
                 if( id==0 ){
                     printf(YLW"-> 你被扣一滴血了QQ\n"RST);
-                }else printf(YLW"-> player %d 被扣了一滴血\n"RST,id);
+                }else printf(YLW"-> 玩家 %d 被扣了一滴血\n"RST,id);
                 break;
             }else{
 				if( id==0 ){
 					printf(YLW"-> 你丟出了一張Bang以避免扣血\n"RST);
-				}else printf(YLW"-> player %d 丟出了一張Bang以避免扣血\n"RST,id);
+				}else printf(YLW"-> 玩家 %d 丟出了一張Bang以避免扣血\n"RST,id);
 			}
 			
             take_card_by_id( pGame, pGame->players[id].cards, id_choose );
@@ -521,12 +521,12 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 	if( player_id == 0 ){
 		printf(YLW"-> 你丟出了決鬥\n"RST);
 		printf(YLW"-> 請選擇決鬥對象：\n"RST);
-	}else printf(YLW"-> player %d 丟出了 決鬥\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 丟出了 決鬥\n"RST,player_id);
 
 	i32 duel_id=select_player(pGame, player_id);
 	if ( duel_id==0 ){
-		printf(YLW"-> 你成為 player %d 的決鬥對象\n"RST,player_id);
-	}else printf(YLW"-> player %d 成為 player %d 的決鬥對象\n"RST,duel_id,player_id);
+		printf(YLW"-> 你成為 玩家 %d 的決鬥對象\n"RST,player_id);
+	}else printf(YLW"-> 玩家 %d 成為 玩家 %d 的決鬥對象\n"RST,duel_id,player_id);
 	
 	while(1){
 		if( duel_id == 0 ) printf(YLW"-> 您需要丟出一張bang,否則將會扣一滴血\n"RST);
@@ -551,7 +551,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 			}
 			if( duel_id==0 ){
 				printf(YLW"-> 你被扣一滴血了QQ\n"RST);
-			}else printf(YLW"-> player %d 被扣了一滴血\n"RST,duel_id);
+			}else printf(YLW"-> 玩家 %d 被扣了一滴血\n"RST,duel_id);
 			break;
 		}
 		take_card_by_id( pGame, pGame->players[duel_id].cards, duel_id_choose );
@@ -579,7 +579,7 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 
 			if( player_id==0 ){
 				printf(YLW"-> 你被扣一滴血了QAQ\n"RST);
-			}else printf(YLW"-> player %d 被扣了一滴血\n"RST,player_id);
+			}else printf(YLW"-> 玩家 %d 被扣了一滴血\n"RST,player_id);
 			break;
 		}
 		take_card_by_id( pGame, pGame->players[player_id].cards, player_id_choose );
@@ -610,7 +610,7 @@ void remove_card(sGame *pGame, i32 player_id, i32 target_card_type) {
 void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
 	if( player_id == 0 ){
 		printf(GRN"-> 你裝備了 野馬 \n"RST);
-	}else printf(GRN"> player %d 裝備了 野馬 \n"RST,player_id);
+	}else printf(GRN"-> 玩家 %d 裝備了 野馬 \n"RST,player_id);
 
     remove_card(pGame, player_id, 18);
 	i32 take_id;
@@ -623,7 +623,7 @@ void card_mustang(sGame *pGame, i32 player_id, i32 card_id ) {
 void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
 		printf(GRN"-> 你裝備了 望遠鏡瞄準器 \n"RST);
-	}else printf(GRN"-> player %d 裝備了 望遠鏡瞄準器 \n"RST,player_id);
+	}else printf(GRN"-> 玩家 %d 裝備了 望遠鏡瞄準器 \n"RST,player_id);
 
     remove_card(pGame, player_id, 17);
 	i32 take_id;
@@ -636,7 +636,7 @@ void card_scope(sGame *pGame, i32 player_id, i32 card_id) {
 void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
 		printf(GRN"-> 你裝備了 啤酒桶 \n"RST);
-	}else printf(GRN"-> player %d 裝備了 啤酒桶 \n"RST,player_id);
+	}else printf(GRN"-> 玩家 %d 裝備了 啤酒桶 \n"RST,player_id);
 
     remove_card(pGame, player_id, 20);
 	i32 take_id;
@@ -650,7 +650,7 @@ void card_barrel(sGame *pGame, i32 player_id, i32 card_id) {
 void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
 		printf(GRN"-> 你裝備了 雷明頓 \n"RST);
-	}else printf(GRN"-> player %d 裝備了 雷明頓 \n"RST,player_id);
+	}else printf(GRN"-> 玩家 %d 裝備了 雷明頓 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
@@ -665,7 +665,7 @@ void card_remington(sGame *pGame, i32 player_id, i32 card_id) {
 void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
 		printf(GRN"-> 你裝備了 史考菲爾德 \n"RST);
-	}else printf(GRN"-> player %d 裝備了 史考菲爾德 \n"RST,player_id);
+	}else printf(GRN"-> 玩家 %d 裝備了 史考菲爾德 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
@@ -680,7 +680,7 @@ void card_schofild(sGame *pGame, i32 player_id, i32 card_id) {
 void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
 		printf(GRN"->你裝備了 溫徹斯特 \n"RST);
-	}else printf(GRN"-> player %d 裝備了 溫徹斯特 \n"RST,player_id);
+	}else printf(GRN"-> 玩家 %d 裝備了 溫徹斯特 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
@@ -695,7 +695,7 @@ void card_winchester(sGame *pGame, i32 player_id, i32 card_id) {
 void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
 		printf(GRN"-> 你裝備了 卡賓槍 \n"RST);
-	}else printf(GRN"-> player %d 裝備了 卡賓槍 \n"RST,player_id);
+	}else printf(GRN"-> 玩家 %d 裝備了 卡賓槍 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
@@ -710,7 +710,7 @@ void card_carabine(sGame *pGame, i32 player_id, i32 card_id) {
 void card_volcano(sGame *pGame, i32 player_id, i32 card_id) {
 	if( player_id == 0 ){
 		printf(GRN"-> 你裝備了 連發槍 \n"RST);
-	}else printf(GRN"-> player %d 裝備了 連發槍 \n"RST,player_id);
+	}else printf(GRN"-> 玩家 %d 裝備了 連發槍 \n"RST,player_id);
 
     for(int i = 12; i <= 16; ++i) {
         remove_card(pGame, player_id, i);
