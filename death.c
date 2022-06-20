@@ -47,6 +47,8 @@ eRole getWinner( sGame *pGame ){
     //預設：-1   警長/副警長贏的話：0   叛徒贏的話：1   歹徒贏的話：2
     i32 role_cnt[ROLE_SIZ];
 
+    memset(role_cnt, 0, sizeof(role_cnt));
+
     LIST_FOR_EACH( pNode , pGame->live_players ){
         i32 player_id = *(int32_t *)pNode->data;
         eRole role = pGame->players[player_id].role;
