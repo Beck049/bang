@@ -2,7 +2,6 @@
 
 void death_event_default(sGame *pGame, sDeathEvent *e) {
     e->death_res = true;
-    pGame->end_winner_role = getWinner( pGame );
     sPlayer *pDead = &pGame->players[e->dead_id];
     sList *death_desk = pDead->desk;
     sList *death_hand = pDead->cards;
@@ -96,7 +95,6 @@ void death_event_vulture_sam(sGame *pGame, sDeathEvent *e) {
     }
     
     e->death_res = true;
-    pGame->end_winner_role = getWinner( pGame );
     sPlayer *pDead = &pGame->players[e->dead_id];
     sList *death_desk = pDead->desk;
     sList *death_hand = pDead->cards;
