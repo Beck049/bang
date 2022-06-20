@@ -337,21 +337,23 @@ void card_cat_balou(sGame *pGame, i32 player_id, i32 card_id ) {
 		sprintf(cards_option[cnt], "%d) %s (hand)\n", cnt+1, cards[id].name);
 		++cnt;
 	}
+	
+	if( cnt != 0 ){
+		sl_e = select_event_with_arr(pGame, target_id, 1, 1, cards_option, cnt , sizeof(*cards_option));
+		select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
+		i32 id = cards_id[select_idx];
 
-	sl_e = select_event_with_arr(pGame, target_id, 1, 1, cards_option, cnt , sizeof(*cards_option));
-	select_idx = *(i32*)LIST_FRONT(sl_e.select_res);
-	i32 id = cards_id[select_idx];
+		if(select_idx < (i32)target_desk->size) {
+			take_card_by_id(pGame, target_desk, id);
+		} else {
+			take_card_by_id(pGame, target_hand, id);
+		}
 
-	if(select_idx < (i32)target_desk->size) {
-		take_card_by_id(pGame, target_desk, id);
-	} else {
-		take_card_by_id(pGame, target_hand, id);
+		give_card( pGame , pGame->discard_pile , id , true );
+
+		printf(YLW"-> player %d 棄掉了 %s\n"RST, target_id, cards[ id ].name);
 	}
-
-	give_card( pGame , pGame->discard_pile , id , true );
-
-	printf(YLW"-> player %d 棄掉了 %s\n"RST, target_id, cards[ id ].name);
-
+	
 	printf(YLW"-> 凱特巴洛處理完畢\n"RST);
 	take_card_by_id( pGame, pGame->players[player_id].cards , card_id );
 	give_card( pGame, pGame->discard_pile , card_id , true );
