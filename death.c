@@ -37,6 +37,10 @@ void death_event_default(sGame *pGame, sDeathEvent *e) {
     if(pDead->role==Outlaws ){
         for(i32 i = 0; i < 3; ++i) {
             i32 card_id = take_card(pGame, pGame->draw_pile, 0);
+            if(card_id == -1) {
+                --i;
+                continue;
+            }
             give_card(pGame, pKiller->cards, card_id, true);
         }
     }

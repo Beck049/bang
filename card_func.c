@@ -71,8 +71,10 @@ void card_bang(sGame *pGame, i32 player_id, i32 card_id ) {
 					if(dth_e.death_res == true) {
 						if( target_id == 0 ){
 							printf(YLW"-> 你死翹翹了QQ\n"RST);
-						}else printf(YLW"-> 玩家 %d 死亡\n"RST,target_id);
-
+						} else {
+							printf(YLW"-> 玩家 %d 死亡\n"RST, dth_e.dead_id);
+							printf(YLW"-> 玩家 %d 的身分是 %s\n"RST, dth_e.dead_id, ROLE_STR[pGame->players[dth_e.dead_id].role]);
+						}
 						if(pGame->end_winner_role != (eRole)-1) return;
 					}
 				}
@@ -445,7 +447,10 @@ void card_gatling(sGame *pGame, i32 player_id, i32 card_id ){
 						if(dth_e.death_res == true) {
 							if( id == 0 ){
 								printf(YLW"-> 你死翹翹了QQ\n"RST);
-							}else printf(YLW"-> 玩家 %d 死亡\n"RST,id);
+							} else {
+								printf(YLW"-> 玩家 %d 死亡\n"RST, dth_e.dead_id);
+								printf(YLW"-> 玩家 %d 的身分是 %s\n"RST, dth_e.dead_id, ROLE_STR[pGame->players[dth_e.dead_id].role]);
+							}
 							if(pGame->end_winner_role != (eRole)-1) return;
 						}
 					}
@@ -455,7 +460,6 @@ void card_gatling(sGame *pGame, i32 player_id, i32 card_id ){
                     printf(YLW"-> 你被扣一滴血了QQ\n"RST);
                 }else printf(YLW"-> 玩家 %d 被扣了一滴血\n"RST,id);
 
-                break;
             }
 
             take_card_by_id( pGame, pGame->players[id].cards, id_choose );
@@ -490,7 +494,10 @@ void card_indians(sGame *pGame, i32 player_id, i32 card_id ){
 						if(dth_e.death_res == true) {
 							if( id == 0 ){
 								printf(YLW"-> 你死翹翹了QQ\n"RST);
-							}else printf(YLW"-> 玩家 %d 死亡\n"RST,id);
+							} else {
+								printf(YLW"-> 玩家 %d 死亡\n"RST, dth_e.dead_id);
+								printf(YLW"-> 玩家 %d 的身分是 %s\n"RST, dth_e.dead_id, ROLE_STR[pGame->players[dth_e.dead_id].role]);
+							}
 							if(pGame->end_winner_role != (eRole)-1) return;
 						}
 					}
@@ -544,7 +551,10 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 					if(dth_e.death_res == true) {
 						if( duel_id == 0 ){
 							printf(YLW"-> 你死翹翹了QQ\n"RST);
-						}else printf(YLW"-> 玩家 %d 死亡\n"RST,duel_id);
+						}else {
+							printf(YLW"-> 玩家 %d 死亡\n"RST,duel_id);
+							printf(YLW"-> 玩家 %d 的身分是 %s\n"RST,duel_id, ROLE_STR[pGame->players[duel_id].role]);
+						}
 						if(pGame->end_winner_role != (eRole)-1) return;
 					}
 				}
@@ -572,7 +582,10 @@ void card_duel(sGame *pGame, i32 player_id, i32 card_id ){
 					if(dth_e.death_res == true) {
 						if( player_id == 0 ){
 							printf(YLW"-> 你死翹翹了QQ\n"RST);
-						}else printf(YLW"-> 玩家 %d 死亡\n"RST,player_id);
+						} else {
+							printf(YLW"-> 玩家 %d 死亡\n"RST,player_id);
+							printf(YLW"-> 玩家 %d 的身分是 %s\n"RST, dth_e.dead_id, ROLE_STR[pGame->players[dth_e.dead_id].role]);
+						}
 					}
 				}
 			}

@@ -135,41 +135,44 @@ void display_board(sGame *pGame, i32 viewer_id) {
 }
 
 void display_hands(sGame *pGame, i32 viewer_id) {
-	sList *viewer_hands = pGame->players[viewer_id].cards;
-	// display_pile(viewer_hands);
-	// printf("\n");
-
 	if(viewer_id != 0) return;
 
+
+	sList *viewer_hands = pGame->players[viewer_id].cards;
 	i32 hand_size = (i32)viewer_hands->size;
+	
+	printf("size: %d\n", hand_size);
+	display_pile(viewer_hands);
 
 	printf("你的手牌: \n");
-	if(hand_size == 0) {
-		printf("Empty\n\n");
+	if(hand_size <= 0) {
+		printf("\n Empty\n\n");
 		return;
 	}
 	
+	i32 cnt = 0;
 
 	char lines[7][hand_size][64];
-	sListNode *pViewerCardNode = LIST_BEGIN(viewer_hands);
-	for(i32 i = 0; i < hand_size; ++i) {
+	LIST_FOR_EACH(pViewerCardNode, viewer_hands){
 		i32 card_id = *(i32*)pViewerCardNode->data;
-		pViewerCardNode = pViewerCardNode->next;
+
+		if(card_id == -1) continue;
 
 		sCard *card = &cards[card_id];
 		char suit_num_and_id[16];
 		sprintf(suit_num_and_id, "%c%-2d      %2d", SUIT[card->suit], card->num, card_id);
 
-		strcpy(lines[0][i],                            " +-------------+ ");
-		print_with_frame(lines[1][i], suit_num_and_id, " +             + ");
-		strcpy(lines[2][i],                            " +             + ");
-		print_with_frame(lines[3][i], card->name,      " +             + ");
-		strcpy(lines[4][i],                            " +             + ");
-		strcpy(lines[5][i],                            " +             + ");
-		strcpy(lines[6][i],                            " +-------------+ ");
+		strcpy(lines[0][cnt],                            " +-------------+ ");
+		print_with_frame(lines[1][cnt], suit_num_and_id, " +             + ");
+		strcpy(lines[2][cnt],                            " +             + ");
+		print_with_frame(lines[3][cnt], card->name,      " +             + ");
+		strcpy(lines[4][cnt],                            " +             + ");
+		strcpy(lines[5][cnt],                            " +             + ");
+		strcpy(lines[6][cnt],                            " +-------------+ ");
+		++cnt;
 	}
 	for(i32 i = 0; i < 7; ++i) {
-		for(i32 j = 0; j < hand_size; ++j) {
+		for(i32 j = 0; j < cnt; ++j) {
 			printf("%s", lines[i][j]);
 		}
 		printf("\n");
