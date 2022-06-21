@@ -65,14 +65,18 @@ void select_event_bot(__attribute__((unused)) sGame *pGame, sSelectEvent *e) {
 	list_init(res, size);
 	shuffle(res);
 
-	// get first `min_cnt` selection
-	i32 sl_cnt = 0;
-	LIST_FOR_EACH(pNode, res) {
-		if(sl_cnt == e->min_cnt) break;
-		i32 idx = *(i32*)pNode->data;
-		selected[idx] = true;
-		++sl_cnt;
+	while((i32)res->size > e->min_cnt) {
+		take_card(pGame, res, 0);
 	}
+
+	// get first `min_cnt` selection
+	// i32 sl_cnt = 0;
+	// LIST_FOR_EACH(pNode, res) {
+	// 	if(sl_cnt == e->min_cnt) break;
+	// 	i32 idx = *(i32*)pNode->data;
+	// 	selected[idx] = true;
+	// 	++sl_cnt;
+	// }
 	
 	// display_selected(pGame, 0, selected, size);
 }

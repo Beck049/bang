@@ -209,7 +209,7 @@ void display_has_bomb(__attribute__((unused)) sGame *pGame, i32 viewer_id, i32 b
 void display_determine(__attribute__((unused)) sGame *pGame,__attribute__((unused)) i32 viewer_id, i32 draw_num) {
 	if(draw_num == 0) return;
 	printf("判定:\n"
-			"抽 %d 張牌c:\n", draw_num, "s"[draw_num == 1]);
+			"抽 %d 張牌:\n", draw_num);
 }
 
 void display_bang(__attribute__((unused)) sGame *pGame, i32 viewer_id, sBangEvent e) {
