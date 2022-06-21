@@ -199,32 +199,32 @@ void display_damage(__attribute__((unused)) sGame *pGame, i32 viewer_id, sDamage
 
 void display_has_bomb(__attribute__((unused)) sGame *pGame, i32 viewer_id, i32 bomb_owner_id) {
 	if(bomb_owner_id == viewer_id) {
-		printf("You have bomb!\n");
+		printf("你身上有炸彈!\n");
 	}
 	else {
-		printf("Player%d has bomb!\n", bomb_owner_id);
+		printf("玩家 %d 身上有炸彈!\n", bomb_owner_id);
 	}
 }
 
 void display_determine(__attribute__((unused)) sGame *pGame,__attribute__((unused)) i32 viewer_id, i32 draw_num) {
 	if(draw_num == 0) return;
-	printf("Determine Event:\n"
-			"Draw %d card%c:\n", draw_num, "s"[draw_num == 1]);
+	printf("判定:\n"
+			"抽 %d 張牌c:\n", draw_num, "s"[draw_num == 1]);
 }
 
 void display_bang(__attribute__((unused)) sGame *pGame, i32 viewer_id, sBangEvent e) {
 	char trigger_appellation[16], target_appellation[16];
 	if(e.trigger_id == viewer_id) {
-		sprintf(trigger_appellation, "You");
+		sprintf(trigger_appellation, "你");
 	}
 	else {
-		sprintf(trigger_appellation, "Player%d", e.trigger_id);
+		sprintf(trigger_appellation, "玩家 %d", e.trigger_id);
 	}
 	if(e.target_id == viewer_id) {
-		sprintf(target_appellation, "you");
+		sprintf(target_appellation, "你");
 	}
 	else {
-		sprintf(target_appellation, "player%d", e.target_id);
+		sprintf(target_appellation, "玩家 %d", e.target_id);
 	}
 	printf("%s bang %s!\n", trigger_appellation, target_appellation);
 }
