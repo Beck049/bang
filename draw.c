@@ -10,31 +10,31 @@ void swap_pile(sList *pListA, sList *pListB) {
 }
 
 i32 take_card(sGame *pGame, sList *src, i32 pos) {
-	if(!(pos >= 0 && pos < (i32)src->size)) return -1; // take fail
+	if((src == pGame->draw_pile) && (src->size == 0)) {
+		swap_pile(pGame->draw_pile, pGame->discard_pile);
+		shuffle(pGame->draw_pile);
+	}
+	if(!(pos >= 0 && pos < (i32)src->size)) return 0; // take fail
 	sListNode *target = node_advance(LIST_BEGIN(src), pos);
 	i32 card_id = *(i32*)target->data;
 	list_erase(src, target);
+	// src is draw pile and it is empty
+	return card_id;
+}
+
+i32 take_card_by_id(sGame *pGame, sList *src, i32 card_id) {
 	// src is draw pile and it is empty
 	if(src == pGame->draw_pile && src->size == 0) {
 		swap_pile(pGame->draw_pile, pGame->discard_pile);
 		shuffle(pGame->draw_pile);
 	}
-	return card_id;
-}
-
-i32 take_card_by_id(sGame *pGame, sList *src, i32 card_id) {
-	i32 res = -1;
+	i32 res = 0;
 	LIST_FOR_EACH(pNode, src) {
 		if(*(i32*)pNode->data == card_id) {
 			res = card_id;
 			list_erase(src, pNode);
 			break;
 		}
-	}
-	// src is draw pile and it is empty
-	if(src == pGame->draw_pile && src->size == 0) {
-		swap_pile(pGame->draw_pile, pGame->discard_pile);
-		shuffle(pGame->draw_pile);
 	}
 	return res;
 }
@@ -152,28 +152,32 @@ void draw_phase_event_jesse_jones(sGame *pGame, sDrawPhaseEvent *e) {
 	
 void draw_phase_event_kit_carlson(sGame *pGame, sDrawPhaseEvent *e) {
 	// draw 3 card from draw_pile
-	i32 card_id[3];
+	i32 cnt = 0;
+	i32 cards_id[3];
 	for(i32 i = 0; i < 3; ++i ) {
-		card_id[i] = take_card(pGame, pGame->draw_pile, 0);
-		if(card_id[i] == -1) break;
+		i32 card_id = take_card(pGame, pGame->draw_pile, 0);
+		if(cards_id[i] == -1) break;
+		cards_id[i] = card_id;
+		++cnt;
 	}
 	// select two of them
-	char options[3][1024];
+	char options[cnt][1024];
 
-	for(int i = 0; i < 3; ++i) {
-		sprintf(options[i], "%2d) %s, :\n%s", i+1, cards[card_id[i]].name, cards[card_id[i]].description);
+	for(int i = 0; i < cnt; ++i) {
+		sprintf(options[i], "%2d) %s, :\n%s", i+1, cards[cards_id[i]].name, cards[cards_id[i]].description);
 	}
 
-	sSelectEvent event = select_event_with_arr(pGame, e->target_id, 2, 2, options, 3, sizeof(*options));
+	sSelectEvent event = select_event_with_arr(pGame, e->target_id, 2, 2, options, cnt, sizeof(*options));
 	// push the other one onto top of draw_pile
 	LIST_FOR_EACH(pNode, event.select_res) {
-		give_card(pGame, pGame->players[e->target_id].cards, card_id[*(i32*)pNode->data], true);
-		card_id[*(i32*)pNode->data] = -1;
+		i32 select_idx = *(i32*)pNode->data;
+		i32 card_id = cards_id[select_idx];
+		cards_id[select_idx] = -1;
+		give_card(pGame, pGame->players[e->target_id].cards, card_id, true);
 	}
-	for(int i = 0; i < 3; ++i) {
-		if(card_id[i] != -1)
-		{
-			give_card(pGame, pGame->draw_pile, card_id[i], false);
+	for(int i = 0; i < cnt; ++i) {
+		if(cards_id[i] != -1) {
+			give_card(pGame, pGame->draw_pile, cards_id[i], false);
 		}
 	}
 	// free

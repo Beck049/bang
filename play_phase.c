@@ -12,14 +12,16 @@ void play_phase_default(sGame *pGame, i32 player_id) {
 
 	// init bang times
 	i32 bang_times = 0;
-	i32 max_bang_times = 1;
-	if(pPlayer->character == WILLY
-		|| contains_card_type(desk, VOLCANIC) ) {
-			max_bang_times = INT_MAX;
-	}
+	
 
 	while(true) {
 		i32 hands_size = hands->size;
+
+		i32 max_bang_times = 1;
+		if(pPlayer->character == WILLY
+			|| contains_card_type(desk, VOLCANIC) ) {
+				max_bang_times = INT_MAX;
+		}
 
 		display_board(pGame, 0);
 
