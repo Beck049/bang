@@ -2,7 +2,7 @@
 
 <img src="./pic/start.jpg" width="40%">
 <img src="./pic/origin_status.jpg" width="40%">
-<img src="./pic/player_Phase.jpg" width="40%">
+<img src="./pic/player_phase.jpg" width="40%">
 
 ## card effects
 <img src="./pic/under_attack.jpg" width="40%">
