@@ -5,7 +5,7 @@
 <img src="./pic/player_phase.jpg" width="60%">
 
 ## card effects
-<img src="./pic/under_attack.jpg" width="60%">
+<img src="./pic/unter_attack.jpg" width="60%">
 <img src="./pic/equip.jpg" width="60%">
 <img src="./pic/jail.jpg" width="60%">
 <img src="./pic/discard_card.jpg" width="60%">
